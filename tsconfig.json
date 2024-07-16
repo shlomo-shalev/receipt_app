@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "es2015",
+        "esModuleInterop": true,
+        "moduleResolution": "node", 
+        "baseUrl": ".", 
+        "paths": { 
+            "*/__DOM_DRIVER__": ["./*/web", "./*/reactnative"],
+            "react": [ "./node_modules/@types/react" ]
+        }
+    }
+}

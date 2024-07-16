@@ -1,0 +1,55 @@
+import React from 'react';
+import Tesseract from 'tesseract.js';
+
+// Base components
+import Space from 'app/View/Components/Bases/Components/Space/__DOM_DRIVER__';
+import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
+import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
+
+// Complete components
+import Card from 'app/View/Components/Complete/MaterialDesign/Card/Card';
+import CardBody from 'app/View/Components/Complete/MaterialDesign/Card/CardBody/CardBody';
+import IconButton from 'app/View/Components/Complete/MaterialDesign/IconButton/IconButton';
+import CardHeader from 'app/View/Components/Complete/MaterialDesign/Card/CardHeader/CardHeader';
+import CardFooter from 'app/View/Components/Complete/MaterialDesign/Card/CardFooter/CardFooter';
+
+export default function Camera() {
+
+  Tesseract.recognize(
+    'https://tesseract.projectnaptha.com/img/eng_bw.png',
+    'eng',
+    { logger: m => null }
+  ).then(({ data: { text } }) => {
+    console.log(text);
+  })
+
+
+  return (
+    <Container classes='h-full'>
+      <Container classes='flex flex-col-reverse justify-end overflow-scroll'>
+        <Container classes='m-5'>
+                 <Card 
+                type={'outlined'}
+              >
+                  <CardHeader>
+                    <Container />
+                    <IconButton 
+                      checked={true}
+                      classes={{
+                        root: '!m-0 !p-1'
+                      }}
+                      icon={null}
+                    />
+                  </CardHeader>
+                  <CardBody>
+                    <Space />
+                  </CardBody>
+                  <CardFooter>
+                    <Title classes={`text-base text-gray-600`}>outlined</Title>
+                  </CardFooter>
+              </Card>
+        </Container>
+      </Container>
+    </Container>
+  );
+}
