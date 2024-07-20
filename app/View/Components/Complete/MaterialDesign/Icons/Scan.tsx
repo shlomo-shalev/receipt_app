@@ -21,8 +21,6 @@ function Scan({ classes = '', fill = 'black' }) {
                 fill={fill}
             />
         </Svg>
-        
-        
     );
 }
 

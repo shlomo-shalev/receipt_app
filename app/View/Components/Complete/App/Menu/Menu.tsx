@@ -9,13 +9,12 @@ import useRoute from 'app/View/Hooks/Navigation/useRoute';
 import useListenRoutePath from "app/View/Hooks/Navigation/useListenRoutePath";
 
 // Complete components
-    // Material ui
-    import IconButton from "app/View/Components/Complete/MaterialDesign/IconButton/IconButton";
-        // Icons
-        import ListIcon from "app/View/Components/Complete/MaterialDesign/Icons/List";
-        import SettingsIcon from "app/View/Components/Complete/MaterialDesign/Icons/Settings";
-        import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
-import CommonButton from "../../MaterialDesign/CommonButton/CommonButton";
+// -- Material design
+import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
+// --- icons
+import ListIcon from "app/View/Components/Complete/MaterialDesign/Icons/List";
+import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
+import SettingsIcon from "app/View/Components/Complete/MaterialDesign/Icons/Settings";
 
 function Menu() {
     const [state, setState] = useState({
@@ -28,10 +27,10 @@ function Menu() {
 
     useEffect(() => {
         const path = routeData.pathname;
-        
+
         let number = path === '/settings' ? 1 : 3;
         number = path !== '/list' && number !== 1 ? 2 : number;
-        
+
         handleClick(number);
 
     }, [routeData.pathname]);
@@ -50,7 +49,7 @@ function Menu() {
     return (
         <Container classes="flex flex-row py-5 bg-gray-400">
             <CommonButton
-                title="Settings" 
+                title="Settings"
                 checked={isSettingsPage}
                 titleOnlyInCheck
                 type="filled"
@@ -60,14 +59,14 @@ function Menu() {
                         ${isSettingsPage ? '!pr-3' : ''}
                     `,
                 }}
-                icon={({classes, checked}) => (
+                icon={({ classes, checked }) => (
                     <SettingsIcon
-                        classes={`!w-8 !h-5 ${classes}`} 
+                        classes={`!w-8 !h-5 ${classes}`}
                     />
                 )}
                 onClick={() => route.move('/settings')}
             />
-            <CommonButton 
+            <CommonButton
                 title="Scan"
                 type="filled"
                 checked={isScanPage}
@@ -78,14 +77,14 @@ function Menu() {
                     `,
                     title: '!text-black',
                 }}
-                icon={({classes, checked}) => (
-                    <ScanIcon
-                        classes={`!w-8 !h-5 ${classes}`} 
+                icon={({ classes, checked }) => (
+                    <CameraIcon
+                        classes={`!w-4 !h-4 ${classes}`}
                     />
                 )}
                 onClick={() => route.move('/')}
             />
-            <CommonButton 
+            <CommonButton
                 type="filled"
                 // type="full"
                 checked={isListPage}
@@ -97,9 +96,9 @@ function Menu() {
                         ${isListPage ? '!pr-3' : ''}
                     `,
                 }}
-                icon={({classes, checked}) => (
+                icon={({ classes, checked }) => (
                     <ListIcon
-                        classes={`!w-7 !h-4 ${classes}`} 
+                        classes={`!w-7 !h-4 ${classes}`}
                     />
                 )}
                 onClick={() => route.move('/list')}

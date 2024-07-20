@@ -1,10 +1,8 @@
 // Tools
-import React, { useEffect } from "react";
+import React from "react";
 
 // Base components
 import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
-import Space from "app/View/Components/Bases/Components/Space/__DOM_DRIVER__";
-import Camera from "app/View/Components/Bases/Components/Camera/__DOM_DRIVER__";
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
 // Coomplete components
@@ -14,6 +12,7 @@ import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButt
 // icons
 import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
 import UploadIcon from "app/View/Components/Complete/MaterialDesign/Icons/Upload";
+import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
 
 function ScanPage() {
     return (
@@ -58,9 +57,9 @@ function ScanPage() {
                                             <CommonButton
                                                 title="Camera"
                                                 icon={({ classes }) => (
-                                                    <ScanIcon
+                                                    <CameraIcon
                                                         fill="black"
-                                                        classes={`${classes} w-5 h-5`}
+                                                        classes={`${classes} !w-4 !h-4`}
                                                     />
                                                 )}
                                                 type="filled"
