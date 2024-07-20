@@ -72,7 +72,7 @@ function FilesList({ classes = {root: '', sub: ''}, beforeList = undefined }) {
                         />
                     </Container>
                 ))}
-                {status === 'denied' && (
+                {status === 'blocked' && (
                     <Container 
                         classes={`
                             bg-gray-300 h-auto w-auto border border-black
