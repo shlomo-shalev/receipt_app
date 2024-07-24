@@ -1,12 +1,17 @@
 import uuid from "uuid-random";
 import { useEffect, useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 export const move = () => {
     const navigate = useNavigation();
     return (path: string, data?: Object) => {
-        path = path === '/' ? 'Home' : path;        
-        return navigate.navigate(...([path, data] as never));
+        path = path === '/' ? 'Home' : path;     
+        
+        const finalData = {...(data || {}), index: 0};
+        
+        navigate.dispatch(
+            StackActions.replace(path, finalData)
+        );
     };
 };
 

@@ -16,9 +16,7 @@ export default function App() {
     <Container
       classes="h-full bg-gray-400 flex flex-col" 
     >
-      {/* <Container classes='overflow-scroll relative'> */}
         <Router />
-      {/* </Container> */}
       <Menu />
     </Container> 
   );

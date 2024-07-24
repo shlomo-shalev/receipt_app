@@ -31,10 +31,7 @@ async function getList() {
         photosData = await CameraRoll.getPhotos({
             first: 20,
             assetType: 'Photos',
-        });
-
-        console.log('photosData', photosData);
-        
+        });        
     }
     catch (ex) {
         status = 'blocked';

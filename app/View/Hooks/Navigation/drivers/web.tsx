@@ -2,7 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const move = () => {
     const navigate = useNavigate();
-    return (path: string, data?: Object) => navigate(path, data);
+    return (path: string, data?: Object) => {
+        navigate(path, data);
+    };
 };
 
 export const listen = () => {

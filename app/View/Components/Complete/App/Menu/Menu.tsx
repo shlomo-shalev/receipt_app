@@ -13,7 +13,7 @@ import useListenRoutePath from "app/View/Hooks/Navigation/useListenRoutePath";
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 // --- icons
 import ListIcon from "app/View/Components/Complete/MaterialDesign/Icons/List";
-import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
+import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
 import SettingsIcon from "app/View/Components/Complete/MaterialDesign/Icons/Settings";
 
 function Menu() {
@@ -47,7 +47,7 @@ function Menu() {
     const isListPage = currentButton == 3;
 
     return (
-        <Container classes="flex flex-row py-5 bg-gray-400">
+        <Container classes="flex flex-row my-5 bg-gray-400">
             <CommonButton
                 title="Settings"
                 checked={isSettingsPage}
@@ -78,8 +78,8 @@ function Menu() {
                     title: '!text-black',
                 }}
                 icon={({ classes, checked }) => (
-                    <CameraIcon
-                        classes={`!w-4 !h-4 ${classes}`}
+                    <ScanIcon
+                        classes={`!w-8 !h-5 ${classes}`}
                     />
                 )}
                 onClick={() => route.move('/')}

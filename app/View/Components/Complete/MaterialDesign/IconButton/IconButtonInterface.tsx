@@ -3,6 +3,7 @@ interface IconButtonInterface {
     onClick: Function,
     type?: 'simple' | 'full' | 'border',
     checked?: boolean,
+    disabled?: boolean,
     classes?: {
         root: string,
     },

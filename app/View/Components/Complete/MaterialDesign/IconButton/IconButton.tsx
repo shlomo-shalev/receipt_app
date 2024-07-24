@@ -30,19 +30,32 @@ const styleForAnotherButtonsTypes: {simple: object, full: object, fullSimple: ob
     } as object,
 };
 
-function IconButton ({ type = 'simple', checked = false, icon, classes = {root: ''}, onClick = () => {} }: IconButtonInterface) {
-    const moreType = type === 'full' && checked ? 'Simple' : (type === 'border' && checked ? 'Full' : '');
+function IconButton ({ 
+    type = 'simple', checked = false, icon, classes = {root: ''}, onClick = () => {},
+    disabled = false
+}: IconButtonInterface) {
+    const moreType = type === 'full' && checked 
+        ? 'Simple' 
+        : (type === 'border' && checked ? 'Full' : '');
 
     return (
         <Container 
-            classes={`cursor-pointer py-3 px-3 inline-flex flex-row items-center justify-center rounded-3xl m-auto ${styleForAnotherButtonsTypes[`${type}${moreType}`]['root']} ${classes.root}`}
-            onClick={onClick}
+            classes={`
+                cursor-pointer py-3 px-3 inline-flex flex-row items-center 
+                justify-center rounded-3xl m-auto 
+                ${styleForAnotherButtonsTypes[`${type}${moreType}`]['root']} ${classes.root}
+                ${disabled ? 'opacity-50' : ''}
+            `}
+            onClick={!disabled ? onClick : null}
         >
             {!!icon && (
                 <Container
                     classes="min-w-5 min-h-5 flex items-center justify-center"
                 >
-                    {icon({classes: styleForAnotherButtonsTypes[`${type}${moreType}`]['icon'], checked})}
+                    {icon({
+                        classes: styleForAnotherButtonsTypes[`${type}${moreType}`]['icon'], 
+                        checked
+                    })}
                 </Container>
             )}
         </Container>

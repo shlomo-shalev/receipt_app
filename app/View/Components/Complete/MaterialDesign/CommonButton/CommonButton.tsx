@@ -31,14 +31,26 @@ const styleForAnotherButtonsTypes: {title: object, icon: object, root: object} =
     } as object,
 };
 
-function CommonButton ({ title, type = 'elevated', onClick = null, classes = {}, titleOnlyInCheck = null, checked = false,icon = null }: CommonButtonInterface) {
+function CommonButton ({ 
+    title, type = 'elevated', Component = null, onClick = null, classes = {}, 
+    titleOnlyInCheck = null, checked = false, icon = null, disabled = false
+}: CommonButtonInterface) {
 
-    const finalClasses = {root: classes.root || '', title: classes.title || '', icon: classes.icon || ''};
+    const finalClasses = {
+        root: classes.root || '', 
+        title: classes.title || '', 
+        icon: classes.icon || '',
+    };
 
-    return (
+    const HTML = (
         <Container 
-            classes={`cursor-pointer py-2 px-4 inline-flex flex-row !box-border items-center justify-center rounded-3xl m-auto ${styleForAnotherButtonsTypes.root[type]} ${finalClasses.root}`}
-            onClick={onClick}
+            classes={`
+                cursor-pointer py-2 px-4 inline-flex flex-row !box-border items-center 
+                justify-center rounded-3xl m-auto 
+                ${styleForAnotherButtonsTypes.root[type]} ${finalClasses.root}
+                ${disabled ? 'opacity-50' : ''}
+            `}
+            onClick={!disabled ? onClick : null}
         >
             {!!icon && (
                 <Container
@@ -49,13 +61,28 @@ function CommonButton ({ title, type = 'elevated', onClick = null, classes = {},
             )}
             {(titleOnlyInCheck === null || checked) && (
                 <Title 
-                    classes={`select-none !text-sm text-white font-semibold px-2 ${styleForAnotherButtonsTypes.title[type]} ${finalClasses.title}`}
+                    classes={`
+                        select-none !text-sm text-white font-semibold px-2 
+                        ${styleForAnotherButtonsTypes.title[type]} ${finalClasses.title}
+                    `}
                 >
                     {title}
                 </Title>
             )}
         </Container>
     );
+
+    if (Component) {
+        return (
+            <Component.View 
+                {...(Component.props || {})}
+            >
+                {HTML}
+            </Component.View>
+        );
+    }
+
+    return HTML;
 }
 
 export default CommonButton;

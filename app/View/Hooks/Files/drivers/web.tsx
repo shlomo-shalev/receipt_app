@@ -5,9 +5,7 @@ export function getFiles()
     };
 }
 
-export function openAppSettings () {
-
-}
+export const openAppSettings = null;
 
 async function getList() {
     return {

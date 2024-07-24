@@ -1,7 +1,11 @@
+// Tools
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+
+// bootstrap components
 import App from 'app/View/App';
-import { SafeAreaView } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import FixedPositionHandler from 'app/View/Bootstrap/reactnative/FixedPositionHandler/FixedPositionHandler';
 
 const MyTheme = {
   colors: {
@@ -14,13 +18,19 @@ const MyTheme = {
     dark: false,
 }
 
-export default () => (
-    <NavigationContainer theme={MyTheme}>
-        <SafeAreaView 
-            className="h-full relative" 
-            style={{backgroundColor: 'rgb(156 163 175)'}}
-        >
-            <App />
-        </SafeAreaView>
-    </NavigationContainer>
-);
+export default () => {
+
+    return (
+        <NavigationContainer theme={MyTheme}>
+            <SafeAreaProvider>
+                <SafeAreaView
+                    className="h-full relative" 
+                    style={{backgroundColor: 'rgb(156 163 175)'}}
+                >
+                    <App />
+                    <FixedPositionHandler />
+                </SafeAreaView>
+            </SafeAreaProvider>
+        </NavigationContainer>
+    );
+}

@@ -1,80 +1,45 @@
+// Tools
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { Camera as CameraComponent, useCameraDevices } from 'react-native-vision-camera';
 
-const CameraScreen = () => {
+// Base Components
+import Container from '../Container/reactnative';
+
+const Camera = ({ takePictureRef, classes = {root: '', camera: ''} }) => {
   const [hasPermission, setHasPermission] = useState(false);
   const devices = useCameraDevices();
-  const [device, setDevice] = useState(null);  
+  const device = Object.values(devices || [])[0] || null;  
 
   useEffect(() => {
     const requestPermissions = async () => {
-      const cameraPermission = await Camera.requestCameraPermission();
+      const cameraPermission = await CameraComponent.requestCameraPermission();
       setHasPermission(cameraPermission === 'granted' && devices.length > 0);
     };
 
     requestPermissions();
   }, []);
-
-  useEffect(() => {
-    if (devices && Object.keys(devices).length > 0) {        
-      const availableDevices = Object.values(devices);
-      setDevice(availableDevices[0]);
-    }
-  }, [devices]);
   
+  let jsx = null;
 
-  if (!hasPermission) {
-    return <View style={styles.centered}><Text>No camera or microphone permission</Text></View>;
+  if (hasPermission) {
+    jsx = (
+      <Container className={classes.root}>
+        <CameraComponent
+          className={classes.camera}
+          style={{
+              height: '100%',
+              width: 500,
+          }}
+          onStarted={() => console.log('start')}
+          device={device}
+          isActive={true}
+          photo={true}
+        />
+      </Container>
+    );
   }
 
-  return (
-    <View style={styles.container}>
-      <Camera
-        style={{
-            height: '100%',
-            width: 500,
-        }}
-        device={device}
-        isActive={true}
-        photo={true}
-      />
-    </View>
-  );
+  return jsx;
 };
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-      backgroundColor: 'black',
-      position: 'relative',
-    },
-    centered: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    bottomBar: {
-      width: '100%',
-      height: 100,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    captureButton: {
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      backgroundColor: 'white',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    captureButtonText: {
-      fontSize: 14,
-      color: 'black',
-    },
-  });
-
-export default CameraScreen;
+export default Camera;

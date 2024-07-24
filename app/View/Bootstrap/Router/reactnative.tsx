@@ -11,7 +11,7 @@ import FinalRouteData from 'route/Core/FinalRouteData';
 
 // bootstrap
 import { Stack } from 'app/View/Bootstrap/reactnative';
-import { onChangeRoutePath } from 'app/View/Hooks/Navigation/drivers/__DOM_DRIVER__';
+import { onChangeRoutePath } from 'app/View/Hooks/Navigation/drivers/reactnative';
 
 function Router() {
   const data: Object = FinalRouteData.getConfiguration();

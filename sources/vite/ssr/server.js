@@ -6,6 +6,7 @@ import { createServer as createViteServer } from "vite";
 // import { createServerRenderer } from 'vite-plugin-ssr';
 import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
+import reactRefresh from '@vitejs/plugin-react-refresh';
 
 // const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -17,6 +18,9 @@ if (process.env.NODE_ENV === DEV_ENV) {
   vite = await createViteServer({
     server: { 
       middlewareMode: true,
+      hmr: {
+        overlay: false,
+      }
     },
     plugins: [
       alias({
@@ -33,6 +37,7 @@ if (process.env.NODE_ENV === DEV_ENV) {
             find:/__DOM_DRIVER__/, 
             replacement: 'web',
           },
+          reactRefresh(),
         ],
       }),
       resolve()
