@@ -1,6 +1,6 @@
 // Tools
 import React from 'react';
-import { launchImageLibrary, ImagePickerResponse } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 
 // Base components

@@ -4,7 +4,7 @@ import React from "react";
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
-function ReciptBorder({ children, classes = '' }) {
+function ReciptBorder({ children, classes = '', elementRef = null }) {
     return (
         <Container classes="mt-5 !mx-7 flex-1 relative h-full">
             <Container
@@ -30,6 +30,7 @@ function ReciptBorder({ children, classes = '' }) {
                                 m-auto w-full flex flex-col h-full
                                 ${classes}
                             `}
+                            ref={elementRef}
                         >
                             {children}
                         </Container>

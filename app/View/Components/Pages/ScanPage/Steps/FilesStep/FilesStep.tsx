@@ -1,5 +1,5 @@
 // Tools
-import React from "react";
+import React, { useRef } from "react";
 
 // Base components
 import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
@@ -13,14 +13,24 @@ import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/
 import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
 import GetFilesMenu from "./Components/GetFilesMenu/GetFilesMenu";
 
+// Hooks
+import useElementDimensions from "app/View/Hooks/Dimensions/useElementDimensions";
+
 function FilesStep({ steper: { onMove } }) {
+
+    const reciptBorderRef = useRef(null);
+
+    const elementDimensions = useElementDimensions(reciptBorderRef);
 
     function onUpload(data) {
         console.log('data', data);
     }
 
     return (
-        <ReciptBorder classes="justify-center">
+        <ReciptBorder 
+            classes="justify-center"
+            elementRef={reciptBorderRef}
+        >
             <ScanIcon
                 fill="black"
                 classes="!w-20 !h-20 mx-auto"
@@ -35,7 +45,9 @@ function FilesStep({ steper: { onMove } }) {
             >
                 <GetFilesMenu 
                     onUpload={onUpload}
-                    moveToCamera={() => onMove('camera')}
+                    moveToCamera={() => onMove('camera', {
+                        elementDimensions,
+                    })}
                 />
                 <FilesList />
             </Container>

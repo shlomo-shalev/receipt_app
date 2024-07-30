@@ -19,6 +19,7 @@ function Step({ step, component: Component }) {
             <Component 
                 steper={{
                     onMove,
+                    dataRef: steperData.dataRef,
                 }}
             />
         );

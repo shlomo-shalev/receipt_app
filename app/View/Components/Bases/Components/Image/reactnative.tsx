@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image as ReactNativeImage } from 'react-native';
 
 export default function Image({
   children = undefined, src, classes = '',style = {}, 
-  width = 50, ...props
+  width = 50, height = null, ...props
 }) {
-  
+
   return (
     <ReactNativeImage
       style={{
+        ...style,
         width,
-        ...style
+        height,
       }}
       className={classes}
       source={{

@@ -52,11 +52,12 @@ function FixedPositionHandler() {
                 return (
                     <Container 
                         key={id}
-                        classes="absolute left-0 right-0 top-0 bottom-0"
+                        classes="absolute left-0 right-0 top-0 bottom-0 pointer-events-none"
                         style={{
                             top: insets.top,
                             bottom: insets.bottom,
                         }}
+                        
                     >
                         <Component key={id} />   
                     </Container>

@@ -10,6 +10,8 @@ function Steper({ children, default: Default }) {
         steps: {},
     });
 
+    const dataRef = useRef({});
+
     const [state, setState] = useState({
         current: Default,
     });
@@ -25,7 +27,8 @@ function Steper({ children, default: Default }) {
         }
     }, []);
     
-    const onMove = (step) => {
+    const onMove = (step, data = {}) => {
+        dataRef.current = data;
         setState(state => ({
             ...state,
             current: stepsRef.current.steps[step] ? step : stepsRef.current.first,
@@ -37,6 +40,7 @@ function Steper({ children, default: Default }) {
             value={{
                 onMove,
                 stepsRef,
+                dataRef,
                 current,
             }}
         >

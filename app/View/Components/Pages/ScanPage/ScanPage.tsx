@@ -13,6 +13,7 @@ import Steper from "app/View/Components/Complete/Steper/Steper";
 // -- steps
 import FilesStep from "app/View/Components/Pages/ScanPage/Steps/FilesStep/FilesStep";
 import CameraStep from "app/View/Components/Pages/ScanPage/Steps/CameraStep/CameraStep";
+import PhotosStep from "app/View/Components/Pages/ScanPage/Steps/PhotosStep/PhotosStep";
 
 function ScanPage() {
     return (
@@ -25,6 +26,10 @@ function ScanPage() {
                 <Step 
                     step="camera"
                     component={CameraStep}
+                />
+                <Step 
+                    step="photos"
+                    component={PhotosStep}
                 />
             </Steper>
         </Container>

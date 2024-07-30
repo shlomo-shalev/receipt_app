@@ -3,17 +3,33 @@ import React, { useEffect, useRef } from "react";
 
 // base Components
 import Container from "../Container/web";
+import { dataURItoBlob } from "app/Models/Blob/Blob";
 
-function Camera({ takePictureRef, classes = {root: '', camera: ''} }) {
+function Camera({ 
+  takePictureRef, onStarted = () => {}, style = {},
+  classes = {root: '', camera: ''} 
+}) {
     const videoRef = useRef(null);
 
-    var handleTakePicture = () => {
+    var handleTakePicture = async () => {
       var canvas = document.createElement("canvas");
       canvas.width = 700;
       canvas.height = 500;
   
       canvas.getContext('2d').drawImage(videoRef.current, 0, 0, 700, 500);
-      return canvas.toDataURL('image/png');
+
+      const dataUrl = canvas.toDataURL('image/png');
+
+      const file = {
+        name: new Date().toString(),
+        type: 'image/png',
+        dataUrl,
+        url: URL.createObjectURL(dataURItoBlob(dataUrl)),
+        lastModified: new Date().getTime(),
+        lastModifiedDate: new Date(),
+      };
+
+      return file;
     }
   
     useEffect(() => {
@@ -31,6 +47,7 @@ function Camera({ takePictureRef, classes = {root: '', camera: ''} }) {
         
       }).then(function success(stream) {
         videoRef.current.srcObject = stream;
+        onStarted();
       });
   
       takePictureRef.current = handleTakePicture;
@@ -50,7 +67,10 @@ function Camera({ takePictureRef, classes = {root: '', camera: ''} }) {
     }, []);
   
     return (
-      <Container classes={`h-full ${classes.root || ''}`}>
+      <Container 
+        classes={`h-full ${classes.root || ''}`}
+        style={style}
+      >
         <video
             className={`${classes.camera || ''}`}
             ref={videoRef} 

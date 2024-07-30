@@ -63,9 +63,9 @@ function FilesList({ classes = '' }) {
                     key={`${i}:${file.uri}`}
                 >
                     <Image 
-                        src={file.uri} 
-                        classes="h-full w-full"
+                        src={file.uri}
                         width={90}
+                        height="100%"
                     />
                 </Container>
             ))}
