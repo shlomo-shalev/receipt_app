@@ -3,6 +3,7 @@ import React from 'react';
 
 // Base components
 import Container from '../Container/web';
+import { dataURItoBlob } from 'app/Models/Blob/Blob';
 
 export default function FileInput({children, classes = '', style = {}, onUpload, ...props}) {
 
@@ -47,10 +48,13 @@ export async function pickFile() : Promise<Array<Object>> {
             if (Object.prototype.hasOwnProperty.call(inputElemenet.files, key)) {
               const file = inputElemenet.files[key];
 
+              const dataUrl = await fileToDataUrl(file);
+
               files[key] = {
                 name: file.name,
                 type: file.type,
-                dataUrl: await fileToDataUrl(file),
+                dataUrl,
+                url: URL.createObjectURL(dataURItoBlob(dataUrl)),
                 lastModified: file.lastModified,
                 lastModifiedDate: new Date(file.lastModified),
               };

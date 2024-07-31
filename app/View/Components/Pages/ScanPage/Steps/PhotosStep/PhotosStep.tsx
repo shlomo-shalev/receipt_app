@@ -36,6 +36,9 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
 
     const containerHeight = dataRef.current.elementDimensions.height;
 
+    console.log('containerHeight', containerHeight);
+    
+
     const takePictureRef = useRef(null);
 
     const scrollRef = useScrollToBottom();

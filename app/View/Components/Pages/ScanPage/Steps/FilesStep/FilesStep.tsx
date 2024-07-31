@@ -22,8 +22,21 @@ function FilesStep({ steper: { onMove } }) {
 
     const elementDimensions = useElementDimensions(reciptBorderRef);
 
-    function onUpload(data) {
-        console.log('data', data);
+    console.log('elementDimensions', elementDimensions);
+    
+
+    function onUpload(photos) {
+        onMove('photos', {
+            photos,
+            elementDimensions,
+        });
+    }
+
+    function onChoose(photo) {
+        onMove('photos', {
+            photos: [photo],
+            elementDimensions,
+        });
     }
 
     return (
@@ -49,7 +62,9 @@ function FilesStep({ steper: { onMove } }) {
                         elementDimensions,
                     })}
                 />
-                <FilesList />
+                <FilesList 
+                    onChoose={onChoose}
+                />
             </Container>
         </ReciptBorder>
     );

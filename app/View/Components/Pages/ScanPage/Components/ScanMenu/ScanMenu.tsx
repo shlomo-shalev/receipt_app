@@ -10,8 +10,8 @@ import IconButton from "app/View/Components/Complete/MaterialDesign/IconButton/I
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 // --- icons
 import CloseIcon from "app/View/Components/Complete/MaterialDesign/Icons/Close";
-import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
-import RightArrowIcon from "app/View/Components/Complete/MaterialDesign/Icons/RightArrow";
+import TakeAPicCameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/TakeAPicCamera";
+import ContinueIcon from "app/View/Components/Complete/MaterialDesign/Icons/Continue";
 
 function ScanMenu({ 
     onClose, onTakePic = null, onNext = null,
@@ -46,30 +46,30 @@ function ScanMenu({
                 disabled={!!disabledes.takePic}
                 classes={{
                     root: `
-                        !rounded-2xl !p-4 bg-white border border-gray-600
+                        !rounded-full !p-5 bg-white border border-gray-600
                     `,
                 }}
                 icon={({ classes }) => (
-                    <CameraIcon
-                        classes={`!w-4 !h-5 mx-6 ${classes}`}
+                    <TakeAPicCameraIcon //CameraIcon
+                        classes={`opacity-75 !w-10 !h-10 mx--6 ${classes}`}
                     />
                 )}
                 onClick={onTakePic}
             />
-            <CommonButton
-                title="NEXT"
-                type="filled"
+            <IconButton //CommonButton
+                // title="NEXT"
+                // type="filled"
                 disabled={!!disabledes.next}
                 classes={{
                     root: `
-                        !rounded-2xl !bg-gray-700 !p-4 border border-gray-600
+                        !rounded-2xl !bg-gray-700 !p-3.5 border border-gray-600
                         flex-row-reverse
                     `,
-                    title: '!text-white p-0 pr-2 pl-0.5'
+                    // title: '!text-white p-0 pr-2 pl-0.5'
                 }}
                 icon={({ classes }) => (
-                    <RightArrowIcon
-                        classes={`!w-4 !h-5 mx-1 ${classes}`}
+                    <ContinueIcon
+                        classes={`!w-6 !h-6 mx--1 ${classes}`}
                         fill="white"
                     />
                 )}

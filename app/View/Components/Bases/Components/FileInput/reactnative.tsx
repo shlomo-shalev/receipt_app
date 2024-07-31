@@ -33,6 +33,7 @@ export default function FileInput({children, classes = '', style = {}, onUpload,
             name: file.fileName,
             type: file.type,
             dataUrl: dataURL,
+            url: file.uri,
             lastModified: new Date(stats.mtime).getTime(),
             lastModifiedDate: new Date(stats.mtime),
           }

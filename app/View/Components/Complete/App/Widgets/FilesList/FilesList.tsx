@@ -20,7 +20,7 @@ import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButt
 // -- icons
 import WarningIcon from "app/View/Components/Complete/MaterialDesign/Icons/Warning";
 
-function FilesList({ classes = '' }) {
+function FilesList({ classes = '', onChoose }) {
     const { waitPullFiles } = useFilesList();
 
     const [ state, setState ] = useState({
@@ -59,11 +59,12 @@ function FilesList({ classes = '' }) {
             )}
             {files.map((file, i) => (
                 <Container 
-                    classes="m-1 border border-black"
+                    classes="m-1 border border-black cursor-pointer"
                     key={`${i}:${file.uri}`}
+                    onClick={() => onChoose(file)}
                 >
                     <Image 
-                        src={file.uri}
+                        src={file.url}
                         width={90}
                         height="100%"
                     />

@@ -39,7 +39,7 @@ async function getList() {
 
     return {
         files: photosData.edges.map(image => ({
-            uri: image.node.image.uri,
+            url: image.node.image.uri,
         })),
         status,
     };
