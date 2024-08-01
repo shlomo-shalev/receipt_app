@@ -47,16 +47,3 @@ export default function FileInput({children, classes = '', style = {}, onUpload,
    </Container>
   );
 };
-
-const getMimeType = (filePath) => {
-  const extension = filePath.split('.').pop().toLowerCase();
-  const mimeTypes = {
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    png: 'image/png',
-    gif: 'image/gif',
-    bmp: 'image/bmp',
-    webp: 'image/webp'
-  };
-  return mimeTypes[extension] || 'application/octet-stream';
-};

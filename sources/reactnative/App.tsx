@@ -1,6 +1,7 @@
 // Tools
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 // bootstrap components
@@ -23,13 +24,17 @@ export default () => {
     return (
         <NavigationContainer theme={MyTheme}>
             <SafeAreaProvider>
-                <SafeAreaView
-                    className="h-full relative" 
-                    style={{backgroundColor: 'rgb(156 163 175)'}}
+                <GestureHandlerRootView 
+                    style={{ flex: 1 }}
                 >
-                    <App />
-                    <FixedPositionHandler />
-                </SafeAreaView>
+                    <SafeAreaView
+                        className="h-full relative" 
+                        style={{backgroundColor: 'rgb(156 163 175)'}}
+                    >
+                        <App />
+                        <FixedPositionHandler />
+                    </SafeAreaView>
+                </GestureHandlerRootView>
             </SafeAreaProvider>
         </NavigationContainer>
     );

@@ -20,16 +20,15 @@ function FilesStep({ steper: { onMove } }) {
 
     const reciptBorderRef = useRef(null);
 
-    const elementDimensions = useElementDimensions(reciptBorderRef);
-
-    console.log('elementDimensions', elementDimensions);
-    
+    const elementDimensions = useElementDimensions(reciptBorderRef);    
 
     function onUpload(photos) {
-        onMove('photos', {
-            photos,
-            elementDimensions,
-        });
+        if (photos.length > 0) {
+            onMove('photos', {
+                photos,
+                elementDimensions,
+            });
+        }
     }
 
     function onChoose(photo) {

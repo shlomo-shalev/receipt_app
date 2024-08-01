@@ -34,10 +34,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
 
     const [photos, setPhotos] = useState(dataRef.current.photos);
 
-    const containerHeight = dataRef.current.elementDimensions.height;
-
-    console.log('containerHeight', containerHeight);
-    
+    const containerHeight = dataRef.current.elementDimensions.height;    
 
     const takePictureRef = useRef(null);
 

@@ -65,7 +65,6 @@ function GetFilesMenu({ onUpload, moveToCamera }) {
                         onUpload,
                     },
                 }}
-
                 icon={({ classes }) => (
                     <UploadIcon
                         classes={`${classes} w-4 h-4`}

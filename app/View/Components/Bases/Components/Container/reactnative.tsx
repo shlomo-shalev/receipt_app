@@ -1,26 +1,40 @@
-// import { StatusBar } from 'expo-status-bar';
-import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
+// Tools
 import uuid from "uuid-random";
-import { DeviceEventEmitter, ScrollView, View } from 'react-native';
+import { View } from 'react-native';
+import React, { forwardRef, useCallback, useRef } from 'react';
+import { State, TapGestureHandler } from 'react-native-gesture-handler';
 
 // Base Components
 import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 
+// Bootstrap components
+import Scroll from 'app/View/Bootstrap/reactnative/Scroll/Scroll';
+
+// Bootstrap hooks
+import useFixedHandler from 'app/View/Bootstrap/reactnative/Hooks/useFixedHandler';
+
 var idCounter = 1;
 
 const Container = (
-    {children = undefined, classes = '', style = {}, onClick = () => {}, ...props}, 
+    {children = undefined, classes = '', style = {}, onClick = null, ...props}, 
     ref
   ) => {
     const isString = typeof children === 'string';
 
-    const idHandle = useCallback(() => {
+    const classesToScroll = [
+      'overflow-x-scroll', 'overflow-y-scroll',
+      'overflow-x-auto', 'overflow-y-auto',
+      'overflow-scroll', 'overflow-auto',
+
+    ];
+    const isNeedScroll = classesToScroll
+      .filter(oneClass => classes.includes(oneClass)).length > 0;    
+
+    const id = useCallback(() => {
       const id = useRef(uuid() + `:${idCounter}`);
       idCounter++;
       return id.current;
-    }, []);
-
-    const id = idHandle();
+    }, [])();
 
     function getChildren() {
       if (!isString) return children;
@@ -29,80 +43,54 @@ const Container = (
             {children}
         </Title>
       );
-    }
+    }    
 
-    const childs = (
-      <View 
-        style={{...style}} 
-        ref={ref}
-        pointerEvents={classes.includes('pointer-events-none') ? 'box-none' : 'auto'}
-        onTouchEnd={onClick}
-        className={`box-content ${classes}`}
-        {...props}
-      >
-        {getChildren()} 
-      </View>
+    const handleSingleTap = ({ nativeEvent }) => {      
+      if (nativeEvent.state === State.ACTIVE) {
+        onClick();
+      }
+    };
+
+    let jsx = (
+        <View 
+          {...props}
+          style={{...style}} 
+          ref={ref}
+          pointerEvents={classes.includes('pointer-events-none') ? 'box-none' : 'auto'}
+          className={`box-content ${classes}`}
+        >
+          {getChildren()} 
+        </View>
     );
 
-    let jsx = childs;
-
-    if (
-      classes.includes('overflow-x-scroll') || classes.includes('overflow-y-scroll')
-      || classes.includes('overflow-x-auto') || classes.includes('overflow-y-auto')
-      || classes.includes('overflow-scroll') || classes.includes('overflow-auto')
-    ) {
+    if (onClick) {      
       jsx = (
-        <ScrollView
-          horizontal={(
-            classes.includes('overflow-x-scroll')
-            || classes.includes('overflow-x-auto')
-          )}
-          style={{ flexGrow: 0 }}
-          showsHorizontalScrollIndicator={!classes.includes('scrollbar-none')}
-          showsVerticalScrollIndicator={!classes.includes('scrollbar-none')}
-          scrollEnabled={true}
-          ref={ref}
-          persistentScrollbar={true}
+        <TapGestureHandler
+          onHandlerStateChange={(event) => handleSingleTap(event)}
         >
-          {childs}
-        </ScrollView>
+          {jsx}
+        </TapGestureHandler>
+      );
+    }
+    
+    if (isNeedScroll) {
+      jsx = (
+        <Scroll
+          classes={classes}
+          ref={ref}
+        >
+          {jsx}
+        </Scroll>
       );
     }
 
-    useEffect(() => {
-
-      if (classes.includes('fixed')) {
-        
-        DeviceEventEmitter.emit('fixedPositionEvent', {
-          component: () => {
-              return (
-                <React.Fragment key={id}>
-                  {jsx}
-                </React.Fragment>
-              );
-          },
-          id,
-        });
-        
-      }
+    const { isFixed } = useFixedHandler({
+      key: id,
+      jsx,
+      isFixed: classes.includes('fixed'),
     });
 
-    useEffect(() => {
-
-      if (classes.includes('fixed')) {
-        return () => {      
-          DeviceEventEmitter.emit('fixedPositionRemoveEvent', {
-            id,
-          });
-        }
-      }
-    }, []);
-
-    if (classes.includes('fixed')) {
-      return <View />;
-    }
-
-    return jsx;
+    return isFixed ? <View /> : jsx;
 };
 
 export default forwardRef(Container);
