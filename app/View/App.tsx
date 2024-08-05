@@ -16,7 +16,7 @@ export default function App() {
     <Container
       classes="h-full bg-gray-400 flex flex-col" 
     >
-        <Router />
+      <Router />
       <Menu />
     </Container> 
   );

@@ -20,8 +20,7 @@ function ScanMenu({
     return (
         <Container 
             classes={`
-                fixed bottom-0 left-0 right-0 mt-auto
-                flex flex-row py-5 bg-gray-400
+                mt-auto flex flex-row py-5 bg-gray-400
             `}
         >
             <IconButton

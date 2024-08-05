@@ -1,8 +1,10 @@
-export function scrollToBottom(ref, animated) 
+export function scrollToBottom(ref, {waitTime, animated}) 
 {
-  ref.current.scrollToEnd({
-    animated,
-  });
+  setTimeout(() => {
+    ref.current.scrollToEnd({
+      animated,
+    });
+  }, waitTime);
 }
 
 export function scrollToTop(ref, animated) 

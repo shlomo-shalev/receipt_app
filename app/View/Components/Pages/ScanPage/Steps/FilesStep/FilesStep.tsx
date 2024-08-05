@@ -7,11 +7,13 @@ import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIV
 
 // Coomplete components
 // -- app
-import FilesList from "app/View/Components/Complete/App/Widgets/FilesList/FilesList";
 import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import LastDeviceFilesList from "app/View/Components/Complete/App/Widgets/LastDeviceFilesList/LastDeviceFilesList";
 // -- icons
 import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
-import GetFilesMenu from "./Components/GetFilesMenu/GetFilesMenu";
+
+// Local components
+import GetFileMenu from "./Components/GetFileMenu/GetFileMenu";
 
 // Hooks
 import useElementDimensions from "app/View/Hooks/Dimensions/useElementDimensions";
@@ -55,13 +57,13 @@ function FilesStep({ steper: { onMove } }) {
             <Container 
                 classes="flex flex-row mx-auto overflow-x-auto scrollbar-none"
             >
-                <GetFilesMenu 
+                <GetFileMenu 
                     onUpload={onUpload}
                     moveToCamera={() => onMove('camera', {
                         elementDimensions,
                     })}
                 />
-                <FilesList 
+                <LastDeviceFilesList 
                     onChoose={onChoose}
                 />
             </Container>

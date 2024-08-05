@@ -8,7 +8,7 @@ export function toTop(ref, animated = false)
 
 export function toBottom(ref, animated = false)
 {   
-    scrollToBottom(ref, animated);
+    scrollToBottom(ref, {animated, waitTime: 0});
 }
 
 export default {

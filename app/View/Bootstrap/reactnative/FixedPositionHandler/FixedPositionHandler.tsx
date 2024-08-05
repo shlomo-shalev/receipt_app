@@ -32,7 +32,7 @@ function FixedPositionHandler() {
         }));
     });    
 
-    eventEmitter.addListener('fixedPositionRemoveEvent', ({ id }) => {        
+    eventEmitter.addListener('fixedPositionRemoveEvent', ({ id }) => {                
         setState(state => {
             let components = state.components;
             delete components[id];
@@ -43,9 +43,11 @@ function FixedPositionHandler() {
             });
         });
     });
-
+        
     return (
-        <>
+        <Container
+            classes="absolute left-0 right-0 top-0 bottom-0 pointer-events-none"
+        >
             {ids.map((id) => {
                 const Component = components[id];
                 
@@ -63,7 +65,7 @@ function FixedPositionHandler() {
                     </Container>
                 );
             })}
-        </>
+        </Container>
     );
 }
 

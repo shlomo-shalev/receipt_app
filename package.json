@@ -6,6 +6,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "reactnative:start": "cd ./sources/reactnative && npm start",
     "reactnative:android": "cd ./sources/reactnative && npm run android",
     "reactnative:ios": "cd ./sources/reactnative && npm run ios",
     "vite:start": "npm run vite:dev",

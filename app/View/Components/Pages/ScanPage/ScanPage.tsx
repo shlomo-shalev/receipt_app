@@ -17,7 +17,7 @@ import PhotosStep from "app/View/Components/Pages/ScanPage/Steps/PhotosStep/Phot
 
 function ScanPage() {
     return (
-        <Container classes="h-full flex flex-col">
+        <Container classes="h-full">
             <Steper default="files">
                 <Step 
                     step="files"

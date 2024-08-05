@@ -8,8 +8,8 @@ import Container from '../Container/reactnative';
 
 const Camera = ({ 
   takePictureRef, onStarted = () => {}, style = {},
-  classes = {root: '', camera: ''} 
-}) => {
+  classes = {root: '', camera: ''}, height = null, width = null
+}, key) => {
   const [hasPermission, setHasPermission] = useState(false);
   const devices = useCameraDevices();
   const device = Object.values(devices || [])[0] || null;  
@@ -23,6 +23,10 @@ const Camera = ({
     };
 
     requestPermissions();
+
+    return () => {
+      console.log('eee');
+    }
   }, []);
   
   const handleTakePicture = async () => {
@@ -57,12 +61,13 @@ const Camera = ({
       <Container 
         className={classes.root}
         style={style}
+        key={key}
       >
         <CameraComponent
           // className={classes.camera}
           style={{
-              height: '100%',
-              width: '100%',
+              height: height || '100%',
+              width: width || '100%',
           }}
           resizeMode="cover"
           ref={camera}

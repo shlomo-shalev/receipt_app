@@ -7,7 +7,7 @@ import { dataURItoBlob } from "app/Models/Blob/Blob";
 
 function Camera({ 
   takePictureRef, onStarted = () => {}, style = {},
-  classes = {root: '', camera: ''} 
+  classes = {root: '', camera: ''}, height = null, width = null
 }) {
     const videoRef = useRef(null);
 
@@ -38,10 +38,10 @@ function Camera({
         video: {
          facingMode: 'user',
          height: { 
-            ideal: 1900,
+            ideal: height || 1900,
          },
          width: {
-            ideal: 1000,
+            ideal: width || 1000,
          },
         }
         
@@ -54,8 +54,7 @@ function Camera({
   
       const videoElement: HTMLVideoElement | undefined = videoRef.current;
   
-      return () => {
-    
+      return () => {    
         if (videoElement && videoElement.srcObject) {  
           (videoElement.srcObject as MediaStream).getTracks().forEach((track: any) => {
             if (track.readyState == 'live') {
@@ -75,6 +74,9 @@ function Camera({
             className={`${classes.camera || ''}`}
             ref={videoRef} 
             playsInline 
+            style={{
+              height,
+            }}
             autoPlay 
             muted 
         />

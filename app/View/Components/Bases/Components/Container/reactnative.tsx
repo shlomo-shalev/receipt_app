@@ -39,7 +39,7 @@ const Container = (
     function getChildren() {
       if (!isString) return children;
       return (
-        <Title>
+        <Title key={id}>
             {children}
         </Title>
       );
@@ -55,7 +55,8 @@ const Container = (
         <View 
           {...props}
           style={{...style}} 
-          ref={ref}
+          key={id}
+          ref={!isNeedScroll ? ref : null}
           pointerEvents={classes.includes('pointer-events-none') ? 'box-none' : 'auto'}
           className={`box-content ${classes}`}
         >
@@ -67,6 +68,7 @@ const Container = (
       jsx = (
         <TapGestureHandler
           onHandlerStateChange={(event) => handleSingleTap(event)}
+          key={id}
         >
           {jsx}
         </TapGestureHandler>
@@ -78,6 +80,7 @@ const Container = (
         <Scroll
           classes={classes}
           ref={ref}
+          key={id}
         >
           {jsx}
         </Scroll>

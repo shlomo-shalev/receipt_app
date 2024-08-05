@@ -14,26 +14,30 @@ import ScanMenu from "../../Components/ScanMenu/ScanMenu";
 
 function CameraStep({ steper: { onMove, dataRef } }) {
     const [state, setState] = useState({
-        takePictureButtonDisabled: true,
+        takePictureButtonDisabled: false,
     });
 
     const takePictureRef = useRef(null);
 
     const elementDimensions = dataRef.current.elementDimensions;
 
-    const { takePictureButtonDisabled } = state;
+    const { takePictureButtonDisabled } = state;    
 
     return (
-        <>
+        <Container 
+            classes="h-full flex flex-col fixed top-0 bottom-0 left-0 right-0"
+        >
             <ReciptBorder>
                 <Container classes="h-full">
                     <Camera 
                         takePictureRef={takePictureRef}
-                        onStarted={() => {
-                            setState(state => ({
-                                ...state,
-                                takePictureButtonDisabled: false,
-                            }));
+                        onStarted={() => {                            
+                            if (takePictureButtonDisabled) {
+                                setState(state => ({
+                                    ...state,
+                                    takePictureButtonDisabled: false,
+                                }));
+                            }
                         }}
                     />
                 </Container>
@@ -55,7 +59,7 @@ function CameraStep({ steper: { onMove, dataRef } }) {
                     onMove('files');
                 }}
             />
-        </>
+        </Container>
     );
 }
 
