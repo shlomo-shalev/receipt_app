@@ -23,10 +23,6 @@ const Camera = ({
     };
 
     requestPermissions();
-
-    return () => {
-      console.log('eee');
-    }
   }, []);
   
   const handleTakePicture = async () => {

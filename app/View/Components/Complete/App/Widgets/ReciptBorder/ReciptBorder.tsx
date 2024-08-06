@@ -1,16 +1,10 @@
 // Tools
-import React, { useEffect } from "react";
+import React from "react";
 
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
 function ReciptBorder({ children, classes = '', elementRef = null }) {
-    useEffect(() => {
-        return () => {
-            console.log('nonobgbkfdob');
-        }
-    }, []);
-
     return (
         <Container classes="!box-border !mx-7 pt-5 flex-1 h-full">
             <Container classes="relative h-full">

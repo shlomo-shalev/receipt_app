@@ -22,15 +22,18 @@ function FixedPositionHandler() {
     eventEmitter.removeAllListeners('fixedPositionEvent');
     eventEmitter.removeAllListeners('fixedPositionRemoveEvent');
 
-    eventEmitter.addListener('fixedPositionEvent', ({ component, id }) => {                    
+    eventEmitter.addListener('fixedPositionEvent', ({ component, id, settings = {} }) => {                    
         setState(state => ({
             ...state,
             components: {
                 ...state.components,
-                [id]: component,
+                [id]: {
+                    component, 
+                    settings,
+                },
             }
         }));
-    });    
+    });
 
     eventEmitter.addListener('fixedPositionRemoveEvent', ({ id }) => {                
         setState(state => {
@@ -49,19 +52,20 @@ function FixedPositionHandler() {
             classes="absolute left-0 right-0 top-0 bottom-0 pointer-events-none"
         >
             {ids.map((id) => {
-                const Component = components[id];
+                const Component = components[id].component;
+                const settings = components[id].settings;
                 
                 return (
                     <Container 
                         key={id}
                         classes="absolute left-0 right-0 top-0 bottom-0 pointer-events-none"
                         style={{
-                            top: insets.top,
-                            bottom: insets.bottom,
+                            top: settings?.withoutSpace ? 0 : insets.top,
+                            bottom: settings?.withoutSpace ? 0 : insets.bottom,
                         }}
                         
                     >
-                        <Component key={id} />   
+                        <Component />   
                     </Container>
                 );
             })}

@@ -1,5 +1,5 @@
 // Tools
-import uuid from "uuid-random";
+// import uuid from "uuid-random";
 import { View } from 'react-native';
 import React, { forwardRef, useCallback, useRef } from 'react';
 import { State, TapGestureHandler } from 'react-native-gesture-handler';
@@ -11,9 +11,9 @@ import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 import Scroll from 'app/View/Bootstrap/reactnative/Scroll/Scroll';
 
 // Bootstrap hooks
-import useFixedHandler from 'app/View/Bootstrap/reactnative/Hooks/useFixedHandler';
+// import useFixedHandler from 'app/View/Bootstrap/reactnative/Hooks/useFixedHandler';
 
-var idCounter = 1;
+// var idCounter = 1;
 
 const Container = (
     {children = undefined, classes = '', style = {}, onClick = null, ...props}, 
@@ -30,11 +30,11 @@ const Container = (
     const isNeedScroll = classesToScroll
       .filter(oneClass => classes.includes(oneClass)).length > 0;    
 
-    const id = useCallback(() => {
-      const id = useRef(uuid() + `:${idCounter}`);
-      idCounter++;
-      return id.current;
-    }, [])();
+    // const id = useCallback(() => {
+    //   const id = useRef(uuid() + `:${idCounter}`);
+    //   idCounter++;
+    //   return id.current;
+    // }, [])();
 
     function getChildren() {
       if (!isString) return children;
@@ -55,7 +55,7 @@ const Container = (
         <View 
           {...props}
           style={{...style}} 
-          key={id}
+          // key={id}
           ref={!isNeedScroll ? ref : null}
           pointerEvents={classes.includes('pointer-events-none') ? 'box-none' : 'auto'}
           className={`box-content ${classes}`}
@@ -68,7 +68,7 @@ const Container = (
       jsx = (
         <TapGestureHandler
           onHandlerStateChange={(event) => handleSingleTap(event)}
-          key={id}
+          // key={id}
         >
           {jsx}
         </TapGestureHandler>
@@ -80,20 +80,21 @@ const Container = (
         <Scroll
           classes={classes}
           ref={ref}
-          key={id}
+          // key={id}
         >
           {jsx}
         </Scroll>
       );
     }
 
-    const { isFixed } = useFixedHandler({
-      key: id,
-      jsx,
-      isFixed: classes.includes('fixed'),
-    });
+    // const { isFixed } = useFixedHandler({
+    //   key: id,
+    //   jsx,
+    //   isFixed: classes.includes('fixed'),
+    // });
 
-    return isFixed ? <View /> : jsx;
+    // return isFixed ? <View /> : jsx;
+    return jsx;
 };
 
 export default forwardRef(Container);

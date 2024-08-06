@@ -14,10 +14,11 @@ import CloseIcon from "app/View/Components/Complete/MaterialDesign/Icons/Close";
 import WarningIcon from "app/View/Components/Complete/MaterialDesign/Icons/Warning";
 import IconButton from "app/View/Components/Complete/MaterialDesign/IconButton/IconButton";
 import { openAppSettings } from "app/View/Hooks/Files/drivers/__DOM_DRIVER__";
+import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 
 function CameraAccessDeniedModal({ onClose }) {
     return (
-        <Container classes="fixed top-0 right-0 left-0 bottom-0">
+        <Container classes="h-full">
             <Container 
                 classes="
                     bg-black opacity-25
@@ -110,4 +111,8 @@ function CameraAccessDeniedModal({ onClose }) {
     );
 }
 
-export default CameraAccessDeniedModal;
+const classes = 'top-0 bottom-0 left-0 right-0';
+
+export default Fixed(CameraAccessDeniedModal, classes, false, {
+    withoutSpace: true,
+});

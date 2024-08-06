@@ -19,10 +19,13 @@ import useScrollToBottom from "app/View/Hooks/Scroll/useScrollToBottom";
 // Apis
 import Scroll from "app/View/Hooks/Scroll/Scroll";
 
+// Bootstrap components
+import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
+
 function PhotosStep({ steper: { onMove, dataRef } }) {
 
     const [state, setState] = useState({
-        takePictureButtonDisabled: false,
+        takePictureButtonDisabled: true,
     });
 
     const [toBottomCount, setToBottomCount] = useState(0);
@@ -46,7 +49,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
 
     return (
         <Container
-            classes="fixed top-0 bottom-0 left-0 right-0 h-full flex flex-col"
+            classes="h-full flex flex-col"
         >
             <ReciptBorder classes="relative">
                 <Container 
@@ -69,14 +72,10 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                                 height={containerHeight - 100}
                                 width={containerWidth}
                                 onStarted={() => {
-                                    console.log('ww');
-
-                                    if (takePictureButtonDisabled) {
-                                        setState(state => ({
-                                            ...state,
-                                            takePictureButtonDisabled: false,
-                                        }));
-                                    }
+                                    setState(state => ({
+                                        ...state,
+                                        takePictureButtonDisabled: false,
+                                    }));
                                 }}
                             />
                         </Container>
@@ -119,4 +118,6 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
     );
 }
 
-export default PhotosStep;
+const fixeClasses = 'top-0 left-0 right-0 bottom-0';
+
+export default Fixed(PhotosStep, fixeClasses);

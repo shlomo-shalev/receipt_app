@@ -22,7 +22,7 @@ function FilesStep({ steper: { onMove } }) {
 
     const reciptBorderRef = useRef(null);
 
-    const elementDimensions = useElementDimensions(reciptBorderRef);    
+    const elementDimensions = useElementDimensions(reciptBorderRef);
 
     function onUpload(photos) {
         if (photos.length > 0) {
