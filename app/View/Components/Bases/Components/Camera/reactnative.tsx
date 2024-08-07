@@ -1,4 +1,5 @@
 // Tools
+import uuid from "uuid-random";
 import RNFS from 'react-native-fs';
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera as CameraComponent, useCameraDevices } from 'react-native-vision-camera';
@@ -36,7 +37,11 @@ const Camera = ({
     const stats = await RNFS.stat(picture.path);
     const dataURL = `data:${type};base64,${base64String}`;
 
+    console.log('p', picture.width);
+    
+
     const file = {
+      id: uuid(),
       name: new Date().toString(),
       type,
       dataUrl: dataURL,

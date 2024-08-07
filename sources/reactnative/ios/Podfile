@@ -42,6 +42,9 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
+pod 'react-native-fetch-blob',
+    :path => '../node_modules/react-native-fetch-blob'
+
 target 'reactnative' do
   config = use_native_modules!
   	

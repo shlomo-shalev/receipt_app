@@ -1,8 +1,7 @@
 // Tools
-// import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native';
-// import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-// import RNFS from 'react-native-fs';
-// import { launchImageLibrary } from 'react-native-image-picker';
+import uuid from "uuid-random";
+import RNFS from 'react-native-fs';
+import RNFetchBlob from "rn-fetch-blob";
 import { Linking, Platform } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import Permissions, {PERMISSIONS} from 'react-native-permissions';
@@ -31,16 +30,38 @@ async function getList() {
         photosData = await CameraRoll.getPhotos({
             first: 20,
             assetType: 'Photos',
-        });        
+        });
     }
     catch (ex) {
         status = 'blocked';
-    }    
+    }   
+    
+    const files = [];
 
+    for (const image of photosData.edges) {
+      const url = image.node.image.uri;
+      const type = `image/${image.node.image.extension}`;
+      const file = {url, type: image.node.image.extension};
+      
+      const base64String = await getDataUrl(file);
+      const stats = await getStats(file);
+      const dataUrl = `data:${type};base64,${base64String}`;
+
+      const data = {
+        id: uuid(),
+        url,
+        type,
+        name: image.node.image.filename,
+        dataUrl,
+        lastModified: new Date(stats.mtime).getTime(),
+        lastModifiedDate: new Date(stats.mtime),
+      };
+
+      files.push(data);
+    }    
+    
     return {
-        files: photosData.edges.map(image => ({
-            url: image.node.image.uri,
-        })),
+        files,
         status,
     };
 }
@@ -145,6 +166,37 @@ async function AndroidRequestPermission() {
       }
 
       return false;
+}
+
+async function getDataUrl (url) {
+  const data = await getDataToRNFS(url);
+  const base64 = await RNFS.readFile(data, 'base64');
+  return base64;
+}
+
+async function getDataToRNFS (file) {
+  let data = file.url;
+  const url = file.url;
+
+  if (url.startsWith('ph://')) {
+    const imagePATH = url.substring(5,41);
+    
+    let photoPATH = `assets-library://asset/asset.JPG?id=`;
+    photoPATH = `${photoPATH}${imagePATH}&ext=${file.type.toUpperCase()}`;
+    
+    let dest = `${RNFS.TemporaryDirectoryPath}`;
+    dest = `${dest}${Math.random().toString(36).substring(7)}.${file.type}`;
+
+    data = await RNFS.copyAssetsFileIOS(photoPATH, dest, 500, 500, 1.0, 1.0, 'contain');
+  }
+
+  return data;
+}
+
+async function getStats(url) {
+  const data = await getDataToRNFS(url);
+  const stats = await RNFS.stat(data);
+  return stats;
 }
 
 export default {

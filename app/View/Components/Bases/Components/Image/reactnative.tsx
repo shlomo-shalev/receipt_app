@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { Image as ReactNativeImage } from 'react-native';
 
-export default function Image({
+function Image({
   children = undefined, src, classes = '',style = {}, 
   width = 50, height = null, ...props
-}) {
+}, ref) {
 
   return (
     <ReactNativeImage
+      ref={ref}
       style={{
         ...style,
         width,
@@ -21,3 +22,5 @@ export default function Image({
     />
   );
 }
+
+export default forwardRef(Image);

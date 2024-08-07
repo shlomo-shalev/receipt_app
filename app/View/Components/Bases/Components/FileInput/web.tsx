@@ -1,5 +1,6 @@
 // Tools
 import React from 'react';
+import uuid from "uuid-random";
 
 // Base components
 import Container from '../Container/web';
@@ -51,6 +52,7 @@ export async function pickFile() : Promise<Array<Object>> {
               const dataUrl = await fileToDataUrl(file);
 
               files[key] = {
+                id: uuid(),
                 name: file.name,
                 type: file.type,
                 dataUrl,

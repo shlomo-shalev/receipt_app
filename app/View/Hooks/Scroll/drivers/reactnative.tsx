@@ -1,10 +1,10 @@
-export function scrollToBottom(ref, {waitTime, animated}) 
+export function scrollToBottom(ref, animated) 
 {
   setTimeout(() => {
     ref.current.scrollToEnd({
       animated,
     });
-  }, waitTime);
+  }, 0);
 }
 
 export function scrollToTop(ref, animated) 
@@ -15,7 +15,19 @@ export function scrollToTop(ref, animated)
   });
 }
 
+export function scrollTo(element, mainElement, animated) 
+{
+  element.measureLayout(
+    mainElement,
+    (x, y) => {
+      mainElement.scrollTo({ y, animated });
+    },
+    (error) => console.error(error)
+  );
+}
+
 export default {
   scrollToBottom,
   scrollToTop,
+  scrollTo,
 };

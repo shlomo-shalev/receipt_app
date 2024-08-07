@@ -7,8 +7,8 @@ export function SSRRender({ path }) {
   
   return ReactDOMServer.renderToString(
     <StaticRouter location={path}>
-      <div className='h-full' style={{minHeight: '100vh'}}>
-        <App />
+    <div style={{height: '100%'}}>
+    <App />
       </div>
     </StaticRouter>,
   );

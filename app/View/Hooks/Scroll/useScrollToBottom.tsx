@@ -9,7 +9,9 @@ function useScrollToBottom(waitTime = 200, animated = false)
     const ref = useRef(null);
 
     useEffect(() => {
-        scrollToBottom(ref, {waitTime, animated});
+        if (ref.current) {
+            scrollToBottom(ref, {waitTime, animated});
+        }
     }, []);
 
     return ref;

@@ -1,5 +1,6 @@
 // Tools
 import React from 'react';
+import uuid from "uuid-random";
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 
@@ -27,9 +28,10 @@ export default function FileInput({children, classes = '', style = {}, onUpload,
           
           const base64String = await RNFS.readFile(file.uri, 'base64');
           const stats = await RNFS.stat(file.uri);
-          const dataURL = `data:${file.type};base64,${base64String}`;
+          const dataURL = `data:${file.type};base64,${base64String}`;          
 
           files[key] = {
+            id: uuid(),
             name: file.fileName,
             type: file.type,
             dataUrl: dataURL,

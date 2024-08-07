@@ -1,4 +1,5 @@
 // Tools
+import uuid from "uuid-random";
 import React, { useEffect, useRef } from "react";
 
 // base Components
@@ -21,6 +22,7 @@ function Camera({
       const dataUrl = canvas.toDataURL('image/png');
 
       const file = {
+        id: uuid(),
         name: new Date().toString(),
         type: 'image/png',
         dataUrl,

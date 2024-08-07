@@ -28,20 +28,18 @@ function LastDeviceFilesList({ classes = '', onChoose }) {
         status: 'wait',
     });
 
-    const { files, status } = state;    
+    const { files, status } = state;        
 
     useEffect(() => {
-        const exportFiles = async function () {
+        (async function () {
             const { files, status } = await waitPullFiles;
             setState(state => ({
                 ...state,
                 files,
                 status,
             }));
-        }
-
-        exportFiles();
-    }, []);    
+        })()
+    }, []);
 
     return (
         <Container classes={`h-40 flex flex-row ${classes}`}>
@@ -57,10 +55,10 @@ function LastDeviceFilesList({ classes = '', onChoose }) {
                     </Text>
                 </Container>
             )}
-            {files.map((file, i) => (
+            {files.map(file => (
                 <Container 
+                    key={`${file.id}`}
                     classes="m-1 border border-black cursor-pointer"
-                    key={`${i}:${file.uri}`}
                     onClick={() => onChoose(file)}
                 >
                     <Image 

@@ -38,6 +38,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
     const containerWidth = dataRef.current.elementDimensions.width;    
 
     const takePictureRef = useRef(null);
+    const handleFileFouseRef = useRef(null);
 
     const scrollRef = useScrollToBottom(0);
 
@@ -45,20 +46,22 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
         if (toBottomCount > 0) {
             Scroll.toBottom(scrollRef);
         }
-    }, [toBottomCount]);
-
+    }, [toBottomCount]);  
+    
     return (
         <Container
             classes="h-full flex flex-col"
         >
             <ReciptBorder classes="relative">
                 <Container 
-                    classes="overflow-y-auto scrollbar-none" 
+                    classes="overflow-y-auto" 
                     ref={scrollRef}
                 >
                     <FilesList 
-                        height={containerHeight}
                         files={photos}
+                        heightInObject
+                        glonalHeight={containerHeight - 100}
+                        handleFileFouseRef={handleFileFouseRef}
                     />
                     <Container 
                         classes="relative"
@@ -67,6 +70,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                         }}
                     >
                         <Container classes="h-full">
+                            {/* TODO - The camera crashes sometimes. */}
                             <Camera 
                                 takePictureRef={takePictureRef}
                                 height={containerHeight - 100}
@@ -85,10 +89,13 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                     <Container classes="m-2 overflow-x-scroll scrollbar-none">
                         <Container classes="h-20 flex flex-row">
                             <FilesList 
-                                height={'auto'}
                                 files={photos}
                                 classes={{
-                                    image: 'mx-1',
+                                    imageRoot: 'mx-2',
+                                    image: '',
+                                }}
+                                onClick={file => {
+                                    handleFileFouseRef.current(file.id, scrollRef);
                                 }}
                                 width={50}
                             />
@@ -109,7 +116,10 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                     
                     setPhotos(photos => ([
                         ...photos,
-                        photo,
+                        {
+                            ...photo,
+                            height: containerHeight - 100,
+                        },                       
                     ]));
                     setToBottomCount(count => count + 1);
                 }}

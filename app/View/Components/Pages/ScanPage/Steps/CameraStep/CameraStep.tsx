@@ -35,7 +35,9 @@ function CameraStep({ steper: { onMove, dataRef } }) {
                 <Container classes="h-full">
                     <Camera 
                         takePictureRef={takePictureRef}
-                        onStarted={() => {                            
+                        height={elementDimensions.height}
+                        width={elementDimensions.width}
+                        onStarted={() => {
                             setState(state => ({
                                 ...state,
                                 takePictureButtonDisabled: false,
@@ -49,7 +51,10 @@ function CameraStep({ steper: { onMove, dataRef } }) {
                     const photo = await takePictureRef.current();
                     
                     onMove('photos', {
-                        photos: [photo],
+                        photos: [{
+                            ...photo,
+                            height: elementDimensions.height - 100,
+                        }],
                         elementDimensions,
                     });
                 }}
