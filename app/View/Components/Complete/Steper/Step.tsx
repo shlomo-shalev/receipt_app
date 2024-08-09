@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { SteperContext } from "./Steper";
 
-function Step({ step, component: Component }) {
+function Step({ step, component: Component, props = {} }) {
     const steperData = useContext(SteperContext);
 
     const { current, onMove } = steperData;    
@@ -21,6 +21,7 @@ function Step({ step, component: Component }) {
                     onMove,
                     dataRef: steperData.dataRef,
                 }}
+                {...props}
             />
         );
     }

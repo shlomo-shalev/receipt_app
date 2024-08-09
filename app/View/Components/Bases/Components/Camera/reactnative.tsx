@@ -35,10 +35,7 @@ const Camera = ({
 
     const base64String = await RNFS.readFile(picture.path, 'base64');
     const stats = await RNFS.stat(picture.path);
-    const dataURL = `data:${type};base64,${base64String}`;
-
-    console.log('p', picture.width);
-    
+    const dataURL = `data:${type};base64,${base64String}`;    
 
     const file = {
       id: uuid(),

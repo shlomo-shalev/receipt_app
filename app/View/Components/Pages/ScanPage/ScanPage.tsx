@@ -11,6 +11,7 @@ import Steper from "app/View/Components/Complete/Steper/Steper";
 
 // Local components
 // -- steps
+import DataStep from "app/View/Components/Pages/ScanPage/Steps/DataStep/DataStep";
 import FilesStep from "app/View/Components/Pages/ScanPage/Steps/FilesStep/FilesStep";
 import CameraStep from "app/View/Components/Pages/ScanPage/Steps/CameraStep/CameraStep";
 import PhotosStep from "app/View/Components/Pages/ScanPage/Steps/PhotosStep/PhotosStep";
@@ -18,7 +19,7 @@ import PhotosStep from "app/View/Components/Pages/ScanPage/Steps/PhotosStep/Phot
 function ScanPage() {
     return (
         <Container classes="h-full">
-            <Steper default="files">
+            <Steper default="data">
                 <Step 
                     step="files"
                     component={FilesStep}
@@ -30,6 +31,10 @@ function ScanPage() {
                 <Step 
                     step="photos"
                     component={PhotosStep}
+                />
+                <Step 
+                    step="data"
+                    component={DataStep}
                 />
             </Steper>
         </Container>

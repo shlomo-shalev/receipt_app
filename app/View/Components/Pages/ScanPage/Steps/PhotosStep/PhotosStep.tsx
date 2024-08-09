@@ -104,12 +104,19 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                 </Container>
             </ReciptBorder>
             <ScanMenu 
+                stepName="takeFiles"
                 disabledes={{
                     takePic: takePictureButtonDisabled,
                     next: false,
                 }}
                 onClose={() => {
                     onMove('files');
+                }}
+                onNext={() => {
+                    onMove('data', {
+                        photos,
+                        elementDimensions: dataRef.current.elementDimensions,
+                    });
                 }}
                 onTakePic={async () => {
                     const photo = await takePictureRef.current();

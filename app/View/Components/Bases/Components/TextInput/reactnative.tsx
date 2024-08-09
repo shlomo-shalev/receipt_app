@@ -1,25 +1,24 @@
-// import { StatusBar } from 'expo-status-bar';
+// Tools
 import React from 'react';
-import { TextInput as ReactNativeTextInput, StyleSheet } from 'react-native';
+import { Keyboard, TextInput as ReactNativeTextInput } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-export default function TextInput({children = undefined, style = {}, type = undefined, ...props}) {
+export default function TextAreaInput({
+  children = undefined, style = {}, type = undefined, classes = '', ...props
+}) {
 
   if (type === 'text') type = undefined;
 
   return (
-    <ReactNativeTextInput
-      style={styles.input}
-      keyboardType={type}
-      {...props}
-    />
+    // <TouchableWithoutFeedback
+    //   onPress={() => Keyboard.dismiss()}
+    //   accessible={false}
+    // >
+      <ReactNativeTextInput
+        keyboardType={type}
+        className={`border h-10 py-2 w-full p-2 ${classes}`}
+        {...props}
+      />
+    // </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
