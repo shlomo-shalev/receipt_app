@@ -48,7 +48,9 @@ function Camera({
         }
         
       }).then(function success(stream) {
-        videoRef.current.srcObject = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
         onStarted();
       });
   

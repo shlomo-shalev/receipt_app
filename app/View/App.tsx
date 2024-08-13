@@ -1,20 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Bootstrap
 import 'app/View/Bootstrap/__DOM_DRIVER__';
 import Router from 'app/View/Bootstrap/Router/__DOM_DRIVER__';
 
 // Base components
+import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
 // Coomplete components
   // app
   import Menu from "app/View/Components/Complete/App/Menu/Menu";
 
+// Bootstrap Apis
+import init from 'app/View/Bootstrap/init';
+
 export default function App() {
+
+  const [started, setStarted] = useState(false);
+  
+  useEffect(() => {(async () => {
+    await init();
+    setStarted(true);
+  })()}, []);
+
+  if (!started) return (
+    <Container classes="h-full bg-gray-400 flex justify-center">
+      <Title classes="text-center m-auto">
+        The app is loading!...
+      </Title>
+    </Container>
+  );
+
   return (
     <Container
-      classes="h-full bg-gray-400 flex flex-col" 
+      classes="h-full bg-gray-400 flex flex-col"
     >
       <Router />
       <Menu />

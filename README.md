@@ -2,8 +2,9 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
+## npx react-devtools
 ## arch -x86_64 pod install
-## npx tailwindcss build -i ./app/View/Bootstrap/web/base.css -o ./app/View/Bootstrap/web/index.css --full --watch
+## npx tailwindcss build -i ./app/View/Bootstrap/web/csstailwind.css --full --watch
 ### What is this repository for? ###
 
 * Quick summary

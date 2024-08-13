@@ -1,5 +1,5 @@
 // Tools
-import React from "react";
+import React, { useEffect } from "react";
 
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
@@ -19,7 +19,7 @@ import PhotosStep from "app/View/Components/Pages/ScanPage/Steps/PhotosStep/Phot
 function ScanPage() {
     return (
         <Container classes="h-full">
-            <Steper default="data">
+            <Steper default="files">
                 <Step 
                     step="files"
                     component={FilesStep}

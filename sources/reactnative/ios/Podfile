@@ -1,12 +1,13 @@
+
 def node_require(script)
   # Resolve script with node to allow for hoisting
   require Pod::Executable.execute_command('node', ['-p',
-    "require.resolve(
-      '#{script}',
-      {paths: [process.argv[1]]},
+  "require.resolve(
+    '#{script}',
+    {paths: [process.argv[1]]},
     )", __dir__]).strip
-end
-
+  end
+  
 node_require('react-native/scripts/react_native_pods.rb')
 node_require('react-native-permissions/scripts/setup.rb')
 
@@ -36,14 +37,13 @@ setup_permissions([
   # 'StoreKit',
 ])
 
+# source 'https://github.com/CocoaPods/Specs.git'
+
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
 end
-
-pod 'react-native-fetch-blob',
-    :path => '../node_modules/react-native-fetch-blob'
 
 target 'reactnative' do
   config = use_native_modules!

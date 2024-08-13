@@ -1,24 +1,36 @@
 // Tools
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Keyboard, TextInput as ReactNativeTextInput } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function TextAreaInput({
-  children = undefined, style = {}, type = undefined, classes = '', ...props
+  children = undefined, style = {}, type = undefined, classes = '', 
+  inputRef = null, ...props
 }) {
 
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (typeof inputRef === 'function') {
+      inputRef(ref.current);
+    }
+    else {
+      inputRef.current = ref.current;
+    }
+  }, []);
+  
   if (type === 'text') type = undefined;
 
   return (
-    // <TouchableWithoutFeedback
-    //   onPress={() => Keyboard.dismiss()}
-    //   accessible={false}
-    // >
-      <ReactNativeTextInput
-        keyboardType={type}
-        className={`border h-10 py-2 w-full p-2 ${classes}`}
-        {...props}
-      />
-    // </TouchableWithoutFeedback>
+    <ReactNativeTextInput
+      keyboardType={type}
+      ref={ref}
+      onSubmitEditing={() => Keyboard.dismiss()}
+      onChangeText={text => {
+        ref.current.originalValue = text;
+      }}
+      returnKeyType="done"
+      className={`border h-10 py-2 w-full p-2 ${classes}`}
+      {...props}
+    />
   );
 }
