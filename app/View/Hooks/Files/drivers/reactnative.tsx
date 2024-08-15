@@ -1,7 +1,6 @@
 // Tools
 import uuid from "uuid-random";
 import RNFS from 'react-native-fs';
-import RNFetchBlob from "rn-fetch-blob";
 import { Linking, Platform } from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import Permissions, {PERMISSIONS} from 'react-native-permissions';
