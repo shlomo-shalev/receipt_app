@@ -2,7 +2,8 @@ import SQLite from 'react-native-sqlite-storage';
 
 var DB = null;
 
-export async function openDB () {
+export async function openDB (tables: {name: string, columns: {name: string, type: string}[]}[]) : Promise<string|boolean>
+{
     return new Promise((res, rej) => {
         if (!DB) {
             SQLite.openDatabase(
@@ -12,7 +13,8 @@ export async function openDB () {
                 },
                 (originalDB) => {
                     DB = originalDB;
-                    res(DB);
+                    createTables(tables);
+                    res(true);
                 },
                 err => rej(err),
             );
@@ -21,6 +23,12 @@ export async function openDB () {
             res(DB);
         }
     });
+}
+
+async function createTables(tables: {name: string, columns: {name: string, type: string}[]}[]) {
+    for (const table of tables) {
+        await createTable(table.name, table.columns);
+    }
 }
 
 function getColumnsQuery(columns: {name: string, type: string}[]) {
@@ -41,7 +49,20 @@ function getListDataQuery(columns: {name: string, type: string}[]) {
     return listDataQuery;
 }
 
-export function createTable(name: string, columns: {name: string, type: string}[]) {
+function preDoData(data) {
+    for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const element = data[key];
+            if (typeof element === 'object') {
+                data[key] = JSON.stringify(element);
+            }
+        }
+    }
+    return data;
+}
+
+async function createTable(name: string, columns: {name: string, type: string}[]) : Promise<string|boolean>
+{
     return new Promise((res, rej) => {
         const columnsQuery = getColumnsQuery(columns);
 
@@ -57,7 +78,7 @@ export function createTable(name: string, columns: {name: string, type: string}[
     });
 }
 
-export function getData({
+export async function getData({
     table, size = 10, page = 1, order = 'asc'
 }) {
     return new Promise((res, rej) => {
@@ -88,14 +109,17 @@ export function getData({
     });
 }
 
-export function save(table: string, data: object) {
+export async function save(table: string, data: object) : Promise<string|number>
+{
     return new Promise((res, rej) => {
         let columns = [];
         let finalData = [];
 
-        for (const key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
-                const value = data[key];
+        const postData = preDoData(data);
+
+        for (const key in postData) {
+            if (Object.prototype.hasOwnProperty.call(postData, key)) {
+                const value = postData[key];
                 
                 columns.push(key);
                 finalData.push(value);
@@ -114,9 +138,41 @@ export function save(table: string, data: object) {
     });
 }
 
+export function update(table: string, id: number, data: object) : Promise<string|boolean>
+{
+    return new Promise((res, rej) => {
+        let columns = [];
+        let finalData = [];
+
+        const postData = preDoData(data);
+
+        for (const key in postData) {
+            if (Object.prototype.hasOwnProperty.call(postData, key)) {
+                const value = postData[key];
+                
+                columns.push(`${key} = ?`);
+                finalData.push(value);
+            }
+        }
+
+        const columnsQuery = columns.join(" , \n");
+
+        DB.executeSql(
+            `
+                UPDATE ${table}
+                SET ${columnsQuery}
+                WHERE id = ?
+            `,
+            [id, ...finalData],
+            (data) => res(true),
+            err => rej(err),
+        );
+    });
+}
+
 export default {
     openDB,
-    createTable,
     save,
+    update,
     getData,
 };

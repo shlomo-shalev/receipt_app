@@ -6,56 +6,67 @@ import Title from "app/View/Components/Bases/Components/Title/__DOM_DRIVER__";
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
 // Complete components
-// Material design
+// -- Material design
+// --- app
 import Card from "app/View/Components/Complete/MaterialDesign/Card/Card";
 import Divider from "app/View/Components/Complete/MaterialDesign/Divider/Divider";
 import CardHeader from "app/View/Components/Complete/MaterialDesign/Card/CardHeader/CardHeader";
-// Icons
+// --- Icons
 import ActionIcon from "app/View/Components/Complete/MaterialDesign/Icons/Action";
 import DownArrowIcon from "app/View/Components/Complete/MaterialDesign/Icons/DownArrow";
 
-function Category({ title }) {
-    const dd = [...(new Array(1))].map((v, i) => (
-        <Container key={i}>
-            <Divider />
-            <Container 
-                classes="
-                    bg-gray-200 p-4 py-1 flex items-center 
-                    justify-between flex-row pl-2
-                "
-            >
-                <Container classes="pr-1">
-                    <Title classes="text-xs">
-                        22/02/2023
-                    </Title>
-                </Container>
+// Apis
+import Date from "app/View/Hooks/Date/Date";
+
+function Category({ title, items }) {
+    const itemsJSX = items.map((item, i) => {
+        const date = new Date(item.created_at);
+
+        return (
+            <Container key={i}>
+                <Divider />
                 <Container 
                     classes="
-                        p-1 ps-3 flex flex-col font-left flex-1
-                        overflow-hidden
-                    " 
+                        bg-gray-200 p-4 py-1 flex items-center 
+                        justify-between flex-row pl-2
+                    "
                 >
-                    <Title
-                        classes="!text-sm !font-bold"
+                    <Container classes="pr-1">
+                        <Title classes="text-xs">
+                            {date.toSimpleFormat({ time: false })}
+                        </Title>
+                        <Title classes="text-xs text-center">
+                            {date.toTime({})}
+                        </Title>
+                    </Container>
+                    <Container 
+                        classes="
+                            p-1 ps-3 flex flex-col font-left flex-1
+                            overflow-hidden
+                        " 
                     >
-                        $1,000
-                    </Title>
-                    <Title 
-                        classes="!text-xs max-h-8"
-                    >
-                        cxsdshdsf sda sudfvdsu gfrsu gsdufgsdug
-                    </Title>
-                </Container>
-                <Container classes="!pl-1">
-                    <ActionIcon classes="h-3" />
+                        <Title
+                            classes="!text-sm !font-bold"
+                        >
+                            ${item.price}
+                        </Title>
+                        <Title 
+                            classes="!text-xs max-h-8"
+                        >
+                            {item.company_name}
+                        </Title>
+                    </Container>
+                    <Container classes="!pl-1">
+                        <ActionIcon classes="h-3" />
+                    </Container>
                 </Container>
             </Container>
-        </Container>
-    ));
+        );
+    });
 
     return (
         <Container 
-            classes="!m-0 !p-10 px-7 !pt-0 flex-1 relative"
+            classes="!m-0 px-5 flex-1 relative"
         >
             <Card classes={{root: '!p-0'}}>
                 <CardHeader
@@ -87,7 +98,7 @@ function Category({ title }) {
                                 type="h3" 
                                 classes="!text-sm"
                             >
-                                Details by week
+                                Details by month
                             </Title>
                         </Container>
                     )}
@@ -100,7 +111,8 @@ function Category({ title }) {
                     )}
                 />
                 <Divider classes="border-t-4" />
-                <CardHeader
+                {itemsJSX}
+                {/* <CardHeader
                     classes={{root: '!px-4 !py-3 !pb-4'}}
                     main={(
                         <Container classes="w-full flex flex-row">
@@ -120,8 +132,8 @@ function Category({ title }) {
                         </Container>
                     )}
                     actions={null}
-                />
-                {[...(new Array(4))].map((v, i) => (
+                /> */}
+                {/* {[...(new Array(4))].map((v, i) => (
                     <Container key={i}>
                         <Divider />
                         <CardHeader
@@ -158,7 +170,7 @@ function Category({ title }) {
                         />
                         {i == 0 && dd}
                     </Container>
-                ))}
+                ))} */}
             </Card>
         </Container>
     );

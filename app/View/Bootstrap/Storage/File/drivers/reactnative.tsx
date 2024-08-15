@@ -1,7 +1,7 @@
 // Tools
 import RNFS from 'react-native-fs';
 
-export async function save(name: string, data: string, path: string = '') : Promise<string|false>
+export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
 
     const url = `${RNFS.DocumentDirectoryPath}${path}/${name}`;

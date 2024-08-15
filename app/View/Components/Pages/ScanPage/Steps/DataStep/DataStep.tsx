@@ -19,7 +19,9 @@ import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 
 // Apis
 import Form from "app/View/Hooks/Form/Form";
-import receiptReoistory from "app/Repositories/receiptReoistory/receiptReoistory";
+
+// Repositories
+import ReceiptReoistory from "app/Repositories/Receipts/ReceiptReoistory";
 
 // Hooks
 import useRoute from 'app/View/Hooks/Navigation/useRoute';
@@ -81,7 +83,7 @@ function DataStep({ steper: { onMove, dataRef } }) {
                         note: Form.elementToValue(inputsRef.current.note),
                     };
                     
-                    const saveData = await receiptReoistory.save(data);
+                    const saveData = await ReceiptReoistory.save(data);
                     
                     if (saveData) route.move('/list');
                 }}
