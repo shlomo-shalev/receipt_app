@@ -1,13 +1,16 @@
-import React from "react";
+// Tools
+import React, { useEffect } from "react";
 import {
     Routes,
     Route,
 } from "react-router-dom";
 
-import 'route/Paths';
-
 // Core Route
+import 'route/Paths';
 import FinalRouteData from "route/Core/FinalRouteData";
+
+// Hooks
+import useRoute from "app/View/Hooks/Navigation/useRoute";
 
 function Router() {
     const data: Object = FinalRouteData.getConfiguration();    
@@ -25,6 +28,18 @@ function Router() {
                     />
                 );
             })}
+            <Route 
+                path="*"
+                Component={() => {
+                    const route = useRoute();
+
+                    useEffect(() => {
+                        route.move('/');
+                    }, []);
+
+                    return null;
+                }}
+            />
         </Routes>
     );
 }
