@@ -22,8 +22,15 @@ function Router() {
         state: (e) => {          
           const routeData = (e.data?.state?.routes || [{name: 'Home'}]);
           const pathname = routeData[e.data?.state.index || 0].name;
+
+          const routes = e.data?.state?.routes || [];
+          const params = routes[routes.length > 0 ? routes.length - 1 : 0].params;
           
-          onChangeRoutePath({pathname});
+          const pathData = (params as {pathData: object})?.pathData || {data: {}};
+          const state = (params as {data: object})?.data || {};
+
+          
+          onChangeRoutePath({pathname, pathData, state});
         },
       }}
       screenOptions={{ 

@@ -4,7 +4,9 @@ function useListenRoutePath() {
     const data = listen();
 
     return {
+        start: data.start,
         pathname: data.pathname,
+        params: data.params,
     };
 }
 

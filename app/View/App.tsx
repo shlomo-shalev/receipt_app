@@ -15,12 +15,17 @@ import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIV
 // Bootstrap Apis
 import init from 'app/View/Bootstrap/init';
 
+// Hooks
+import useMode from 'app/View/Hooks/Mode/useMode';
+
 export default function App() {
+  const mode = useMode();  
+  const isCSR = mode === 'csr';
 
   const [started, setStarted] = useState(false);
   
   useEffect(() => {(async () => {
-    await init();
+    if (isCSR) await init();
     setStarted(true);
   })()}, []);
 

@@ -6,8 +6,8 @@ import React from 'react';
 ReactDOM.hydrateRoot(
   document.getElementById('app')!,
   <BrowserRouter>
-    <div style={{height: '100%'}}>
-    <App />
+      <div style={{height: '100%'}}>
+        <App />
       </div>
   </BrowserRouter>,
 );

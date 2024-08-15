@@ -10,12 +10,12 @@ import 'route/Paths';
 import FinalRouteData from "route/Core/FinalRouteData";
 
 function Router() {
-    const data: Object = FinalRouteData.getConfiguration();
+    const data: Object = FinalRouteData.getConfiguration();    
 
     return (
         <Routes>
              {Object.keys(data).map((uuid) => {
-                const params = data[uuid];
+                const params = data[uuid];                
 
                 return (
                     <Route

@@ -6,7 +6,7 @@ import { createServer as createViteServer } from "vite";
 // import { createServerRenderer } from 'vite-plugin-ssr';
 import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 
 // const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -23,6 +23,7 @@ if (process.env.NODE_ENV === DEV_ENV) {
       }
     },
     plugins: [
+      react(),
       alias({
         entries: [
           {
@@ -37,7 +38,6 @@ if (process.env.NODE_ENV === DEV_ENV) {
             find:/__DOM_DRIVER__/, 
             replacement: 'web',
           },
-          reactRefresh(),
         ],
       }),
       resolve()
@@ -73,14 +73,15 @@ app.use('*', async (req, res) => {
     render = (await import(path.resolve('./dist/vite/server/entry-server.js'))).SSRRender;
   }
 
+  
   const appHtml = render({ path: requestPath }); //Rendering component without any client side logic de-hydrated like a dry sponge
   let html = template.replace(`<!--app-html-->`, appHtml); //Replacing placeholder with SSR rendered components
   html = html.replace(
     '% script_uri %', 
-    './sources/vite/ssr/entry-client.tsx',
+    '/sources/vite/ssr/entry-client.tsx',
   );
 
-  res.status(200).set({ 'Content-Type': 'text/html' }).end(html); //Outputing final html
+  res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
 });
 
 app.listen(3033, () => {

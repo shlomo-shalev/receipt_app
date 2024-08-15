@@ -10,15 +10,16 @@ import Category from "app/View/Components/Complete/App/Widgets/Category/Category
 
 // Repositories
 import TransactionsListsRepository from "app/Repositories/Transactions/Data/TransactionsListsRepository";
+import useRoute from "app/View/Hooks/Navigation/useRoute";
 
 function ListPage() {
     const [transactions, setTransactions] = useState([]);
+    const route = useRoute();
 
     useEffect(() => {
+        route.move('/transaction/123');
         (async () => {
-            const transactions = await TransactionsListsRepository.list({});
-            console.log('d', transactions);
-            
+            const transactions = await TransactionsListsRepository.list({});            
             setTransactions(transactions as [] || []);
         })()
     }, []);
