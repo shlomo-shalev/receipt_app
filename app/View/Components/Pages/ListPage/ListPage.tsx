@@ -5,8 +5,11 @@ import React, { useEffect, useState } from "react";
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
 // Complete components
-// App widgets
+// -- App widgets
 import Category from "app/View/Components/Complete/App/Widgets/Category/Category";
+// -- Material design
+// --- app 
+import Divider from "app/View/Components/Complete/MaterialDesign/Divider/Divider";
 
 // Repositories
 import TransactionsListsRepository from "app/Repositories/Transactions/Data/TransactionsListsRepository";
@@ -27,6 +30,7 @@ function ListPage() {
                 title="Global" 
                 items={transactions}
             />
+            <Divider classes="my-2" />
         </Container>
     );
 }

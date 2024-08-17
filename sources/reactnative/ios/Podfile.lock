@@ -1068,8 +1068,6 @@ PODS:
     - React-jsi (= 0.73.2)
     - React-logger (= 0.73.2)
     - React-perflogger (= 0.73.2)
-  - rn-fetch-blob (0.12.0):
-    - React-Core
   - RNCCheckbox (0.5.17):
     - BEMCheckBox (~> 1.4)
     - React-Core
@@ -1079,15 +1077,6 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNImageCropPicker (0.41.2):
-    - React-Core
-    - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.41.2)
-    - TOCropViewController (~> 2.7.4)
-  - RNImageCropPicker/QBImagePickerController (0.41.2):
-    - React-Core
-    - React-RCTImage
-    - TOCropViewController (~> 2.7.4)
   - RNPermissions (4.1.5):
     - React-Core
   - RNScreens (3.32.0):
@@ -1098,7 +1087,6 @@ PODS:
   - RNSVG (13.14.0):
     - React-Core
   - SocketRocket (0.6.1)
-  - TOCropViewController (2.7.4)
   - VisionCamera (4.5.0):
     - VisionCamera/Core (= 4.5.0)
     - VisionCamera/React (= 4.5.0)
@@ -1163,11 +1151,9 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1180,7 +1166,6 @@ SPEC REPOS:
     - fmt
     - libevent
     - SocketRocket
-    - TOCropViewController
 
 EXTERNAL SOURCES:
   boost:
@@ -1288,16 +1273,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  rn-fetch-blob:
-    :path: "../node_modules/rn-fetch-blob"
   RNCCheckbox:
     :path: "../node_modules/@react-native-community/checkbox"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNImageCropPicker:
-    :path: "../node_modules/react-native-image-crop-picker"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNScreens:
@@ -1365,16 +1346,13 @@ SPEC CHECKSUMS:
   React-runtimescheduler: df8945a656356ff10f58f65a70820478bfcf33ad
   React-utils: f5bc61e7ea3325c0732ae2d755f4441940163b85
   ReactCommon: 45b5d4f784e869c44a6f5a8fad5b114ca8f78c53
-  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCCheckbox: a3ca9978cb0846b981d28da4e9914bd437403d77
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 644fac271b233d59fe6e910ebc377d3fd066a57c
-  RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNPermissions: c11449feba2407d8165f6540130b1d17d512fad6
   RNScreens: f0edd01b3ab160acc31fb056622a1d7c2909a0a5
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   VisionCamera: 412fec057156eb5fe84a44351e8ed71a072c1228
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 

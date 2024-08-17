@@ -8,6 +8,20 @@ export const move = () => {
     };
 };
 
+export const back = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    return (defaultRoute) => {
+        if (location.key !== 'default') {
+            navigate(-1);
+         } else {
+            console.log('defaultRoute', defaultRoute);
+            navigate(defaultRoute, { replace: true });
+         }
+    };
+};
+
 export const listen = () => {
     const [start, setStart] = useState(false);
 

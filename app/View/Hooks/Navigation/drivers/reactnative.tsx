@@ -35,6 +35,18 @@ function findDynamicPathMatch (path, pathToMatch) {
     }
 }
 
+export const back = () => {
+
+    return (defaultRoute) => {
+        // if (location.key !== 'default') {
+            // navigate(-1);
+        //  } else {
+            // console.log('defaultRoute', defaultRoute);
+            // navigate(defaultRoute, { replace: true });
+        //  }
+    };
+};
+
 export const move = () => {
     const navigate = useNavigation();
     return (path: string, data?: Object) => {

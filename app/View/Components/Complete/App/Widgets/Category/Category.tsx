@@ -1,5 +1,5 @@
 // Tools
-import React from "react";
+import React, { useState } from "react";
 
 // Base components
 import Title from "app/View/Components/Bases/Components/Title/__DOM_DRIVER__";
@@ -14,11 +14,18 @@ import CardHeader from "app/View/Components/Complete/MaterialDesign/Card/CardHea
 // --- Icons
 import ActionIcon from "app/View/Components/Complete/MaterialDesign/Icons/Action";
 import DownArrowIcon from "app/View/Components/Complete/MaterialDesign/Icons/DownArrow";
+import UpArrowIcon from "app/View/Components/Complete/MaterialDesign/Icons/UpArrow";
 
 // Apis
 import Date from "app/View/Hooks/Date/Date";
 
+// Hooks
+import useRoute from "app/View/Hooks/Navigation/useRoute";
+
 function Category({ title, items }) {
+    const route = useRoute();
+    const [open, setOpen] = useState(true);
+
     const itemsJSX = items.map((item, i) => {
         const date = new Date(item.created_at);
 
@@ -27,8 +34,8 @@ function Category({ title, items }) {
                 <Divider />
                 <Container 
                     classes="
-                        bg-gray-200 p-4 py-1 flex items-center 
-                        justify-between flex-row pl-2
+                        bg-gray-200 p-4 py-0 flex items-center 
+                        justify-between flex-row pl-2 pr-0
                     "
                 >
                     <Container classes="pr-1">
@@ -41,8 +48,8 @@ function Category({ title, items }) {
                     </Container>
                     <Container 
                         classes="
-                            p-1 ps-3 flex flex-col font-left flex-1
-                            overflow-hidden
+                            pl-3 flex flex-col font-left flex-1
+                            overflow-hidden 
                         " 
                     >
                         <Title
@@ -56,8 +63,13 @@ function Category({ title, items }) {
                             {item.company_name}
                         </Title>
                     </Container>
-                    <Container classes="!pl-1">
-                        <ActionIcon classes="h-3" />
+                    <Container 
+                        classes="!p-3 !py-4"
+                        onClick={() => {
+                            route.move(`/transaction/${item.id}`);
+                        }}
+                    >
+                        <ActionIcon classes="h-4" />
                     </Container>
                 </Container>
             </Container>
@@ -70,9 +82,11 @@ function Category({ title, items }) {
         >
             <Card classes={{root: '!p-0'}}>
                 <CardHeader
-                    classes={{root: '!px-4 !py-3 pb-4'}}
+                    classes={{
+                        root: '!py-0',
+                    }}
                     main={(
-                        <Container classes="w-full">
+                        <Container classes="m-auto ml-4">
                             <Title 
                                 type="h2" 
                                 classes="!text-lg !font-bold"
@@ -83,17 +97,20 @@ function Category({ title, items }) {
                     )}
                     actions={(
                         <Container classes="m-auto">
-                            <Container>
-                                <ActionIcon classes="!h-3" />
+                            <Container classes="!p-3 !py-5">
+                                <ActionIcon classes="!h-4" />
                             </Container>
                         </Container>
                     )}
                 />
                 <Divider classes="my-0" />
                 <CardHeader
-                    classes={{root: '!px-4 !py-3 !pb-4'}}
+                    classes={{root: '!p-0'}}
+                    onClick={() => {
+                        setOpen(!open);
+                    }}
                     main={(
-                        <Container classes="w-full">
+                        <Container classes="w-full m-auto ml-4 select-none">
                             <Title 
                                 type="h3" 
                                 classes="!text-sm"
@@ -104,14 +121,23 @@ function Category({ title, items }) {
                     )}
                     actions={(
                         <Container classes="m-auto">
-                            <Container>
-                                <DownArrowIcon classes="!h-3" />
+                            <Container 
+                                classes="!p-3 !py-4"
+                            >
+                                {open 
+                                    ? <DownArrowIcon classes="!h-3" /> 
+                                    : <DownArrowIcon classes="!h-3" /> // TODO - replace icon
+                                }
                             </Container>
                         </Container>
                     )}
                 />
-                <Divider classes="border-t-4" />
-                {itemsJSX}
+                {open && (
+                    <>
+                        <Divider classes="border-t-4" />
+                        {itemsJSX}
+                    </>
+                )}
                 {/* <CardHeader
                     classes={{root: '!px-4 !py-3 !pb-4'}}
                     main={(
