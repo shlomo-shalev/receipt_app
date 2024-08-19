@@ -16,7 +16,6 @@ export const back = () => {
         if (location.key !== 'default') {
             navigate(-1);
          } else {
-            console.log('defaultRoute', defaultRoute);
             navigate(defaultRoute, { replace: true });
          }
     };

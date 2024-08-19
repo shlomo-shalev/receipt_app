@@ -1,5 +1,6 @@
-import { save as rowSave, update as updateRow } from "app/View/Bootstrap/Storage/Big/drivers/__DOM_DRIVER__";
+// Api
 import { save as fileSave } from "app/View/Bootstrap/Storage/File/drivers/__DOM_DRIVER__";
+import { save as rowSave, update as updateRow } from "app/View/Bootstrap/Storage/Big/drivers/__DOM_DRIVER__";
 
 class receiptReoistory {    
     static async save({ companyName, price, note, photos }) : Promise<object|false>
@@ -41,6 +42,9 @@ class receiptReoistory {
                 created_at: now,
                 updated_at: now,
             });
+
+            // console.log('transactionId', transactionId);
+            
 
             receipt.transactions_ids = [transactionId];
 

@@ -77,6 +77,7 @@ async function createTable(db, name: string, columns: {name: string, type: strin
 {
     if (!db.objectStoreNames.contains(name)) {
         const objectStore = db.createObjectStore(name, { keyPath: 'id', autoIncrement: true });
+        objectStore.createIndex('id', 'id', { unique: false });
         for (const column of columns) {
             objectStore.createIndex(column.name, column.name, { unique: false });
         }
@@ -141,42 +142,96 @@ export async function update(table: string, id: number, data: object) : Promise<
 }
 
 export async function getData({
-    table, size = 10, page = 1, order = 'asc'
+    table, size = 10, page = 1, order = 'desc', filter = {},
 }) : Promise<any> 
 {
     return new Promise(async (res, rej) => {
-        const onsuccess = function(event, res, rej) {
+        const onsuccess = async function(event, res, rej) {
             const db = event.target.result;
 
             const transaction = db.transaction(table, 'readonly');
             const objectStore = transaction.objectStore(table);
 
-            const addRequest = objectStore.openCursor();
+            let columnObject = objectStore;
 
-            const limit = size;
-            const skip = (page - 1) * size;
-            let counter = 0;
-            const result = [];
+            const columnsNames = Object.keys(filter || {});
 
-            addRequest.onsuccess = function(e) {
-                const cursor = e.target.result;
+            let columnsObject = {};
 
-                if (cursor) {
-                  if (counter >= skip && result.length < limit) {
+            for (const columnsName of columnsNames) {
+                columnsObject[columnsName] = objectStore.index(columnsName);
+            }
+
+            let dataToFilter = null;
+
+            if (columnsNames[0]) {
+                columnObject = columnsObject[columnsNames[0]];
+                dataToFilter = IDBKeyRange.only(filter[columnsNames[0]]);
+            }
+
+            const request = columnObject.openCursor(dataToFilter);
+
+            const result = await doPaginate(request, size, page);
+            res(result);
+        };
+
+        const data = await openIndexedDB(onsuccess);
+        res(data);
+    });
+}
+
+async function doPaginate(request, size, page) : Promise<Object|String>
+{
+    return new Promise((res, rej) => {
+        const limit = size;
+        const skip = (page - 1) * size;
+        let counter = 0;
+        const result = [];
+
+        request.onsuccess = function(e) {
+            const cursor = e.target.result;
+
+            if (cursor) {
+                if (counter >= skip && result.length < limit) {
                     result.push(cursor.value);
-                  }
-                  counter++;
-                  if (result.length < limit) {
-                    cursor.continue();
-                  } else {
-                    res(result);
-                  }
-                } else {
-                    res(result);
                 }
+
+                counter++;
+                
+                if (result.length < limit) {
+                    cursor.continue();
+                }
+
+            } 
+            else {
+                res(result);
+            }
+        }; 
+        
+        request.onerror = function(e) {
+            rej(e.target.error);
+        };
+    });
+}
+
+export async function find({
+    table, id
+}) : Promise<any> 
+{
+    return new Promise(async (res, rej) => {
+        const onsuccess = function(event, res, rej) {
+            const db = event.target.result;
+            const transaction = db.transaction(table, 'readonly');
+            const store = transaction.objectStore(table);            
+
+            // const index = store.index('id');
+            const request = store.get(id);
+
+            request.onsuccess = () => {
+                res(request.result);
             };
 
-            addRequest.onerror = function(e) {
+            request.onerror = function(e) {
                 rej(e.target.error);
             };
         };
@@ -192,4 +247,5 @@ export default {
     save,
     update,
     getData,
+    find,
 };

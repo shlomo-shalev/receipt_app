@@ -79,7 +79,8 @@ async function createTable(name: string, columns: {name: string, type: string}[]
 }
 
 export async function getData({
-    table, size = 10, page = 1, order = 'asc'
+    table, size = 10, page = 1, order = 'asc',
+    filter = {},
 }) {
     return new Promise((res, rej) => {
         const localSkip = (page - 1) * size;
@@ -170,9 +171,17 @@ export function update(table: string, id: number, data: object) : Promise<string
     });
 }
 
+export async function find({
+    table, id
+}) : Promise<any> 
+{
+    
+}
+
 export default {
     openDB,
     save,
     update,
     getData,
+    find,
 };

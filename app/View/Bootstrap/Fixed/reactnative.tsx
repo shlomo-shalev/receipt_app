@@ -10,7 +10,7 @@ var idCounter = 1;
 
 function Fixed(Component, classes = '', isRef = false, settings = {}) : Function
 {
-    const fn = (props, more): JSX.Element => {
+    const Fn = (props, more): JSX.Element => {
         // const ref = isRef ? more : null;
         // const key = !isRef ? more : null;
 
@@ -50,7 +50,7 @@ function Fixed(Component, classes = '', isRef = false, settings = {}) : Function
         return <View key={id} />;
     };
 
-    return isRef ? React.forwardRef(fn) : fn;
+    return isRef ? React.forwardRef(Fn) : Fn;
 }
 
 export default Fixed;

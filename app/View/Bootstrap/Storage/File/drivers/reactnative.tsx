@@ -25,6 +25,12 @@ export async function save(name: string, data: string, type: string, path: strin
     return success ? url : false;
 }
 
+export async function get(url: string) : Promise<string|false>
+{
+    return false;
+}
+
 export default {
     save,
+    get,
 };

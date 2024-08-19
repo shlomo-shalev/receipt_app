@@ -41,7 +41,7 @@ function FilesList({ files, heightInObject = null, width = null,
                         onClick={onClick ? () => onClick(file) : null}
                         width={width}
                         height={height}
-                        classes={(classes.imageRoot || '') as string}
+                        classes={`shrink-0 ${classes.imageRoot || ''}`}
                     >
                         <Image 
                             src={url}

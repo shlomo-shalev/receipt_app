@@ -13,24 +13,43 @@ import useListenRoutePath from "app/View/Hooks/Navigation/useListenRoutePath";
 // -- material design
 // --- app
 import IconButton from "app/View/Components/Complete/MaterialDesign/IconButton/IconButton";
-// icons
+// --- icons
 import CloseIcon from "app/View/Components/Complete/MaterialDesign/Icons/Close";
+import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
+
+// Repositories
+import TransactionRepository from "app/Repositories/Transactions/Transaction/TransactionRepository";
+import FilesList from "../../Complete/App/Lists/FilesList/FilesList";
 
 function TransactionPage() {    
     const route = useRoute();
     const { start, ...routeData } = useListenRoutePath();
     const pathData = (routeData?.params || {path: {}}).path as {id: string};
 
+    const [transaction, setTransaction] = useState({});
+
     const transactionId: number = parseInt(pathData.id || '0');
     
-    console.log('data', {start, transactionId});
+    useEffect(() => {
+        (async () => {
+            if (transactionId > 0) {
+                const transaction = await TransactionRepository.find(transactionId);
+                if (transaction?.id > 0) {
+                    setTransaction(transaction);
+                }
+                else { 
+                    route.move('/');
+                }
+                
+            }
+        })()
+    }, [transactionId]);
+
+    const photos = (transaction.receiptsImages || []).map(item => item.file);
 
     return (
-        <Container 
-            classes="
-                fixed top-0 left-0 right-0 bottom-0 p-3 h-full
-                bg-gray-400
-            "
+        <Container
+            classes="p-3 h-full bg-gray-400 z-10"
         >
             <Container classes="mb-4">
                 <IconButton
@@ -38,7 +57,7 @@ function TransactionPage() {
                         root: '!m-0 !p-0 !py-2 bg-gray-500 w-10',
                     }}
                     onClick={() => {
-                        route.back();
+                        route.back('/list');
                     }}
                     icon={() => {
                         return (
@@ -51,33 +70,48 @@ function TransactionPage() {
                 />
             </Container>
             <Container classes="p-2 flex flex-row flex-wrap">
-                <Container classes="p-2 m-2 mt-0 px-4 bg-white inline-block">
-                    <Text classes="font-bold !text-sm inline-block">
+                <Container classes="p-2 m-2 mt-0 px-4 bg-white flex flex-row">
+                    <Text classes="font-bold !text-sm !m-auto">
                         Transaction id: 
                     </Text>
-                    <Text classes="pl-2 inline-block">
-                        {transactionId}
+                    <Text classes="pl-2">
+                        {transaction.id || transactionId}
                     </Text>
                 </Container>
-                <Container classes="p-2 m-2 mt-0 px-4 bg-white inline-block">
-                    <Text classes="font-bold !text-sm inline-block">
+                <Container classes="p-2 m-2 mt-0 px-4 bg-white flex flex-row">
+                    <Text classes="font-bold !text-sm !m-auto">
                         Price: 
                     </Text>
-                    <Text classes="pl-2 inline-block">
-                        120$
+                    <Text classes="pl-2">
+                        {transaction.price || 0}$
                     </Text>
                 </Container>
-                <Container classes="p-2 m-2 mt-0 px-4 bg-white inline-block">
-                    <Text classes="font-bold !text-sm inline-block">
+                <Container classes="p-2 m-2 mt-0 px-4 bg-white flex flex-row">
+                    <Text classes="font-bold !text-sm !m-auto">
                         Company name: 
                     </Text>
-                    <Text classes="pl-2 inline-block">
-                        Bla bla la bu
+                    <Text classes="pl-2">
+                        {transaction.company_name || ''}
                     </Text>
+                </Container>
+            </Container>
+            <Container classes="mx-2 my-8 overflow-x-scroll scrollbar-none">
+                <Container classes="h-80 overflow-y-hidden flex flex-row pb-2">
+                    <FilesList 
+                        files={photos}
+                        heightInObject
+                        classes={{
+                            imageRoot: 'mx-2',
+                            image: '',
+                        }}
+                        width={200}
+                    />
                 </Container>
             </Container>
         </Container>
     );
 }
 
-export default TransactionPage;
+const fixeClasses = 'top-0 left-0 right-0 bottom-0';
+
+export default Fixed(TransactionPage, fixeClasses);

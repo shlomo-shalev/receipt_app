@@ -1,6 +1,6 @@
 import uuid from "uuid-random";
 import { useEffect, useRef, useState } from 'react';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation, useNavigationState } from '@react-navigation/native';
 
 // Route apis
 import FinalRouteData from "route/Core/FinalRouteData";
@@ -35,20 +35,7 @@ function findDynamicPathMatch (path, pathToMatch) {
     }
 }
 
-export const back = () => {
-
-    return (defaultRoute) => {
-        // if (location.key !== 'default') {
-            // navigate(-1);
-        //  } else {
-            // console.log('defaultRoute', defaultRoute);
-            // navigate(defaultRoute, { replace: true });
-        //  }
-    };
-};
-
-export const move = () => {
-    const navigate = useNavigation();
+const moveNow = (navigate) => {
     return (path: string, data?: Object) => {
         const originalPath = path;
         path = path === '/' ? 'Home' : path;
@@ -57,14 +44,14 @@ export const move = () => {
         
         // console.log('routeData', routeData);
         
-
+    
         const isMatch = Object.keys(routeData).filter(id => {
             const data = routeData[id];
             const fullPath = getFullPath(data.prefix, data.path);
-
+    
             return fullPath === originalPath;
         }).length > 0;        
-
+    
         if (!isMatch){
             const dynamicPagesIds = Object.keys(routeData).filter(id => {
                 const data = routeData[id];
@@ -93,12 +80,31 @@ export const move = () => {
             }
         }
         
-
+    
         navigate.dispatch(
             StackActions.replace(path, {data: data || {}, pathData, index: 0})
         );
     };
 };
+
+export const move = () => {
+    const navigate = useNavigation();
+    return moveNow(navigate);
+};
+
+export const back = () => {
+    const navigate = useNavigation();
+    const move = moveNow(navigate);
+
+    return (defaultRoute) => {
+        if (navigate.canGoBack()) {
+            navigate.goBack();
+        } else {
+            move(defaultRoute);
+        }
+    };
+};
+
 
 const funcsToListen = {};
 var funcsIdsToListen = [];
@@ -110,6 +116,7 @@ export let onChangeRoutePath = (data) => {
 };
 
 export const listen = () => {
+    const routeData = useNavigationState(state => state?.routes[state.index]);
 
     const [state, setState] = useState({
         start: false,
@@ -117,7 +124,7 @@ export const listen = () => {
         pathData: {},
         stateData: {},
     });
-
+    
     const idRef = useRef(null);
 
     if (!idRef.current) {
@@ -127,7 +134,7 @@ export const listen = () => {
     const {current: id} = idRef;
 
     funcsToListen[id] = (data: {pathname: string, pathData: object, state: object}) => {
-        const pathname = data.pathname === 'Home' ? '/' : data.pathname;
+        const pathname = data.pathname === 'Home' ? '/' : data.pathname;        
 
         setState(state => ({
             ...state,
@@ -139,15 +146,22 @@ export const listen = () => {
     };
 
     funcsIdsToListen = [...new Set([...funcsIdsToListen, id])]
-
     useEffect(() => {
+
+        setState(state => ({
+            ...state,
+            start: true,
+            pathname: !routeData?.name || routeData?.name === 'home' ? '/' : routeData.name,
+            pathData: routeData?.params?.pathData || {},
+            stateData: routeData?.params?.data || {},
+        }));
 
         return () => {
             delete funcsToListen[id];
             funcsIdsToListen = funcsIdsToListen.filter(uuid => uuid !== id);
         }
-    }, []);
-
+    }, []);    
+        
     const data = {
         start: state.start,
         pathname: state.pathname,

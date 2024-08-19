@@ -1,5 +1,6 @@
 // Bootstrap
-import { save as rowSave } from 'app/View/Bootstrap/Storage/Big';
+import { createLocalurl, dataURItoBlob } from 'app/Models/Blob/Blob';
+import { save as rowSave, find } from 'app/View/Bootstrap/Storage/Big';
 
 export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
@@ -21,10 +22,33 @@ export async function save(name: string, data: string, type: string, path: strin
     success = parseInt(`${fileId}`) > 0;
     const finalUrl = `${url}::${fileId}`;
     
-
     return success ? finalUrl : false;
+}
+
+export async function get(url: string) : Promise<Object>
+{
+    const id = parseInt((url.match(/[0-9]+$/) || [])[0]);
+
+    const file = await find({ table: 'files', id });
+    
+    let fileData = {};
+    
+    if (file) {
+        fileData = {
+            id,
+            name: file.name,
+            type: file.type,
+            dataUrl: file.dataUrl,
+            url: createLocalurl(dataURItoBlob(file.dataUrl)),
+            lastModified: new Date(file.created_at).getTime(),
+            lastModifiedDate: new Date(file.created_at),
+        }
+    }
+
+    return fileData;
 }
 
 export default {
     save,
+    get,
 };
