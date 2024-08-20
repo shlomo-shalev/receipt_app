@@ -1,6 +1,9 @@
 // Tools
 import RNFS from 'react-native-fs';
 
+// Local interfaces
+import { file } from '..';
+
 export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
 
@@ -25,9 +28,9 @@ export async function save(name: string, data: string, type: string, path: strin
     return success ? url : false;
 }
 
-export async function get(url: string) : Promise<string|false>
+export async function get(url: string) : Promise<file>
 {
-    return false;
+    return null;
 }
 
 export default {

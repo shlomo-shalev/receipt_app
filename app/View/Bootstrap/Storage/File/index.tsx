@@ -6,6 +6,15 @@ import {
 export const save = baseSave;
 export const get = baseGet;
 
+export interface file {
+    url: string;
+    id: string | number;
+    name: string;
+    type: string;
+    dataUrl: string;
+    lastModified: number,
+    lastModifiedDate: Date;
+}
 
 export default {
     save,

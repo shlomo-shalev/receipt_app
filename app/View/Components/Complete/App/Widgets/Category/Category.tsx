@@ -25,7 +25,7 @@ import useRoute from "app/View/Hooks/Navigation/useRoute";
 function Category({ title, items }) {
     const route = useRoute();
     const [open, setOpen] = useState(true);
-
+    
     const itemsJSX = items.map((item, i) => {
         const date = new Date(item.created_at);
 
@@ -132,7 +132,7 @@ function Category({ title, items }) {
                         </Container>
                     )}
                 />
-                {open && (
+                {open && ( // TODO - Create empty data alert
                     <>
                         <Divider classes="border-t-4" />
                         {itemsJSX}

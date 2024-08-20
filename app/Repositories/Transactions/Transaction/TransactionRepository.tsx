@@ -1,10 +1,23 @@
 // Api
 import { find, getData } from "app/View/Bootstrap/Storage/Big";
-import { get as getFile } from "app/View/Bootstrap/Storage/File";
+import { file, get as getFile } from "app/View/Bootstrap/Storage/File";
+export interface Transaction {
+    id: number, 
+    price: number, 
+    company_name: String, 
+    receiptsImages: Array<any>
+}
 
+export interface receiptsImage {
+    id: number;
+    receipt_id: number;
+    created_at: Date;
+    url: string;
+    file: file;
+}
 
 class TransactionRepository {    
-    static async find(transactionId) : Promise<Object>
+    static async find(transactionId) : Promise<Transaction>
     {
         let transactionData = await find({
             table: 'transactions', 
@@ -20,7 +33,7 @@ class TransactionRepository {
                 },
             });
             
-            for (const receiptImage of receiptsImages as []) {
+            for (const receiptImage of receiptsImages as receiptsImage[]) {
                 receiptImage.file = await getFile(receiptImage.url);                
             }
             
@@ -28,7 +41,7 @@ class TransactionRepository {
         }
         
 
-        return transactionData || {};
+        return transactionData;
     }
 }
 

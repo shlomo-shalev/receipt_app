@@ -1,4 +1,5 @@
 // Tools
+import uuid from "uuid-random";
 import React, { useEffect, useState } from "react";
 
 // Base components
@@ -18,34 +19,98 @@ import CloseIcon from "app/View/Components/Complete/MaterialDesign/Icons/Close";
 import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 
 // Repositories
-import TransactionRepository from "app/Repositories/Transactions/Transaction/TransactionRepository";
+import TransactionRepository, { Transaction } from "app/Repositories/Transactions/Transaction/TransactionRepository";
 import FilesList from "../../Complete/App/Lists/FilesList/FilesList";
+
+// Api
+import Network, { prepareFile } from "app/View/Hooks/Network";
+import { createLocalurl, dataURItoBlob } from "app/Models/Blob/Blob";
+
+function useOcrData({ transactionId, transaction }: {transactionId: number, transaction: Transaction}) {
+    const [ocrData, setOcrData] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            if (transactionId > 0) {
+                const newReceiptsImages = [];
+
+                for (const index in transaction.receiptsImages) {
+                    if (Object.prototype.hasOwnProperty.call(transaction.receiptsImages, index)) {
+                        const receiptsImage = transaction.receiptsImages[index];
+                        
+                        const image = await prepareFile({ 
+                            url: receiptsImage.file.url,
+                        });
+                 
+                        const { data } = await Network.post({
+                            url: 'http://localhost:3034/image/extraction/text',
+                            data: {
+                                image,
+                            },
+                        });
+
+                        const now = new Date();
+                        const id = uuid();                        
+
+                        newReceiptsImages[index] = {
+                            ...data.fields, 
+                            file: {
+                                id,
+                                name: id,
+                                type: data.image.type,
+                                dataUrl: data.image.dataURL,
+                                url: createLocalurl(dataURItoBlob(data.image.dataURL)),
+                                lastModified: now.getTime(),
+                                lastModifiedDate: now,
+                            },
+                        };
+                    }
+                }
+
+                setOcrData(newReceiptsImages);
+            }
+        })()
+    }, [transactionId]);
+
+    return ocrData;
+}
 
 function TransactionPage() {    
     const route = useRoute();
     const { start, ...routeData } = useListenRoutePath();
     const pathData = (routeData?.params || {path: {}}).path as {id: string};
 
-    const [transaction, setTransaction] = useState({});
+    const [transaction, setTransaction] = useState({} as Transaction | null);
 
     const transactionId: number = parseInt(pathData.id || '0');
+
+    const ocrData = useOcrData({
+        transactionId: transaction.id,
+        transaction,
+    });
     
+
     useEffect(() => {
         (async () => {
             if (transactionId > 0) {
                 const transaction = await TransactionRepository.find(transactionId);
                 if (transaction?.id > 0) {
-                    setTransaction(transaction);
+                    setTransaction(transaction || null);
                 }
                 else { 
                     route.move('/');
                 }
-                
             }
         })()
     }, [transactionId]);
 
-    const photos = (transaction.receiptsImages || []).map(item => item.file);
+    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);
+
+    console.log('photos', photos);
+    
+
+    const price = ocrData[0]?.price || transaction.price || 0;
+    const companyName = ocrData[0]?.companyName || transaction.company_name || '';
 
     return (
         <Container
@@ -83,7 +148,7 @@ function TransactionPage() {
                         Price: 
                     </Text>
                     <Text classes="pl-2">
-                        {transaction.price || 0}$
+                        {price}$
                     </Text>
                 </Container>
                 <Container classes="p-2 m-2 mt-0 px-4 bg-white flex flex-row">
@@ -91,7 +156,7 @@ function TransactionPage() {
                         Company name: 
                     </Text>
                     <Text classes="pl-2">
-                        {transaction.company_name || ''}
+                        {companyName}
                     </Text>
                 </Container>
             </Container>

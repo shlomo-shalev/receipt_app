@@ -2,6 +2,9 @@
 import { createLocalurl, dataURItoBlob } from 'app/Models/Blob/Blob';
 import { save as rowSave, find } from 'app/View/Bootstrap/Storage/Big';
 
+// Local interfaces
+import { file } from '..';
+
 export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
     const basePath = '/web/indexedd/files';
@@ -25,13 +28,13 @@ export async function save(name: string, data: string, type: string, path: strin
     return success ? finalUrl : false;
 }
 
-export async function get(url: string) : Promise<Object>
+export async function get(url: string) : Promise<file>
 {
     const id = parseInt((url.match(/[0-9]+$/) || [])[0]);
 
     const file = await find({ table: 'files', id });
     
-    let fileData = {};
+    let fileData = null;
     
     if (file) {
         fileData = {
