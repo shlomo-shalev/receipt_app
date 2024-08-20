@@ -1,7 +1,9 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+
+// Bootstrap
 import App from '../../../app/View/App';
-import React from 'react';
 
 ReactDOM.hydrateRoot(
   document.getElementById('app')!,

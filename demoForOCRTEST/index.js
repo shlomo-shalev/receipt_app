@@ -37,7 +37,7 @@ app.post('/image/extraction/text', upload.single('image'), async (req, res) => {
             }
 
             const base64Image = imageBuffer.toString('base64');
-            const dataURL = `data:image/heic;base64,${base64Image}`;
+            const dataURL = `data:image/png;base64,${base64Image}`;
         
             res(dataURL);
         });

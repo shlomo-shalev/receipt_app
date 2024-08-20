@@ -6,7 +6,6 @@
 # Node artifact files
 node_modules/
 vendor/
-dist/
 build/
 .old_git
 
@@ -24,7 +23,12 @@ build/
 
 # Maven
 target/
-dist/
+dist/web/client/*
+dist/web/server/*
+dist/web/static/*
+dist/mobile/android/*
+dist/mobile/ios/*
+dist/desktop/all/*
 
 # JetBrains IDE
 .idea/

@@ -64,6 +64,24 @@ function useOcrData({ transactionId, transaction }: {transactionId: number, tran
                                 lastModifiedDate: now,
                             },
                         };
+
+                        const popupContent = `
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                            <title>View File</title>
+                            </head>
+                            <body>
+                            <img src="${newReceiptsImages[index].file.url}" class="" style="width: 100%; height: 100%;">
+                            </body>
+                            </html>
+                        `;
+
+                        const popupFeatures = `width=800,height=1000000,scrollbars=yes,resizable=yes`;
+                        const popup = window.open('', transaction.receiptsImages[index].id, popupFeatures);
+                        popup.document.open();
+                        popup.document.write(popupContent);
+                        popup.document.close();
                     }
                 }
 
@@ -104,10 +122,7 @@ function TransactionPage() {
         })()
     }, [transactionId]);
 
-    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);
-
-    console.log('photos', photos);
-    
+    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);    
 
     const price = ocrData[0]?.price || transaction.price || 0;
     const companyName = ocrData[0]?.companyName || transaction.company_name || '';

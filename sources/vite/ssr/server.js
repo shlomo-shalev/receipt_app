@@ -14,6 +14,25 @@
 
   let vite = null;
 
+  const entries = [
+    {
+      find: 'app',
+      replacement: path.resolve('./app'),
+    },
+    {
+      find: 'route',
+      replacement: path.resolve('./route'),
+    },
+    { 
+      find:/__DOM_DRIVER__/, 
+      replacement: 'web',
+    },
+    { 
+      find: '% script_uri %',
+      replacement: '/sources/vite/ssr/entry-client.tsx',
+    },
+  ];
+
   if (isDev) {
     vite = await createViteServer({
       server: { 
@@ -27,23 +46,13 @@
           ],
         },
       },
+      resolve: {
+        alias: entries,
+      },
       plugins: [
         react(),
         alias({
-          entries: [
-            {
-              find: 'app',
-              replacement: path.resolve('./app'),
-            },
-            {
-              find: 'route',
-              replacement: path.resolve('./route'),
-            },
-            { 
-              find:/__DOM_DRIVER__/, 
-              replacement: 'web',
-            },
-          ],
+          entries,
         }),
         resolve(),
       ],
@@ -59,7 +68,7 @@
   } else {
     app.use((await import('compression')).default());
     app.use(
-      (await import('serve-static')).default(path.resolve('./dist/vite/client'), {
+      (await import('serve-static')).default(path.resolve('./dist/web/client'), {
         index: false,
       }),
     );
@@ -69,8 +78,8 @@
     const requestPath = req.originalUrl;
     let render, template;
 
-    let indexPath = './dist/vite/client/index.html';
-    let serverPath = './dist/vite/server/entry-server.js';
+    let indexPath = './dist/web/client/index.html';
+    let serverPath = './dist/web/server/entry-server.js';
 
     if (isDev) {
       indexPath = './sources/vite/index.html';
