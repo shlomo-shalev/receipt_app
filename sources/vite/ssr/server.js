@@ -12,6 +12,8 @@
   const DEV_ENV = 'developer';
   const isDev = process.env.NODE_ENV === DEV_ENV;
 
+  const base = '';
+
   let vite = null;
 
   const entries = [
@@ -45,6 +47,9 @@
             require('autoprefixer')(),
           ],
         },
+      },
+      define: {
+        'process.env.BASE': JSON.stringify(base),
       },
       resolve: {
         alias: entries,
@@ -98,7 +103,7 @@
       render = isDev 
         ? (await vite.ssrLoadModule(serverPath)).SSRRender
         : (await import(path.resolve(serverPath))).SSRRender;
-      appHtml = render({ path: requestPath });
+      appHtml = render({ path: requestPath, base });
       
     }
     catch (ex) {}

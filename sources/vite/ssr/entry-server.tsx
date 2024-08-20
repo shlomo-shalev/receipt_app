@@ -5,9 +5,12 @@ import { StaticRouter } from 'react-router-dom/server';
 // Bootstrap
 import App from '../../../app/View/App';
 
-export function SSRRender({ path }) {  
+export function SSRRender({ path, base }) {  
   return ReactDOMServer.renderToString(
-    <StaticRouter location={path}>
+    <StaticRouter 
+      location={path} 
+      basename={base || ''}
+    >
       <div style={{height: '100%'}}>
         <App />
       </div>

@@ -7,7 +7,7 @@ import App from '../../../app/View/App';
 
 ReactDOM.hydrateRoot(
   document.getElementById('app')!,
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.BASE || ''}>
       <div style={{height: '100%'}}>
         <App />
       </div>

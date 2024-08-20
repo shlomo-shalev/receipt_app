@@ -32,7 +32,7 @@ function Router() {
                 path="*"
                 Component={() => {
                     const route = useRoute();
-
+                    
                     useEffect(() => {
                         route.move('/');
                     }, []);

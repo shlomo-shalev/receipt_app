@@ -1,5 +1,3 @@
-const { createHtmlPlugin } = require("vite-plugin-html");
-
 (async () => {
   const fs = require("node:fs").promises;
   const { build } = require("vite");
@@ -7,9 +5,6 @@ const { createHtmlPlugin } = require("vite-plugin-html");
   const alias = require('@rollup/plugin-alias');
   const resolve = require('@rollup/plugin-node-resolve');
   const react = require('@vitejs/plugin-react');
-
-  // include css 
-  // include js
 
   const outDir = path.resolve('./dist/web/client');
 
@@ -33,7 +28,11 @@ const { createHtmlPlugin } = require("vite-plugin-html");
   ];
 
   await build({
+    base: '/show-receipt-app/',
     root: path.resolve('./'), 
+    define: {
+      'process.env.BASE': JSON.stringify('/show-receipt-app'),
+    },
     css: {
       postcss: {
         plugins: [
@@ -50,7 +49,7 @@ const { createHtmlPlugin } = require("vite-plugin-html");
       outDir,
       rollupOptions: {
         output: {
-          entryFileNames: 'assets/[name].[hash].js',
+          entryFileNames: `assets/[name].[hash].js`,
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
         },
@@ -74,14 +73,17 @@ const { createHtmlPlugin } = require("vite-plugin-html");
   });
   const indexHtmlPath = `${outDir}/sources/vite/index.html`;
   const newIndexHtmlPath = `${outDir}/index.html`;
-  const assetsPath = path.resolve('./dist/web/client/assets');
+  // const assetsPath = path.resolve('./dist/web/client/assets');
 
-  let assetsFiles = await fs.readdir(assetsPath, 'utf8');
-  const jsFiles = assetsFiles.filter(file => file.endsWith('.js'));
+  // let assetsFiles = await fs.readdir(assetsPath, 'utf8');
+  // const jsFiles = assetsFiles.filter(file => file.endsWith('.js'));
 
-  let scripts = jsFiles.map(file => `<script type="module" crossorigin src="/assets/${file}"></script>`).join('\n');
-
+  
   let data = await fs.readFile(indexHtmlPath, 'utf8');
+
+  const scriptsData = data.match(/\<script.+\<\/script\>/g);
+
+  let scripts = scriptsData.join('\n');
 
   data = data.replace(/<script[^>]*><\/script>/g, '');
   data = data.replace('</body>', `${scripts}\n</body>`);
