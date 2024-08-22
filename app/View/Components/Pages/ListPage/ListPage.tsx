@@ -19,7 +19,7 @@ function ListPage() {
 
     useEffect(() => {
         (async () => {
-            const transactions = await TransactionsListsRepository.list({});            
+            const transactions = await TransactionsListsRepository.list({});
             setTransactions(transactions as [] || []);
         })()
     }, []);

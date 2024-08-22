@@ -110,6 +110,10 @@ export async function getData({
     });
 }
 
+export async function getAll({ table }) : Promise<any> 
+{
+}
+
 export async function save(table: string, data: object) : Promise<string|number>
 {
     return new Promise((res, rej) => {
@@ -184,4 +188,5 @@ export default {
     update,
     getData,
     find,
+    getAll,
 };

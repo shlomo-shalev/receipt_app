@@ -3,6 +3,8 @@
         "module": "esnext",
         "jsx": "react",
         "target": "es2017",
+        "forceConsistentCasingInFileNames": false,
+        "strict": false,
         "esModuleInterop": true,
         "moduleResolution": "node", 
         "baseUrl": ".", 

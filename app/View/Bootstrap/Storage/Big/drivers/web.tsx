@@ -141,6 +141,31 @@ export async function update(table: string, id: number, data: object) : Promise<
     });
 }
 
+export async function getAll({ table }) : Promise<any> 
+{
+    return new Promise(async (res, rej) => {
+        const onsuccess = async function(event, res, rej) {
+            const db = event.target.result;
+
+            const transaction = db.transaction(table, 'readonly');
+            const objectStore = transaction.objectStore(table);
+
+            const request = objectStore.getAll();
+
+            request.onsuccess = function(e) {
+                res(request.result);
+            }; 
+            
+            request.onerror = function(e) {
+                rej(e.target.error);
+            };
+        };
+
+        const data = await openIndexedDB(onsuccess);
+        res(data);
+    });
+}
+
 export async function getData({
     table, size = 10, page = 1, order = 'desc', filter = {},
 }) : Promise<any> 
@@ -248,4 +273,5 @@ export default {
     update,
     getData,
     find,
+    getAll,
 };

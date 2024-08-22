@@ -1,3 +1,6 @@
+// Tools
+import { saveAs as fileSaveAs } from 'file-saver';
+
 // Bootstrap
 import { createLocalurl, dataURItoBlob } from 'app/Models/Blob/Blob';
 import { save as rowSave, find } from 'app/View/Bootstrap/Storage/Big';
@@ -28,6 +31,15 @@ export async function save(name: string, data: string, type: string, path: strin
     return success ? finalUrl : false;
 }
 
+export async function saveAs(
+    { data, name, type = 'text/plain;charset=utf-8' }
+    : { data: string, name: string, type?: string }
+) : Promise<void>
+{
+    const blob = new Blob([data], { type });
+    fileSaveAs(blob, name);
+}
+
 export async function get(url: string) : Promise<file>
 {
     const id = parseInt((url.match(/[0-9]+$/) || [])[0]);
@@ -54,4 +66,5 @@ export async function get(url: string) : Promise<file>
 export default {
     save,
     get,
+    saveAs,
 };

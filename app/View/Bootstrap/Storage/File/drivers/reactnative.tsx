@@ -28,6 +28,14 @@ export async function save(name: string, data: string, type: string, path: strin
     return success ? url : false;
 }
 
+export async function saveAs(
+    { data, name, type = 'text/plain;charset=utf-8' }
+    : { data: string, name: string, type?: string }
+) : Promise<void>
+{
+    
+}
+
 export async function get(url: string) : Promise<file>
 {
     return null;
@@ -36,4 +44,5 @@ export async function get(url: string) : Promise<file>
 export default {
     save,
     get,
+    saveAs,
 };
