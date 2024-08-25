@@ -19,6 +19,7 @@ const config = {
       transform: {
         experimentalImportSupport: false,
         inlineRequires: true,
+        sourceMaps: true,
       },
     }),
   },

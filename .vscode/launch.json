@@ -21,7 +21,10 @@
             "type": "reactnative",
             "request": "launch",
             "platform": "ios",
-            "sourceMaps": true
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "http://localhost:8081/*": "${workspaceFolder}/*"
+            }
         }
     ]
 }
