@@ -17,10 +17,12 @@ import ExportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Export
 import ImportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Import";
 
 // Services
-import ExportTransactionsService from "app/Services/Transactions/Backup/ExportTransactionsService";
+import ExportDataService from "app/Services/Data/Backup/ExportDataService";
+import ImportDataService from "app/Services/Data/Backup/ImportDataService";
 
 // Api
 import { saveAs } from "app/View/Bootstrap/Storage/File";
+import Choose from "app/View/Hooks/Choose/Choose";
 
 function SettingsPage() {
     return (
@@ -34,7 +36,7 @@ function SettingsPage() {
                 )}
                 type="filled"
                 onClick={async () => {
-                    const service = new ExportTransactionsService();
+                    const service = new ExportDataService();
                     const data = await service.execute();
                     saveAs({ data, name: 'backup.txt' });
                 }}
@@ -56,8 +58,13 @@ function SettingsPage() {
                         classes={`${classes} !w-full !h-full`}
                     />
                 )}
-                onClick={() => {
-                    console.log('import');
+                onClick={async () => {
+                    const file = await Choose.pickfile();
+                    
+                    if (file) {
+                        const service = new ImportDataService();
+                        service.execute(file);
+                    }
                 }}
                 type="filled"
                 classes={{

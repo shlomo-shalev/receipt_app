@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@types/mime-types": "^2.1.4",
+    "buffer": "^6.0.3",
     "crypto-js": "^4.2.0",
     "mime-types": "^2.1.35",
     "moment": "^2.30.1",

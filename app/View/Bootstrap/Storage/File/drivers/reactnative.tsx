@@ -4,7 +4,7 @@ import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
 
 // Local interfaces
-import { file } from '..';
+import { file } from "app/View/Bootstrap/Storage/File";
 
 export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
