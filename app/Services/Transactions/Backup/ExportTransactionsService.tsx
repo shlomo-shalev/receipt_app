@@ -4,7 +4,7 @@ import TransactionsListsRepository from "app/Repositories/Transactions/Data/Tran
 import ReceiptsImagesListsRepository from "app/Repositories/Receipts/Images/Data/ReceiptsImagesListsRepository";
 import EncryptionRepository from "app/Repositories/EncryptionRepository";
 
-class ImportTransactionsService {
+class ExportTransactionsService {
     async execute () : Promise<string>
     {
         const receipts = await ReceiptsListsRepository.getAll({});
@@ -29,4 +29,4 @@ class ImportTransactionsService {
     }
 }
 
-export default ImportTransactionsService;
+export default ExportTransactionsService;

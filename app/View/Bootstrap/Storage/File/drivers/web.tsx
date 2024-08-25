@@ -1,4 +1,5 @@
 // Tools
+import uuid from "uuid-random";
 import { saveAs as fileSaveAs } from 'file-saver';
 
 // Bootstrap
@@ -13,7 +14,7 @@ export async function save(name: string, data: string, type: string, path: strin
     const basePath = '/web/indexedd/files';
     const now = new Date().toISOString();
 
-    const url = `${basePath}${path}/${name}`;
+    const cleanUrl = `${path}/${name}`;
     const onlyPath = `${basePath}${path}`;
     var success = false;
 
@@ -26,7 +27,7 @@ export async function save(name: string, data: string, type: string, path: strin
     });
 
     success = parseInt(`${fileId}`) > 0;
-    const finalUrl = `${url}::${fileId}`;
+    const finalUrl = `${cleanUrl}::${fileId}`;
     
     return success ? finalUrl : false;
 }
@@ -50,7 +51,7 @@ export async function get(url: string) : Promise<file>
     
     if (file) {
         fileData = {
-            id,
+            id: uuid(),
             name: file.name,
             type: file.type,
             dataUrl: file.dataUrl,

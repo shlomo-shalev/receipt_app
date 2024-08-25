@@ -24,9 +24,13 @@ class ReceiptsListsRepository {
             if (Object.prototype.hasOwnProperty.call(receiptsImages, key)) {
                 const receiptsImage: receiptsImage = receiptsImages[key];
                 const file = await getFile(receiptsImage.url);
-                file.url = receiptsImage.url;
-                
-                files.push(file);
+                if (file) {
+                    file.url = receiptsImage.url;
+                    files.push(file);
+                }
+                else {
+                    console.log('ee');
+                }
             }
         }
 

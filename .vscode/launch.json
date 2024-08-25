@@ -20,7 +20,8 @@
             "cwd": "${workspaceFolder}/sources/reactnative",
             "type": "reactnative",
             "request": "launch",
-            "platform": "ios"
+            "platform": "ios",
+            "sourceMaps": true
         }
     ]
 }

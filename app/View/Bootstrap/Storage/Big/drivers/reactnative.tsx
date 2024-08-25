@@ -112,6 +112,27 @@ export async function getData({
 
 export async function getAll({ table }) : Promise<any> 
 {
+    return new Promise((res, rej) => {
+        DB.executeSql(
+            `
+                SELECT * 
+                FROM ${table}
+            `,
+            [],
+            (tx) => {
+                const len = tx.rows.length;
+                let data = [];
+
+                for (let i = 0; i < len; i++) {
+                    data.push(tx.rows.item(i));
+                }
+                                
+                res(data);
+            },
+            err => rej(err),
+            
+        );
+    });
 }
 
 export async function save(table: string, data: object) : Promise<string|number>

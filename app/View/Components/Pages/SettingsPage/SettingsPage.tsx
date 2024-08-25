@@ -17,7 +17,7 @@ import ExportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Export
 import ImportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Import";
 
 // Services
-import ImportTransactionsService from "app/Services/Transactions/Backup/ImportTransactionsService";
+import ExportTransactionsService from "app/Services/Transactions/Backup/ExportTransactionsService";
 
 // Api
 import { saveAs } from "app/View/Bootstrap/Storage/File";
@@ -34,7 +34,7 @@ function SettingsPage() {
                 )}
                 type="filled"
                 onClick={async () => {
-                    const service = new ImportTransactionsService();
+                    const service = new ExportTransactionsService();
                     const data = await service.execute();
                     saveAs({ data, name: 'backup.txt' });
                 }}

@@ -19,7 +19,7 @@ export interface receiptsImage {
 class TransactionRepository {    
     static async find(transactionId) : Promise<Transaction>
     {
-        let transactionData = await find({
+        let transactionData = await find({ // RN TODO
             table: 'transactions', 
             id: transactionId,
         });
@@ -28,7 +28,7 @@ class TransactionRepository {
             const receiptsImages = await getData({
                 table: 'receipts_images', 
                 size: 5, // TODO - Replace to 20 after build filter for react native driver
-                filter: {
+                filter: { // RN TODO
                     receipt_id: transactionData.receipts_ids[0],
                 },
             });

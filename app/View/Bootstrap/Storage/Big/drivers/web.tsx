@@ -154,7 +154,7 @@ export async function getAll({ table }) : Promise<any>
 
             request.onsuccess = function(e) {
                 res(request.result);
-            }; 
+            };
             
             request.onerror = function(e) {
                 rej(e.target.error);
@@ -194,7 +194,8 @@ export async function getData({
                 dataToFilter = IDBKeyRange.only(filter[columnsNames[0]]);
             }
 
-            const request = columnObject.openCursor(dataToFilter);
+            const orderKey = order === 'desc' ? 'prev' : null;
+            const request = columnObject.openCursor(dataToFilter, orderKey);
 
             const result = await doPaginate(request, size, page);
             res(result);
