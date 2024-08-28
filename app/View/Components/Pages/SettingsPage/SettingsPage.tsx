@@ -59,7 +59,7 @@ function SettingsPage() {
                     />
                 )}
                 onClick={async () => {
-                    const file = await Choose.pickfile();
+                    const file = await Choose.pickfile({});
                     
                     if (file) {
                         const service = new ImportDataService();
@@ -79,7 +79,7 @@ function SettingsPage() {
             <Space />
             <Space />
             <Text>
-                version: 0.001.0
+                version: 0.001.01
             </Text>
         </Container>
     );
