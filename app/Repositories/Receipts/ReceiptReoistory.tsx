@@ -1,3 +1,6 @@
+// Tools
+import uuid from "uuid-random";
+
 // Api
 import { save as fileSave } from "app/View/Bootstrap/Storage/File/drivers/__DOM_DRIVER__";
 import { save as rowSave, update as updateRow } from "app/View/Bootstrap/Storage/Big/drivers/__DOM_DRIVER__";
@@ -23,8 +26,10 @@ class receiptReoistory {
             for (const photo of photos) {
                 const type = (photo.type.match(/[^/]+$/) || '')[0];
                 
+                const id = uuid();
+
                 const url = await fileSave(
-                    `${photo.id}.${type}`, 
+                    `${id}.${type}`, 
                     photo.dataUrl, 
                     photo.type,
                     '/receipts',
@@ -43,10 +48,8 @@ class receiptReoistory {
                 updated_at: now,
             });
 
-            // console.log('transactionId', transactionId);
-            
-
             receipt.transactions_ids = [transactionId];
+            // console.log('transactionId', transactionId);
 
             await updateRow('receipts', receiptId, receipt);
 

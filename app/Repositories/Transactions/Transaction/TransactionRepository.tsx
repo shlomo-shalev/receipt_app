@@ -5,7 +5,7 @@ export interface Transaction {
     id: number, 
     price: number, 
     company_name: String, 
-    receiptsImages: Array<any>
+    receiptsImages: Array<receiptsImage>
 }
 
 export interface receiptsImage {

@@ -79,7 +79,7 @@ function SettingsPage() {
             <Space />
             <Space />
             <Text>
-                version: 0.0.01
+                version: 0.001.0
             </Text>
         </Container>
     );

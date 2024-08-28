@@ -189,7 +189,7 @@ export function update(table: string, id: number, data: object) : Promise<string
                 SET ${columnsQuery}
                 WHERE id = ?
             `,
-            [id, ...finalData],
+            [...finalData, id],
             (data) => res(true),
             err => rej(err),
         );

@@ -1,6 +1,5 @@
 // Tools
 import uuid from "uuid-random";
-import { Buffer } from 'buffer';
 import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
 
@@ -18,14 +17,11 @@ export async function pickfile() : Promise<file>
     });
   
     const file = res[0];
-    let dataUrl = null;
 
     if (file) {
       const type = file.type;
       const fileInfo = await RNFS.stat(file.uri);
-      const base64 = await RNFS.read(file.uri);
-
-      const dataUrl = `data:${type};base64,${base64}`;    
+      const dataUrl = await RNFS.read(file.uri);
 
       fileData = {
         id: uuid(),

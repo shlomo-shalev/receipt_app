@@ -24,12 +24,9 @@ class ExportDataService {
         const encryptedData = await EncryptionRepository.encrypt({
             key: backupKey,
             data,
-        });        
-        
-        console.log('encryptedData', encryptedData);
-        
+        });
 
-        return encryptedData;
+        return `data:text:plain;base64,${encryptedData}`;
         
     }
 }

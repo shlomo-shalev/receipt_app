@@ -207,7 +207,7 @@ export async function getData({
 }
 
 async function doPaginate(request, size, page) : Promise<Object|String>
-{
+{    
     return new Promise((res, rej) => {
         const limit = size;
         const skip = (page - 1) * size;
@@ -216,7 +216,7 @@ async function doPaginate(request, size, page) : Promise<Object|String>
 
         request.onsuccess = function(e) {
             const cursor = e.target.result;
-
+            
             if (cursor) {
                 if (counter >= skip && result.length < limit) {
                     result.push(cursor.value);
@@ -226,6 +226,9 @@ async function doPaginate(request, size, page) : Promise<Object|String>
                 
                 if (result.length < limit) {
                     cursor.continue();
+                }
+                else {
+                    res(result);
                 }
 
             } 

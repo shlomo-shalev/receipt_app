@@ -28,9 +28,6 @@ class ReceiptsListsRepository {
                     file.url = receiptsImage.url;
                     files.push(file);
                 }
-                else {
-                    console.log('ee');
-                }
             }
         }
 

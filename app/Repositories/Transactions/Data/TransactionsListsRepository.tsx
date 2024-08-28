@@ -1,13 +1,21 @@
 import { getData, getAll } from "app/View/Bootstrap/Storage/Big/drivers/__DOM_DRIVER__";
+import { Transaction } from "../Transaction/TransactionRepository";
 
 class TransactionsListsRepository {    
-    static async list({}) : Promise<Object>
+    static async list({}) : Promise<Array<Transaction>>
     {
-        const data = await getData({
-            table: 'transactions', 
-            page: 1, 
-            order: 'desc',
-        });
+        let data = null;
+        try {
+            data = await getData({
+                table: 'transactions', 
+                page: 1,
+                size: 200, 
+                order: 'desc',
+            });
+        }
+        catch(ex) {
+            console.error(`${ex}`);
+        }
 
         return data;
     }
