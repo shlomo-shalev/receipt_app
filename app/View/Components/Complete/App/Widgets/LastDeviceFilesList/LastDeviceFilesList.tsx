@@ -9,9 +9,9 @@ import { openAppSettings } from "app/View/Hooks/Files/drivers/__DOM_DRIVER__";
 
 // Base components
 import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
-import Space from "app/View/Components/Bases/Components/Space/__DOM_DRIVER__";
 import Image from "app/View/Components/Bases/Components/Image/__DOM_DRIVER__";
 import Title from "app/View/Components/Bases/Components/Title/__DOM_DRIVER__";
+import Skeleton from "app/View/Components/Bases/Components/Skeleton/__DOM_DRIVER__";
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
 // Complete Components - Material design
@@ -20,7 +20,7 @@ import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButt
 // -- icons
 import WarningIcon from "app/View/Components/Complete/MaterialDesign/Icons/Warning";
 
-function LastDeviceFilesList({ classes = '', onChoose }) {
+function LastDeviceFilesList({ classes = '', listClasses = '', onChoose }) {
     const { waitPullFiles } = useFilesList();
 
     const [ state, setState ] = useState({
@@ -42,54 +42,78 @@ function LastDeviceFilesList({ classes = '', onChoose }) {
     }, []);
 
     return (
-        <Container classes={`h-40 flex flex-row ${classes}`}>
+        <Container classes={`flex flex-row justify-center w-full ${classes}`}>
             {files.length <= 0 && status === 'allow' && (
                 <Container 
                     classes={`
-                        bg-gray-300 h-auto w-44 border border-black
-                        rounded-xl p-5 mr-5 ml-2 my-auto 
+                        bg-gray-300 h-auto border border-black
+                        rounded-xl p-5 my-auto 
                     `}
                 >
                     <Text>
-                        There isn't images...
+                        There isn't images to show...
                     </Text>
                 </Container>
             )}
-            {files.map(file => (
+            {(files.length > 0 || status == 'wait') && (
                 <Container 
-                    key={`${file.id}`}
-                    classes="m-1 border border-black cursor-pointer"
-                    onClick={() => onChoose(file)}
+                    classes={`
+                        overflow-x-auto scrollbar-none h-40 w-full
+                        flex flex-row ${listClasses}
+                    `}
                 >
-                    <Image 
-                        src={file.url}
-                        width={90}
-                        height="100%"
-                    />
+                    {status == 'wait' && (
+                        ([...(new Array(5))]).map((v, i) => {
+                            return (
+                                <Container
+                                    key={i}
+                                    classes="mx-1"
+                                >
+                                    <Skeleton 
+                                        width={90} 
+                                        height={'100%'}
+                                    />
+                                </Container>
+                            );
+                        })
+                    )}
+                    {files.map(file => (
+                        <Container 
+                            key={`${file.id}`}
+                            classes="m-1 border border-black cursor-pointer"
+                            onClick={() => onChoose(file)}
+                        >
+                            <Image 
+                                src={file.url}
+                                width={90}
+                                height="100%"
+                            />
+                        </Container>
+                    ))}
                 </Container>
-            ))}
+            )}
             {status === 'blocked' && (
                 <Container 
                     classes={`
-                        bg-gray-300 h-auto w-auto border border-black
-                        rounded-xl p-5 mr-5
+                        bg-gray-300 h-auto border border-black
+                        rounded-xl p-5 px-7
                     `}
                 >
                     <Container classes="m-auto w-48">
-                        <Container classes="flex flex-row align-center">
+                        <Container classes="flex flex-row justify-center mb-2">
                             <WarningIcon 
                                 classes="my-auto mr-2 w-5 h-5" 
                                 fill="black"
                             />
-                            <Title classes="text-left">
+                            <Title>
                                 Access denied
                             </Title>
                         </Container>
-                        <Text classes="text-left !text-sm">
+                        <Text classes="text-center !text-sm">
                             Confirm access to photos to view them.
                         </Text>
                         {!openAppSettings && (
-                            <Text classes="text-left !text-sm pt-2">
+                            <Text classes="text-center !text-sm pt-2">
                                 Open the settings of this site and allow access to camera.
                             </Text>
                         )}
@@ -103,7 +127,7 @@ function LastDeviceFilesList({ classes = '', onChoose }) {
                                 classes={{
                                     root: `
                                         bg-white border border-1 border-black
-                                        m-auto mt-3 ml-0 rounded-xl
+                                        m-auto mt-3 rounded-xl
                                     `, 
                                     title: '!text-black text-center',
                                 }}

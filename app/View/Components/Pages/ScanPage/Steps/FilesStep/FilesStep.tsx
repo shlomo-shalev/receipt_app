@@ -42,7 +42,7 @@ function FilesStep({ steper: { onMove } }) {
 
     return (
         <ReciptBorder 
-            classes="justify-center"
+            classes="justify-center px-2"
             elementRef={reciptBorderRef}
         >
             <ScanIcon
@@ -54,19 +54,18 @@ function FilesStep({ steper: { onMove } }) {
             >
                 Scan a receipt or invoice
             </Text>
-            <Container 
-                classes="flex flex-row mx-auto overflow-x-auto scrollbar-none"
-            >
+            <Container classes="mb-5">
                 <GetFileMenu 
                     onUpload={onUpload}
                     moveToCamera={() => onMove('camera', {
                         elementDimensions,
                     })}
                 />
-                <LastDeviceFilesList 
-                    onChoose={onChoose}
-                />
             </Container>
+            <LastDeviceFilesList 
+                onChoose={onChoose}
+                listClasses="mx-3"
+            />
         </ReciptBorder>
     );
 }

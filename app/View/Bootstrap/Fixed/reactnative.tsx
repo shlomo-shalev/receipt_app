@@ -8,7 +8,7 @@ import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIV
 
 var idCounter = 1;
 
-function Fixed(Component, classes = '', isRef = false, settings = {}) : Function
+function Fixed(Component, classes = '', isRef = false, settings = {}) 
 {
     const Fn = (props, more): JSX.Element => {
         // const ref = isRef ? more : null;

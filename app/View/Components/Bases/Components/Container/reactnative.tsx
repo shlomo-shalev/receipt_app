@@ -1,7 +1,6 @@
 // Tools
-// import uuid from "uuid-random";
 import { View } from 'react-native';
-import React, { forwardRef, useCallback, useRef } from 'react';
+import React, { forwardRef } from 'react';
 import { State, TapGestureHandler } from 'react-native-gesture-handler';
 
 // Base Components
@@ -9,11 +8,6 @@ import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 
 // Bootstrap components
 import Scroll from 'app/View/Bootstrap/reactnative/Scroll/Scroll';
-
-// Bootstrap hooks
-// import useFixedHandler from 'app/View/Bootstrap/reactnative/Hooks/useFixedHandler';
-
-// var idCounter = 1;
 
 const Container = (
     {children = undefined, classes = '', style = {}, onClick = null, ...props}, 
@@ -28,13 +22,7 @@ const Container = (
 
     ];
     const isNeedScroll = classesToScroll
-      .filter(oneClass => classes.includes(oneClass)).length > 0;    
-
-    // const id = useCallback(() => {
-    //   const id = useRef(uuid() + `:${idCounter}`);
-    //   idCounter++;
-    //   return id.current;
-    // }, [])();
+      .filter(oneClass => classes.includes(oneClass)).length > 0;
 
     function getChildren() {
       if (!isString) return children;
@@ -68,7 +56,6 @@ const Container = (
       jsx = (
         <TapGestureHandler
           onHandlerStateChange={(event) => handleSingleTap(event)}
-          // key={id}
         >
           {jsx}
         </TapGestureHandler>
@@ -80,20 +67,11 @@ const Container = (
         <Scroll
           classes={classes}
           ref={ref}
-          // key={id}
         >
           {jsx}
         </Scroll>
       );
     }
-
-    // const { isFixed } = useFixedHandler({
-    //   key: id,
-    //   jsx,
-    //   isFixed: classes.includes('fixed'),
-    // });
-
-    // return isFixed ? <View /> : jsx;
     return jsx;
 };
 

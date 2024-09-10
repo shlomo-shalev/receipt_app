@@ -113,6 +113,4 @@ function CameraAccessDeniedModal({ onClose }) {
 
 const classes = 'top-0 bottom-0 left-0 right-0';
 
-export default Fixed(CameraAccessDeniedModal, classes, false, {
-    withoutSpace: true,
-});
+export default Fixed(CameraAccessDeniedModal, classes, false);
