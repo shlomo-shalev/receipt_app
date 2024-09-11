@@ -1,48 +1,87 @@
 // Tools
 import React from 'react';
 import uuid from "uuid-random";
-import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
+import DocumentPicker from 'react-native-document-picker';
 
 // Base components
 import Container from '../Container/reactnative';
 
-export default function FileInput({children, classes = '', style = {}, onUpload, ...props}) {
+// Apis
+import { requestOpenFilePremissition } from 'app/View/Hooks/File/drivers/reactnative';
 
+const files = [
+  DocumentPicker.types.pdf,
+  DocumentPicker.types.doc,
+  DocumentPicker.types.docx,
+  DocumentPicker.types.csv,
+]
+
+const getType = (type): string => {
+  // .pdf
+  let newType: string = DocumentPicker.types.pdf;
+
+  switch (type) {
+    case '.doc':
+      newType = DocumentPicker.types.doc;
+      break;
+
+    case '.docx':
+      newType = DocumentPicker.types.docx;
+      break;
+
+    case '.csv':
+      newType = DocumentPicker.types.csv;
+      break;
+  }
+
+  return newType;
+}
+
+export default function FileInput({
+  children, classes = '', style = {}, onUpload, 
+  accept = 'files/*', multiple = false, ...props
+}) {
+
+  let types = accept === 'files/*' ? files : getType(accept);
+  
   return (
    <Container
     {...props}
     classes={classes}
     onClick={async () => {
-      const originalFiles = await launchImageLibrary({
-        mediaType: 'photo',
-        selectionLimit: 20,
-      });
 
-      let files = [];
+      try {
+        const res = await DocumentPicker.pick({
+          type: types,
+        });        
+        
+        const uri = decodeURIComponent(res[0].uri);        
 
-      for (const key in originalFiles.assets) {        
-        if (Object.prototype.hasOwnProperty.call(originalFiles.assets, key)) {
-          const file = originalFiles.assets[key];
+        await requestOpenFilePremissition();
 
-          
-          const base64String = await RNFS.readFile(file.uri, 'base64');
-          const stats = await RNFS.stat(file.uri);
-          const dataURL = `data:${file.type};base64,${base64String}`;          
+        const base64String = await RNFS.readFile(uri, 'base64');
+        
+        const stats = await RNFS.stat(uri);
+        const dataURL = `data:${res[0].type};base64,${base64String}`;
 
-          files[key] = {
-            id: uuid(),
-            name: file.fileName,
-            type: file.type,
-            dataUrl: dataURL,
-            url: file.uri,
-            lastModified: new Date(stats.mtime).getTime(),
-            lastModifiedDate: new Date(stats.mtime),
-          }
+        const file = {
+          id: uuid(),
+          name: res[0].name,
+          type: res[0].type,
+          dataUrl: dataURL,
+          url: uri,
+          lastModified: new Date(stats.mtime).getTime(),
+          lastModifiedDate: new Date(stats.mtime),
+        }
+
+        onUpload([file]);
+
+      } catch (err) {
+        if (!DocumentPicker.isCancel(err)) {
+          throw err;
         }
       }
-
-      onUpload(files);
     }}
    >
     {children}

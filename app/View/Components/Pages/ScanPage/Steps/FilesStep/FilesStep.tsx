@@ -17,6 +17,7 @@ import GetFileMenu from "./Components/GetFileMenu/GetFileMenu";
 
 // Hooks
 import useElementDimensions from "app/View/Hooks/Dimensions/useElementDimensions";
+import File from "app/View/Hooks/File/File";
 
 function FilesStep({ steper: { onMove } }) {
 
@@ -24,9 +25,21 @@ function FilesStep({ steper: { onMove } }) {
 
     const elementDimensions = useElementDimensions(reciptBorderRef);
 
-    function onUpload(photos) {
-        if (photos.length > 0) {
+    function onUploadImages(photos) {
+        if (photos.length > 0) {            
             onMove('photos', {
+                photos,
+                elementDimensions,
+            });
+        }
+    }
+
+    async function onUploadFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            const photos = await File.convertPdfPagesToPhotos(file);
+            
+            onMove('data', {
                 photos,
                 elementDimensions,
             });
@@ -56,7 +69,8 @@ function FilesStep({ steper: { onMove } }) {
             </Text>
             <Container classes="mb-5">
                 <GetFileMenu 
-                    onUpload={onUpload}
+                    onUploadImages={onUploadImages}
+                    onUploadFiles={onUploadFiles}
                     moveToCamera={() => onMove('camera', {
                         elementDimensions,
                     })}

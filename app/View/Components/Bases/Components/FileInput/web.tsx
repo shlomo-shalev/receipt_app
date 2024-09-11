@@ -6,14 +6,17 @@ import uuid from "uuid-random";
 import Container from '../Container/web';
 import { dataURItoBlob } from 'app/Models/Blob/Blob';
 
-export default function FileInput({children, classes = '', style = {}, onUpload, ...props}) {
+export default function FileInput({
+    children, classes = '', style = {}, onUpload, 
+    accept = 'files/*', multiple = false, ...props
+}) {
 
   return (
    <Container
     {...props}
     classes={classes}
     onClick={async () => {
-      const files = await pickFile();      
+      const files = await pickFile({ accept, multiple });
 
       onUpload(files);
     }}
@@ -23,11 +26,12 @@ export default function FileInput({children, classes = '', style = {}, onUpload,
   );
 };
 
-export async function pickFile() : Promise<Array<Object>> {
+export async function pickFile({ accept, multiple }) : Promise<Array<Object>> {
   const inputElemenet = document.createElement('input');
   inputElemenet.style.display = 'none';
   inputElemenet.type = 'file';
-  inputElemenet.multiple = true;
+  inputElemenet.accept = accept;
+  inputElemenet.multiple = multiple;
 
   return new Promise((res, rej) => {
     const teardown = () => {

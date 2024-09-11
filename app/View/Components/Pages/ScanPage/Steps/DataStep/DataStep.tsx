@@ -34,7 +34,7 @@ function DataStep({ steper: { onMove, dataRef } }) {
         companyName: null,
         price: null,
         note: null,
-    });
+    });    
 
     return (
         <Container

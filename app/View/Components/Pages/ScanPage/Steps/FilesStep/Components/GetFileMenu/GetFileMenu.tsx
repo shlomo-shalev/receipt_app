@@ -6,7 +6,8 @@ import useCamera from "app/View/Hooks/Camera/useCamera";
 
 // Base components
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
-import FileInput from 'app/View/Components/Bases/Components/FileInput/__DOM_DRIVER__';
+import FileInput from "app/View/Components/Bases/Components/FileInput/__DOM_DRIVER__";
+import ImageInput from 'app/View/Components/Bases/Components/ImageInput/__DOM_DRIVER__';
 
 // Coomplete components
 // -- app
@@ -14,11 +15,12 @@ import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButt
 // --- modals
 import CameraAccessDeniedModal from "app/View/Components/Complete/App/Modals/CameraAccessDeniedModal/CameraAccessDeniedModal";
 // -- icons
-import UploadIcon from "app/View/Components/Complete/MaterialDesign/Icons/Upload";
+import FileIcon from "app/View/Components/Complete/MaterialDesign/Icons/File";
+import WorldIcon from "app/View/Components/Complete/MaterialDesign/Icons/World";
 import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
+import ImagesIcon from "app/View/Components/Complete/MaterialDesign/Icons/Images";
 
-
-function GetFilesMenu({ onUpload, moveToCamera }) {
+function GetFilesMenu({ onUploadImages, onUploadFiles, moveToCamera }) {
     const [showCameraModal, setShowCameraModal] = useState(false);
 
     const { requestPermisstion, exists: CameraExists } = useCamera();
@@ -27,13 +29,13 @@ function GetFilesMenu({ onUpload, moveToCamera }) {
         <Container 
             classes="flex flex-row justify-center"
         >
-            <Container>
+            <Container classes="!mx-2">
                 <CommonButton
                     title="Camera"
                     icon={({ classes }) => (
                         <CameraIcon
-                            fill="black"
-                            classes={`${classes} !w-4 !h-4`}
+                            fill="rgb(55 65 81)"
+                            classes={`${classes} !w-5 !h-5`}
                         />
                     )}
                     disabled={!CameraExists}
@@ -59,34 +61,34 @@ function GetFilesMenu({ onUpload, moveToCamera }) {
                 <CommonButton
                     title="Images"
                     Component={{
-                        View: FileInput,
+                        View: ImageInput,
                         props: {
-                            onUpload,
+                            onUpload: onUploadImages,
                         },
                     }}
                     icon={({ classes }) => (
-                        <UploadIcon
-                            classes={`${classes} w-4 h-4`}
-                            fill="black"
+                        <ImagesIcon
+                            classes={`${classes} w-5 h-5`}
+                            fill="rgb(55 65 81)"
                         />
                     )}
                     type="filled"
                     classes={{
                         root: `
                             rounded-full py-4 border border border-black 
-                            h-14 w-30 flex-col !mx-2 !flex-row bg-white
+                            h-14 w-30 flex-col !flex-row bg-white
                         `,
                         title: '!text-black text-center',
                     }}
                 />
             </Container>
-            <Container>
+            <Container classes="!mx-2">
                 <CommonButton
                     title="Link"
                     icon={({ classes }) => (
-                        <CameraIcon
-                            fill="black"
-                            classes={`${classes} !w-4 !h-4`}
+                        <WorldIcon
+                            fill="rgb(55 65 81)"
+                            classes={`${classes} !w-5 !h-5`}
                         />
                     )}
                     disabled={!CameraExists}
@@ -114,20 +116,21 @@ function GetFilesMenu({ onUpload, moveToCamera }) {
                     Component={{
                         View: FileInput,
                         props: {
-                            onUpload,
+                            onUpload: onUploadFiles,
+                            accept: '.pdf',
                         },
                     }}
                     icon={({ classes }) => (
-                        <UploadIcon
-                            classes={`${classes} w-4 h-4`}
-                            fill="black"
+                        <FileIcon
+                            classes={`${classes} w-5 h-5`}
+                            fill="rgb(55 65 81)"
                         />
                     )}
                     type="filled"
                     classes={{
                         root: `
                             rounded-full py-4 border border border-black 
-                            h-14 w-30 flex-col !mx-2 !flex-row bg-white px-7
+                            h-14 w-30 flex-col !flex-row bg-white px-7
                         `,
                         title: '!text-black text-center',
                     }}

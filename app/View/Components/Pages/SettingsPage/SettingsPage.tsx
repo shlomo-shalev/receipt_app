@@ -12,7 +12,7 @@ import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButt
 // Icons
 // import HelpIcon from "app/View/Components/Complete/MaterialDesign/Icons/Help";
 // import BackupIcon from "app/View/Components/Complete/MaterialDesign/Icons/Backup";
-// import LanguagesIcon from "app/View/Components/Complete/MaterialDesign/Icons/Languages";
+// import LanguageIcon from "app/View/Components/Complete/MaterialDesign/Icons/Language";
 import ExportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Export";
 import ImportIcon from "app/View/Components/Complete/MaterialDesign/Icons/Import";
 

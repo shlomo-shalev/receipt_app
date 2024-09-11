@@ -11,6 +11,8 @@ export function getFiles() {
     };
 }
 
+var filesCash = null;
+
 export function openAppSettings () {
     Linking.openSettings()
 }
@@ -18,8 +20,10 @@ export function openAppSettings () {
 async function getList() {
     let photosData = {edges: []};
     let status = 'allow';
+    let files = [];
 
-    try {
+    if (!filesCash) {
+      try {
         const allowPermission = await requestPermission(); 
 
         if (!allowPermission) {
@@ -30,34 +34,40 @@ async function getList() {
             first: 20,
             assetType: 'Photos',
         });
-    }
-    catch (ex) {
-        status = 'blocked';
-    }   
-    
-    const files = [];
+      }
+      catch (ex) {
+          status = 'blocked';
+      }
 
-    for (const image of photosData.edges) {
-      const url = image.node.image.uri;
-      const type = `image/${image.node.image.extension}`;
-      const file = {url, type: image.node.image.extension};
+      for (const image of photosData.edges) {
+        const url = image.node.image.uri;
+        const type = `image/${image.node.image.extension}`;
+        const file = {url, type: image.node.image.extension};
+        
+        const base64String = await getDataUrl(file);
+        const stats = await getStats(file);
+        const dataUrl = `data:${type};base64,${base64String}`;
+
+        const data = {
+          id: uuid(),
+          url,
+          type,
+          name: image.node.image.filename,
+          dataUrl,
+          lastModified: new Date(stats.mtime).getTime(),
+          lastModifiedDate: new Date(stats.mtime),
+        };
+
+        files.push(data);
+      }
       
-      const base64String = await getDataUrl(file);
-      const stats = await getStats(file);
-      const dataUrl = `data:${type};base64,${base64String}`;
-
-      const data = {
-        id: uuid(),
-        url,
-        type,
-        name: image.node.image.filename,
-        dataUrl,
-        lastModified: new Date(stats.mtime).getTime(),
-        lastModifiedDate: new Date(stats.mtime),
-      };
-
-      files.push(data);
-    }    
+      if (files.length > 0) {
+        filesCash = files;
+      }
+    }
+    else {
+      files = filesCash;
+    }
     
     return {
         files,
