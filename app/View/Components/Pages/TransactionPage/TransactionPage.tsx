@@ -129,7 +129,7 @@ function TransactionPage() {
 
     return (
         <Container
-            classes="p-3 h-full bg-gray-400 z-10"
+            classes="p-3 h-full bg-gray-600 z-10"
         >
             <Container classes="mb-4">
                 <IconButton

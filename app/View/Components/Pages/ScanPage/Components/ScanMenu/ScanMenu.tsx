@@ -6,6 +6,7 @@ import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIV
 
 // Local components
 // -- steps
+import BaseMenuStep from "./Steps/BaseMenuStep";
 import SaveDataMenuStep from "./Steps/SaveDataMenuStep";
 import ChooseFilesMenuStep from "./Steps/ChooseFilesMenuStep";
 
@@ -18,28 +19,38 @@ function ScanMenu({
     onClose, onSave = null, onTakePic = null, onNext = null, stepName,
     disabledes = {takePic: false, next: false} as {takePic?: Boolean, next?: Boolean} ,
 }) {
+
+    const baseProps = {disabledes, onClose};
+    
     return (
         <Container 
-            classes={`mt-auto flex justify-between flex-row py-5 px-7 bg-gray-400`}
+            classes={`mt-auto flex justify-between flex-row py-5 px-7 bg-gray-600`}
         >
             <Steper default={stepName}>
                 <Step 
-                    component={ChooseFilesMenuStep}
+                    step='base'
+                    component={BaseMenuStep}
                     props={{
-                        onClose,
-                        onTakePic,
+                        ...baseProps,
                         onNext,
-                        disabledes,
                     }}
-                    step='takeFiles'
                 />
                 <Step 
+                    step='takeFiles'
+                    component={ChooseFilesMenuStep}
+                    props={{
+                        ...baseProps, 
+                        onTakePic, 
+                        onNext,
+                    }}
+                />
+                <Step 
+                    step='save'
                     component={SaveDataMenuStep}
                     props={{
-                        onClose,
-                        onSave
+                        ...baseProps,
+                        onSave,
                     }}
-                    step='save'
                 />
             </Steper>
         </Container>

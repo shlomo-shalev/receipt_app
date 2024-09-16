@@ -20,7 +20,7 @@ import WorldIcon from "app/View/Components/Complete/MaterialDesign/Icons/World";
 import CameraIcon from "app/View/Components/Complete/MaterialDesign/Icons/Camera";
 import ImagesIcon from "app/View/Components/Complete/MaterialDesign/Icons/Images";
 
-function GetFilesMenu({ onUploadImages, onUploadFiles, moveToCamera }) {
+function GetFilesMenu({ onUploadImages, onUploadFiles, moveToCamera, moveToGettingLink }) {
     const [showCameraModal, setShowCameraModal] = useState(false);
 
     const { requestPermisstion, exists: CameraExists } = useCamera();
@@ -91,16 +91,8 @@ function GetFilesMenu({ onUploadImages, onUploadFiles, moveToCamera }) {
                             classes={`${classes} !w-5 !h-5`}
                         />
                     )}
-                    disabled={!CameraExists}
                     onClick={async () => {
-                        const allow = await requestPermisstion();
-                        
-                        if (allow) {
-                            moveToCamera();
-                        }
-                        else {
-                            setShowCameraModal(true);
-                        }
+                        moveToGettingLink();
                     }}
                     type="filled"
                     classes={{

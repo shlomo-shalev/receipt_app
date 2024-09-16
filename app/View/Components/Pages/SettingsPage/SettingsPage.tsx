@@ -43,7 +43,7 @@ function SettingsPage() {
                 classes={{
                     root: `
                         bg-white w-44 py-4 w-full !m-0 !justify-start
-                        border border-1 border-gray-500
+                        border border-1
                     `,
                     icon: 'w-4 h-4 mr-2',
                     title: '!text-black text-center',
@@ -70,7 +70,7 @@ function SettingsPage() {
                 classes={{
                     root: `
                         bg-white w-44 py-4 w-full !m-0 !justify-start
-                        border border-1 border-gray-500
+                        border border-1
                     `,
                     icon: 'w-4 h-4 mr-2',
                     title: '!text-black text-center',
@@ -78,7 +78,7 @@ function SettingsPage() {
             />
             <Space />
             <Space />
-            <Text>
+            <Text classes="text-white text-center w-full font-bold">
                 version: 0.001.01
             </Text>
         </Container>

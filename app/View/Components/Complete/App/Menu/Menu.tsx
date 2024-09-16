@@ -47,7 +47,7 @@ function Menu() {
     const isListPage = currentButton == 3;
 
     return (
-        <Container classes="flex flex-row my-5 bg-gray-400">
+        <Container classes="flex flex-row my-5 bg-gray-600">
             <CommonButton
                 title="Settings"
                 checked={isSettingsPage}
@@ -55,13 +55,14 @@ function Menu() {
                 type="filled"
                 classes={{
                     root: `
-                        !rounded-2xl bg-gray-700 !p-4 
+                        !rounded-2xl bg-white !p-4 border
                         ${isSettingsPage ? '!pr-3' : ''}
                     `,
                 }}
                 icon={({ classes, checked }) => (
                     <SettingsIcon
                         classes={`!w-8 !h-5 ${classes}`}
+                        fill="black"
                     />
                 )}
                 onClick={() => route.move('/settings')}
@@ -72,8 +73,8 @@ function Menu() {
                 checked={isScanPage}
                 classes={{
                     root: `
-                        !rounded-2xl bg-white !p-4 
-                        border border-1 border-gray-500
+                        !rounded-2xl bg-white !p-4
+                        border border-1 
                     `,
                     title: '!text-black',
                 }}
@@ -92,13 +93,14 @@ function Menu() {
                 titleOnlyInCheck
                 classes={{
                     root: `
-                        !rounded-2xl bg-gray-700 !p-4
+                        !rounded-2xl bg-white !p-4 border
                         ${isListPage ? '!pr-3' : ''}
                     `,
                 }}
                 icon={({ classes, checked }) => (
                     <ListIcon
                         classes={`!w-7 !h-4 ${classes}`}
+                        fill="black"
                     />
                 )}
                 onClick={() => route.move('/list')}

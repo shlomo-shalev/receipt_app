@@ -80,7 +80,7 @@ function Category({ title, items }) {
         <Container 
             classes="!m-0 px-5 flex-1 relative"
         >
-            <Card classes={{root: '!p-0'}}>
+            <Card classes={{root: '!p-0 border border-black'}}>
                 <CardHeader
                     classes={{
                         root: '!py-0',
@@ -136,6 +136,13 @@ function Category({ title, items }) {
                     <>
                         <Divider classes="border-t-4" />
                         {itemsJSX}
+                        {items.length <= 0 && (
+                            <Container classes="bg-gray-300 py-3">
+                                <Title classes="text-center text-sm">
+                                    There is no items here...
+                                </Title>
+                            </Container>
+                        )}
                     </>
                 )}
                 {/* <CardHeader

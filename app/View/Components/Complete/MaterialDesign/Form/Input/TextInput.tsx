@@ -10,13 +10,13 @@ function TextInput({ title, classes = '', inputRef = null }) {
     return (
         <Container classes={classes}>
             <Title 
-                classes='m-2 text-base font-bold'
+                classes='m-2 text-base text-white font-bold'
             >
                 {title}
             </Title>
             <BaseTextInput 
                 classes='
-                    border-2 border-black rounded-xl
+                    border-2 border-white rounded-xl
                 '
                 inputRef={inputRef}
             />

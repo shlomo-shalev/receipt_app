@@ -30,7 +30,7 @@ export default function App() {
   })()}, []);
 
   if (!started) return (
-    <Container classes="h-full bg-gray-400 flex justify-center">
+    <Container classes="h-full bg-gray-600 flex justify-center">
       <Title classes="text-center m-auto">
         The app is loading!...
       </Title>
@@ -39,7 +39,7 @@ export default function App() {
 
   return (
     <Container
-      classes="h-full bg-gray-400 flex flex-col"
+      classes="h-full bg-gray-600 flex flex-col"
     >
       <Router />
       <Menu />

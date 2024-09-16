@@ -17,7 +17,7 @@ const styleForAnotherButtonsTypes: {title: object, icon: object, root: object} =
     } as object,
     title: {
         elevated: '!text-black',
-        filled: 'text-white',
+        filled: 'text-black',
         tonal: '!text-black',
         outlined: '!text-black',
         text: '!text-black',
@@ -62,7 +62,7 @@ function CommonButton ({
             {(titleOnlyInCheck === null || checked) && (
                 <Title 
                     classes={`
-                        select-none !text-sm text-white font-semibold px-2 
+                        select-none !text-sm text-black font-semibold px-2 
                         ${styleForAnotherButtonsTypes.title[type]} ${finalClasses.title}
                     `}
                 >

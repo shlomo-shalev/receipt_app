@@ -34,30 +34,30 @@ function DataStep({ steper: { onMove, dataRef } }) {
         companyName: null,
         price: null,
         note: null,
-    });    
+    });
 
     return (
         <Container
             classes="h-full flex flex-col"
         >
-            <ReciptBorder classes="relative">
+            <ReciptBorder classes="relative px-2">
                 <Container classes="mt-5 overflow-y-scroll">
                     <TextInput 
                         title="Company name"
-                        classes="mx-3"
+                        classes="mx-2"
                         inputRef={ref => inputsRef.current.companyName = ref}
                     />
                     <TextInput 
                         title="Price"
-                        classes="mx-3"
+                        classes="mx-2"
                         inputRef={ref => inputsRef.current.price = ref}
                     />
                     <TextAreaInput 
                         title="Note"
-                        classes="mx-3"
+                        classes="mx-2"
                         inputRef={ref => inputsRef.current.note = ref}
                     />
-                    <Container classes="mx-2 my-8 overflow-x-scroll scrollbar-none">
+                    <Container classes="my-8 overflow-x-scroll scrollbar-none">
                         <Container classes="h-72 overflow-y-hidden flex flex-row pb-2">
                             <FilesList 
                                 files={photos}

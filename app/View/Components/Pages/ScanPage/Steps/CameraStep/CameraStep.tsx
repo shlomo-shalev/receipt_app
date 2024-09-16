@@ -46,7 +46,8 @@ function CameraStep({ steper: { onMove, dataRef } }) {
                     />
                 </Container>
             </ReciptBorder>
-            <ScanMenu 
+            <ScanMenu
+                stepName="takeFiles" 
                 onTakePic={async () => {
                     const photo = await takePictureRef.current();
                     

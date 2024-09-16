@@ -58,22 +58,29 @@ function FilesStep({ steper: { onMove } }) {
             classes="justify-center px-2"
             elementRef={reciptBorderRef}
         >
-            <ScanIcon
-                fill="black"
+            {/* <ScanIcon
+                fill="white"
                 classes="!w-20 !h-20 mx-auto"
-            />
+            /> */}
             <Text
-                classes="!text-black font-bold text-base text-center !mb-6"
+                classes="!text-white font-bold text-base text-center !mb-6"
             >
-                Scan a receipt or invoice
+                Upload your receipt or invoice
             </Text>
             <Container classes="mb-5">
                 <GetFileMenu 
                     onUploadImages={onUploadImages}
                     onUploadFiles={onUploadFiles}
-                    moveToCamera={() => onMove('camera', {
-                        elementDimensions,
-                    })}
+                    moveToCamera={() => {
+                        onMove('camera', {
+                            elementDimensions,
+                        })
+                    }}
+                    moveToGettingLink={() => {
+                        onMove('link', {
+                            elementDimensions,
+                        })
+                    }}
                 />
             </Container>
             <LastDeviceFilesList 

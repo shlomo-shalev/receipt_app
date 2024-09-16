@@ -27,7 +27,9 @@ const Container = (
     function getChildren() {
       if (!isString) return children;
       return (
-        <Title key={id}>
+        <Title 
+          // key={id}
+        >
             {children}
         </Title>
       );

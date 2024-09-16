@@ -35,7 +35,7 @@ export default () => {
                 >
                     <SafeAreaView
                         className="h-full relative" 
-                        style={{backgroundColor: 'rgb(156 163 175)'}}
+                        style={{backgroundColor: 'rgb(75 85 99)'}}
                     >
                         <App />
                         <FixedPositionHandler />

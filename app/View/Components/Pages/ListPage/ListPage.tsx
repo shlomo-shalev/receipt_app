@@ -25,12 +25,11 @@ function ListPage() {
     }, []);
     
     return (
-        <Container classes="overflow-y-auto pt-5 h-full">
+        <Container classes="overflow-y-auto pt-5 h-full pb-2">
             <Category 
                 title="Global" 
                 items={transactions}
             />
-            <Divider classes="my-2" />
         </Container>
     );
 }

@@ -13,7 +13,7 @@ function ScanNextButton({ disabled, onClick }) {
             disabled={disabled}
             classes={{
                 root: `
-                    !rounded-2xl !bg-gray-700 !p-3.5 border border-gray-600
+                    !rounded-2xl !bg-gray-800 !p-3.5 border border-gray-600
                     flex-row-reverse !mx-0
                 `,
             }}
