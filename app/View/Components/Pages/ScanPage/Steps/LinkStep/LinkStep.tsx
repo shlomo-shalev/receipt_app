@@ -1,12 +1,14 @@
 // Tools
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
-// Coomplete components
+// Complete components
 // -- app
-import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import Step from "app/View/Components/Complete/Steper/Step";
+import Steper from "app/View/Components/Complete/Steper/Steper";
+import ReceiptBorder from "app/View/Components/Complete/App/Widgets/ReceiptBorder/ReceiptBorder";
 
 // Local components
-import ScanMenu from "../../Components/ScanMenu/ScanMenu";
+import ScanMenu from "app/View/Components/Pages/ScanPage/Components/ScanMenu/ScanMenu";
 
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
@@ -14,6 +16,11 @@ import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIV
 // Bootstrap components
 import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 import TextInput from "app/View/Components/Complete/MaterialDesign/Form/Input/TextInput";
+
+// Local components
+// -- steps
+import WaitStep from "./Steps/WaitStep";
+import LoadingStep from "./Steps/LoadingStep";
 
 function LinkStep({ steper: { onMove, dataRef } }) {
     
@@ -27,17 +34,37 @@ function LinkStep({ steper: { onMove, dataRef } }) {
         <Container
             classes="h-full flex flex-col"
         >
-            <ReciptBorder classes="relative">
+            <ReceiptBorder classes="relative">
                 <Container 
-                    classes="overflow-y-auto px-2 pt-3" 
+                    classes="px-2 pt-3 flex flex-col"
                 >
                     <TextInput 
                         title="Link"
                         classes="mx-2"
                         inputRef={ref => inputsRef.current.link = ref}
                     />
+                    <Container>
+                        <Steper default="wait">
+                            <Step 
+                                step="wait"
+                                component={WaitStep}
+                            />
+                            <Step 
+                                step="loading"
+                                component={LoadingStep}
+                            />
+                            {/* <Step 
+                                step="message"
+                                component={}
+                            />
+                            <Step 
+                                step="photos"
+                                component={}
+                            /> */}
+                        </Steper>
+                    </Container>
                 </Container>
-            </ReciptBorder>
+            </ReceiptBorder>
             <ScanMenu 
                 stepName="base"
                 disabledes={{

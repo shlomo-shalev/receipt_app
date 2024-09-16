@@ -8,7 +8,7 @@ import Router from 'app/View/Bootstrap/Router/__DOM_DRIVER__';
 import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
-// Coomplete components
+// Complete components
   // app
   import Menu from "app/View/Components/Complete/App/Menu/Menu";
 

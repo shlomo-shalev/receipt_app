@@ -4,7 +4,7 @@ import React from "react";
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
-function ReciptBorder({ children, classes = '', elementRef = null }) {
+function ReceiptBorder({ children, classes = '', elementRef = null }) {
     return (
         <Container classes="!box-border !mx-7 pt-5 flex-1 h-full">
             <Container classes="relative h-full">
@@ -43,4 +43,4 @@ function ReciptBorder({ children, classes = '', elementRef = null }) {
     );
 }
 
-export default ReciptBorder;
+export default ReceiptBorder;

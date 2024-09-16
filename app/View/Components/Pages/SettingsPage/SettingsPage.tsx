@@ -6,7 +6,7 @@ import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
 import Space from "app/View/Components/Bases/Components/Space/__DOM_DRIVER__";
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
-// Coomplete components
+// Complete components
 // Material design
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 // Icons

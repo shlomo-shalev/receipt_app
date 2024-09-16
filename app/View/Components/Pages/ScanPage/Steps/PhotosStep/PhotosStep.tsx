@@ -1,13 +1,13 @@
 // Tools
 import React, { useEffect, useRef, useState } from "react";
 
-// Coomplete components
+// Complete components
 // -- app
 import FilesList from "app/View/Components/Complete/App/Lists/FilesList/FilesList";
-import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import ReceiptBorder from "app/View/Components/Complete/App/Widgets/ReceiptBorder/ReceiptBorder";
 
 // Local components
-import ScanMenu from "../../Components/ScanMenu/ScanMenu";
+import ScanMenu from "app/View/Components/Pages/ScanPage/Components/ScanMenu/ScanMenu";
 
 // Base components
 import Camera from "app/View/Components/Bases/Components/Camera/__DOM_DRIVER__";
@@ -52,7 +52,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
         <Container
             classes="h-full flex flex-col"
         >
-            <ReciptBorder classes="relative">
+            <ReceiptBorder classes="relative">
                 <Container 
                     classes="overflow-y-auto" 
                     ref={scrollRef}
@@ -102,7 +102,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                         </Container>
                     </Container>
                 </Container>
-            </ReciptBorder>
+            </ReceiptBorder>
             <ScanMenu 
                 stepName="takeFiles"
                 disabledes={{

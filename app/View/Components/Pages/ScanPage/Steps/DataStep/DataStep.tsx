@@ -1,15 +1,15 @@
 // Tools
 import React, { useRef, useState } from "react";
 
-// Coomplete components
+// Complete components
 // -- app
 import FilesList from "app/View/Components/Complete/App/Lists/FilesList/FilesList";
 import TextInput from 'app/View/Components/Complete/MaterialDesign/Form/Input/TextInput';
-import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import ReceiptBorder from "app/View/Components/Complete/App/Widgets/ReceiptBorder/ReceiptBorder";
 import TextAreaInput from "app/View/Components/Complete/MaterialDesign/Form/Input/TextAreaInput";
 
 // Local components
-import ScanMenu from "../../Components/ScanMenu/ScanMenu";
+import ScanMenu from "app/View/Components/Pages/ScanPage/Components/ScanMenu/ScanMenu";
 
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
@@ -40,7 +40,7 @@ function DataStep({ steper: { onMove, dataRef } }) {
         <Container
             classes="h-full flex flex-col"
         >
-            <ReciptBorder classes="relative px-2">
+            <ReceiptBorder classes="relative px-2">
                 <Container classes="mt-5 overflow-y-scroll">
                     <TextInput 
                         title="Company name"
@@ -71,7 +71,7 @@ function DataStep({ steper: { onMove, dataRef } }) {
                         </Container>
                     </Container>
                 </Container>
-            </ReciptBorder>
+            </ReceiptBorder>
             <ScanMenu
                 stepName="save"
                 onClose={() => onMove('files')}

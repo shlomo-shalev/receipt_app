@@ -8,13 +8,12 @@ import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 import Camera from "app/View/Components/Bases/Components/Camera/__DOM_DRIVER__";
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
-// Coomplete components
+// Complete components
 // -- app
-import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import ReceiptBorder from "app/View/Components/Complete/App/Widgets/ReceiptBorder/ReceiptBorder";
 
 // Local components
-import ScanMenu from "../../Components/ScanMenu/ScanMenu";
-import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
+import ScanMenu from "app/View/Components/Pages/ScanPage/Components/ScanMenu/ScanMenu";
 
 function CameraStep({ steper: { onMove, dataRef } }) {
     const [state, setState] = useState({
@@ -31,7 +30,7 @@ function CameraStep({ steper: { onMove, dataRef } }) {
         <Container 
             classes="h-full flex flex-col"
         >
-            <ReciptBorder>
+            <ReceiptBorder>
                 <Container classes="h-full">
                     <Camera 
                         takePictureRef={takePictureRef}
@@ -45,7 +44,7 @@ function CameraStep({ steper: { onMove, dataRef } }) {
                         }}
                     />
                 </Container>
-            </ReciptBorder>
+            </ReceiptBorder>
             <ScanMenu
                 stepName="takeFiles" 
                 onTakePic={async () => {

@@ -9,7 +9,7 @@ import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIV
 import FileInput from "app/View/Components/Bases/Components/FileInput/__DOM_DRIVER__";
 import ImageInput from 'app/View/Components/Bases/Components/ImageInput/__DOM_DRIVER__';
 
-// Coomplete components
+// Complete components
 // -- app
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 // --- modals

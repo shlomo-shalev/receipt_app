@@ -10,7 +10,7 @@ import BaseMenuStep from "./Steps/BaseMenuStep";
 import SaveDataMenuStep from "./Steps/SaveDataMenuStep";
 import ChooseFilesMenuStep from "./Steps/ChooseFilesMenuStep";
 
-// Coomplete components
+// Complete components
 // -- app
 import Step from "app/View/Components/Complete/Steper/Step";
 import Steper from "app/View/Components/Complete/Steper/Steper";

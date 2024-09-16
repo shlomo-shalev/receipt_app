@@ -5,9 +5,9 @@ import React, { useRef } from "react";
 import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
 import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIVER__';
 
-// Coomplete components
+// Complete components
 // -- app
-import ReciptBorder from "app/View/Components/Complete/App/Widgets/ReciptBorder/ReciptBorder";
+import ReceiptBorder from "app/View/Components/Complete/App/Widgets/ReceiptBorder/ReceiptBorder";
 import LastDeviceFilesList from "app/View/Components/Complete/App/Widgets/LastDeviceFilesList/LastDeviceFilesList";
 // -- icons
 import ScanIcon from "app/View/Components/Complete/MaterialDesign/Icons/Scan";
@@ -21,9 +21,9 @@ import File from "app/View/Hooks/File/File";
 
 function FilesStep({ steper: { onMove } }) {
 
-    const reciptBorderRef = useRef(null);
+    const ReceiptBorderRef = useRef(null);
 
-    const elementDimensions = useElementDimensions(reciptBorderRef);
+    const elementDimensions = useElementDimensions(ReceiptBorderRef);
 
     function onUploadImages(photos) {
         if (photos.length > 0) {            
@@ -54,9 +54,9 @@ function FilesStep({ steper: { onMove } }) {
     }
 
     return (
-        <ReciptBorder 
+        <ReceiptBorder 
             classes="justify-center px-2"
-            elementRef={reciptBorderRef}
+            elementRef={ReceiptBorderRef}
         >
             {/* <ScanIcon
                 fill="white"
@@ -87,7 +87,7 @@ function FilesStep({ steper: { onMove } }) {
                 onChoose={onChoose}
                 listClasses="mx-3"
             />
-        </ReciptBorder>
+        </ReceiptBorder>
     );
 }
 

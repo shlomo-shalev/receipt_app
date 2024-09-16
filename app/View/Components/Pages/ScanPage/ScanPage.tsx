@@ -4,7 +4,7 @@ import React from "react";
 // Base components
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
-// Coomplete components
+// Complete components
 // -- app
 import Step from "app/View/Components/Complete/Steper/Step";
 import Steper from "app/View/Components/Complete/Steper/Steper";
