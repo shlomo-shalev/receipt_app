@@ -12,7 +12,7 @@ function Step({ step, component: Component, props = {} }) {
         : step;
     steperData.stepsRef.current.steps[step] = {
         step,
-    }    
+    }
 
     if (current == step) {
         return (

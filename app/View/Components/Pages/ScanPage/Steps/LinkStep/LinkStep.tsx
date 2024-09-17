@@ -18,27 +18,31 @@ import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 import TextInput from "app/View/Components/Complete/MaterialDesign/Form/Input/TextInput";
 
 // Local components
-// -- steps
-import WaitStep from "./Steps/WaitStep";
-import LoadingStep from "./Steps/LoadingStep";
-import MessageStep from "./Steps/MessageStep";
+// -- messages steps
+import WaitStep from "./MessagesSteper/WaitStep";
+import LoadingStep from "./MessagesSteper/LoadingStep";
+import MessageStep from "./MessagesSteper/MessageStep";
+import CompleteStep from "./MessagesSteper/CompleteStep";
+// -- show steps
+import ShowWaitStep from "./ShowSteper/ShowWaitStep";
 
 function LinkStep({ steper: { onMove } }) {
     
-    const steperRef = useRef(null);
+    const messagesSteperRef = useRef(null);
+    const ShowSteperRef = useRef(null);
     const inputsRef = useRef({
         link: null,
     });
 
     const [photos, setPhotos] = useState([]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            steperRef.current.onMove('message', {
-                message: 'blabla blu....',
-            });
-        }, 2000);
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         messagesSteperRef.current.onMove('message', {
+    //             message: 'blabla blu....',
+    //         });
+    //     }, 2000);
+    // }, []);
 
     return (
         <Container
@@ -56,7 +60,7 @@ function LinkStep({ steper: { onMove } }) {
                     <Container>
                         <Steper 
                             default="wait"
-                            steperRef={steperRef}
+                            steperRef={messagesSteperRef}
                         >
                             <Step 
                                 step="wait"
@@ -70,9 +74,27 @@ function LinkStep({ steper: { onMove } }) {
                                 step="message"
                                 component={MessageStep}
                             />
+                            <Step 
+                                step="completed"
+                                component={CompleteStep}
+                            />
+                        </Steper>
+                    </Container>
+                    <Container>
+                        <Steper 
+                            default="wait"
+                            steperRef={ShowSteperRef}
+                        >
+                            <Step 
+                                step="wait"
+                                component={ShowWaitStep}
+                            />
                             {/* <Step 
                                 step="photos"
-                                component={}
+                                component={ShowPhotosStep}
+                                props={{
+                                    photos,
+                                }}
                             /> */}
                         </Steper>
                     </Container>
