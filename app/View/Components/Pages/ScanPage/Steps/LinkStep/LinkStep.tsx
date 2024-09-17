@@ -1,5 +1,5 @@
 // Tools
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Complete components
 // -- app
@@ -21,14 +21,24 @@ import TextInput from "app/View/Components/Complete/MaterialDesign/Form/Input/Te
 // -- steps
 import WaitStep from "./Steps/WaitStep";
 import LoadingStep from "./Steps/LoadingStep";
+import MessageStep from "./Steps/MessageStep";
 
-function LinkStep({ steper: { onMove, dataRef } }) {
+function LinkStep({ steper: { onMove } }) {
     
-    const [photos, setPhotos] = useState([]);
-    
+    const steperRef = useRef(null);
     const inputsRef = useRef({
         link: null,
     });
+
+    const [photos, setPhotos] = useState([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            steperRef.current.onMove('message', {
+                message: 'blabla blu....',
+            });
+        }, 2000);
+    }, []);
 
     return (
         <Container
@@ -44,7 +54,10 @@ function LinkStep({ steper: { onMove, dataRef } }) {
                         inputRef={ref => inputsRef.current.link = ref}
                     />
                     <Container>
-                        <Steper default="wait">
+                        <Steper 
+                            default="wait"
+                            steperRef={steperRef}
+                        >
                             <Step 
                                 step="wait"
                                 component={WaitStep}
@@ -53,11 +66,11 @@ function LinkStep({ steper: { onMove, dataRef } }) {
                                 step="loading"
                                 component={LoadingStep}
                             />
-                            {/* <Step 
-                                step="message"
-                                component={}
-                            />
                             <Step 
+                                step="message"
+                                component={MessageStep}
+                            />
+                            {/* <Step 
                                 step="photos"
                                 component={}
                             /> */}

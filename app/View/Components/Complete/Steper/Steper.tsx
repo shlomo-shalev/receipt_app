@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useRef, useState } from "react";
 
 export const SteperContext = createContext(null);
 
-function Steper({ children, default: Default }) {
+function Steper({ children, default: Default, steperRef = null }) {
 
     const stepsRef = useRef({
         first: null,
@@ -35,14 +35,20 @@ function Steper({ children, default: Default }) {
         }));
     };
 
+    const steperValue = {
+        onMove,
+        stepsRef,
+        dataRef,
+        current,
+    };
+
+    if (steperRef) {
+        steperRef.current = steperValue;
+    }
+
     return (
         <SteperContext.Provider 
-            value={{
-                onMove,
-                stepsRef,
-                dataRef,
-                current,
-            }}
+            value={steperValue}
         >
             {children}
         </SteperContext.Provider>
