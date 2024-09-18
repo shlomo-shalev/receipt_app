@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function TextInput({
   children = undefined, style = {}, type = 'text', classes = '', 
-  inputRef = null, ...props
+  inputRef = null, onChange = ({ text }) => {}, ...props
 }) {  
   return (
     <input

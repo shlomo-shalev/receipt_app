@@ -19,7 +19,7 @@ function WaitStep() {
                 />
                 <Container classes="ml-10 my-auto">
                     <Text classes="text-white font-bold w-40">
-                        Set link for export your reciept or invoice
+                        Set link for extract your receipt or invoice
                     </Text>
                 </Container>
             </Container>

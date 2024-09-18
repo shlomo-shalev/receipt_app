@@ -9,7 +9,7 @@
         "moduleResolution": "node", 
         "baseUrl": ".", 
         "paths": { 
-            "*/__DOM_DRIVER__": ["./*/web", "./*/reactnative"],
+            "*/__DOM_DRIVER__": ["./*/reactnative", "./*/web"],
             "react": [ "./node_modules/@types/react" ]
         }
     }

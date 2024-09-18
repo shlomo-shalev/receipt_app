@@ -4,7 +4,7 @@ import { Keyboard, TextInput as ReactNativeTextInput } from 'react-native';
 
 export default function TextAreaInput({
   children = undefined, style = {}, type = undefined, classes = '', 
-  inputRef = null, ...props
+  inputRef = null, onChange = ({ text }) => {}, ...props
 }) {
 
   const ref = useRef(null);
@@ -27,6 +27,7 @@ export default function TextAreaInput({
       onSubmitEditing={() => Keyboard.dismiss()}
       onChangeText={text => {
         ref.current.originalValue = text;
+        onChange({ text });
       }}
       returnKeyType="done"
       className={`border h-10 py-2 w-full p-2 ${classes}`}

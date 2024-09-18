@@ -1,5 +1,5 @@
 // Tools
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 // Complete components
 // -- app
@@ -25,6 +25,9 @@ import MessageStep from "./MessagesSteper/MessageStep";
 import CompleteStep from "./MessagesSteper/CompleteStep";
 // -- show steps
 import ShowWaitStep from "./ShowSteper/ShowWaitStep";
+import ShowPhotosStep from "./ShowSteper/ShowPhotosStep";
+// -- widgets
+import LinkInput from "./LinkInputAndProccess/LinkInput";
 
 function LinkStep({ steper: { onMove } }) {
     
@@ -36,27 +39,14 @@ function LinkStep({ steper: { onMove } }) {
 
     const [photos, setPhotos] = useState([]);
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         messagesSteperRef.current.onMove('message', {
-    //             message: 'blabla blu....',
-    //         });
-    //     }, 2000);
-    // }, []);
-
     return (
         <Container
             classes="h-full flex flex-col"
         >
             <ReceiptBorder classes="relative">
                 <Container 
-                    classes="px-2 pt-3 flex flex-col"
+                    classes="px-2 pt-3 flex flex-col overflow-y-scroll w-full"
                 >
-                    <TextInput 
-                        title="Link"
-                        classes="mx-2"
-                        inputRef={ref => inputsRef.current.link = ref}
-                    />
                     <Container>
                         <Steper 
                             default="wait"
@@ -80,7 +70,27 @@ function LinkStep({ steper: { onMove } }) {
                             />
                         </Steper>
                     </Container>
-                    <Container>
+                    <LinkInput
+                        inputRef={ref => inputsRef.current.link = ref}
+                        onCompleted={({ photos }) => {
+                            if (messagesSteperRef.current && ShowSteperRef.current) {
+                                setPhotos(photos);
+                                messagesSteperRef.current.onMove('completed');
+                                ShowSteperRef.current.onMove('photos');
+                            }
+                        }}
+                        onLoading={() => {
+                            let availableToProccess = false;
+
+                            if (messagesSteperRef.current) {
+                                messagesSteperRef.current.onMove('loading');
+                                availableToProccess = true;
+                            }
+                            
+                            return availableToProccess;
+                        }}
+                    />
+                    <Container classes="h-full">
                         <Steper 
                             default="wait"
                             steperRef={ShowSteperRef}
@@ -89,13 +99,13 @@ function LinkStep({ steper: { onMove } }) {
                                 step="wait"
                                 component={ShowWaitStep}
                             />
-                            {/* <Step 
+                            <Step 
                                 step="photos"
                                 component={ShowPhotosStep}
                                 props={{
                                     photos,
                                 }}
-                            /> */}
+                            />
                         </Steper>
                     </Container>
                 </Container>

@@ -7,13 +7,10 @@ import Container from 'app/View/Components/Bases/Components/Container/__DOM_DRIV
 // Complete components
 // -- App widgets
 import Category from "app/View/Components/Complete/App/Widgets/Category/Category";
-// -- Material design
-// --- app 
-import Divider from "app/View/Components/Complete/MaterialDesign/Divider/Divider";
 
 // Repositories
 import TransactionsListsRepository from "app/Repositories/Transactions/Data/TransactionsListsRepository";
-//
+
 function ListPage() {
     const [transactions, setTransactions] = useState([]);
 
