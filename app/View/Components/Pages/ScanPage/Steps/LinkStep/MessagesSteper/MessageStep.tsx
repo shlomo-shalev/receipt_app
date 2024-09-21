@@ -12,7 +12,7 @@ import WarningIcon from "app/View/Components/Complete/MaterialDesign/Icons/Warni
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 import Space from "app/View/Components/Bases/Components/Space/__DOM_DRIVER__";
 
-function MessageStep({ steper: { dataRef: { current: { message } } } }) {
+function MessageStep({ steper: { dataRef: { current: { message } } }, onTryAgain }) {
     return (
         <Container classes="flex justify-center items-center w-full pt-10">
             <Container classes="flex flex-row">
@@ -34,7 +34,7 @@ function MessageStep({ steper: { dataRef: { current: { message } } } }) {
                         classes={{
                             root: `!rounded-2xl ml-0 bg-white border`,
                         }}
-                        // onClick={() => null}
+                        onClick={onTryAgain}
                     />
                 </Container>
             </Container>

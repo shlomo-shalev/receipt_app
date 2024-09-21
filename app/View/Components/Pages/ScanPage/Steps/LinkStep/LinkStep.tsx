@@ -15,7 +15,6 @@ import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIV
 
 // Bootstrap components
 import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
-import TextInput from "app/View/Components/Complete/MaterialDesign/Form/Input/TextInput";
 
 // Local components
 // -- messages steps
@@ -29,15 +28,20 @@ import ShowPhotosStep from "./ShowSteper/ShowPhotosStep";
 // -- widgets
 import LinkInput from "./LinkInputAndProccess/LinkInput";
 
-function LinkStep({ steper: { onMove } }) {
+function LinkStep({ steper: { onMove, dataRef } }) {
     
     const messagesSteperRef = useRef(null);
+    const onTryAgainRef = useRef(null);
     const ShowSteperRef = useRef(null);
     const inputsRef = useRef({
         link: null,
     });
 
     const [photos, setPhotos] = useState([]);
+
+    const availableToProccess = () => {
+        return messagesSteperRef.current && ShowSteperRef.current;
+    };
 
     return (
         <Container
@@ -63,6 +67,13 @@ function LinkStep({ steper: { onMove } }) {
                             <Step 
                                 step="message"
                                 component={MessageStep}
+                                props={{
+                                    onTryAgain: () => {
+                                        if (onTryAgainRef.current) {
+                                            onTryAgainRef.current();
+                                        }
+                                    }
+                                }}
                             />
                             <Step 
                                 step="completed"
@@ -72,22 +83,36 @@ function LinkStep({ steper: { onMove } }) {
                     </Container>
                     <LinkInput
                         inputRef={ref => inputsRef.current.link = ref}
+                        onTryAgainRef={onTryAgainRef}
+                        onWait={() => {
+                            setPhotos([]);
+                            messagesSteperRef.current.onMove('wait');
+                            ShowSteperRef.current.onMove('wait');
+                        }}
+                        onError={({ message }) => {
+                            if (availableToProccess()) {
+                                setPhotos([]);
+                                messagesSteperRef.current.onMove('message', {
+                                    message,
+                                });
+                                ShowSteperRef.current.onMove('wait');
+                            }
+                        }}
                         onCompleted={({ photos }) => {
-                            if (messagesSteperRef.current && ShowSteperRef.current) {
+                            if (availableToProccess()) {
                                 setPhotos(photos);
                                 messagesSteperRef.current.onMove('completed');
                                 ShowSteperRef.current.onMove('photos');
                             }
                         }}
                         onLoading={() => {
-                            let availableToProccess = false;
+                            let available = availableToProccess();
 
-                            if (messagesSteperRef.current) {
+                            if (available) {
                                 messagesSteperRef.current.onMove('loading');
-                                availableToProccess = true;
                             }
                             
-                            return availableToProccess;
+                            return available;
                         }}
                     />
                     <Container classes="h-full">
@@ -119,10 +144,10 @@ function LinkStep({ steper: { onMove } }) {
                     onMove('files');
                 }}
                 onNext={() => {
-                    // onMove('data', {
-                    //     photos,
-                    //     elementDimensions: dataRef.current.elementDimensions,
-                    // });
+                    onMove('data', {
+                        photos,
+                        elementDimensions: dataRef.current.elementDimensions,
+                    });
                 }}
             />
         </Container>

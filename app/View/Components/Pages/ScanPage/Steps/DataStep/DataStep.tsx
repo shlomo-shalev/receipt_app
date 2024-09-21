@@ -61,12 +61,13 @@ function DataStep({ steper: { onMove, dataRef } }) {
                         <Container classes="h-72 overflow-y-hidden flex flex-row pb-2">
                             <FilesList 
                                 files={photos}
-                                heightInObject
+                                // heightInObject
                                 classes={{
                                     imageRoot: 'mx-2',
                                     image: '',
                                 }}
-                                width={150}
+                                width={180}
+                                glonalHeight={300}
                             />
                         </Container>
                     </Container>
