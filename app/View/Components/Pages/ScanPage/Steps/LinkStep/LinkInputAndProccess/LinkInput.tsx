@@ -10,7 +10,7 @@ import TextInput from "app/View/Components/Complete/MaterialDesign/Form/Input/Te
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 import LinkToImages from "app/View/Components/Bases/Components/LinkToImages/__DOM_DRIVER__";
 
-const checkUrlValid = (url) => {
+export const checkUrlValid = (url) => {
     const pattern = /^((https|http)?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
     return pattern.test(url);
 };
