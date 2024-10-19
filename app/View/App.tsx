@@ -18,7 +18,6 @@ import init from 'app/View/Bootstrap/init';
 // Hooks
 import useMode from 'app/View/Hooks/Mode/useMode';
 
-import ShareMenu from 'react-native-share-menu';
 // import { checkUrlValid } from './Components/Pages/ScanPage/Steps/LinkStep/LinkInputAndProccess/LinkInput';
 
 export default function App() {
@@ -31,33 +30,6 @@ export default function App() {
     if (isCSR) await init();
     setStarted(true);
   })()}, []);
-
-  useEffect(() => {
-    const handleShare = (items) => {
-      console.log('items', items);
-      if (items && Array.isArray(items)) {
-        
-        // const imageItems = items.filter((item) => item.mimeType.startsWith('image/'));
-        // const pdfItems = items.filter((item) => item.mimeType === 'application/pdf');
-        // const linkItems = items.filter((item) => item.mimeType === 'text/plain' && checkUrlValid(item.));
-
-        // if (imageItems.length > 0) {
-        //   setSharedItems(imageItems);
-        // } else if (pdfItems.length === 1) {
-        //   setSharedItems(pdfItems);
-        // } else if (linkItems.length === 1) {
-        //   setSharedItems(linkItems);
-        // }
-      }
-    };
-
-    ShareMenu.getInitialShare(handleShare);
-    const listener = ShareMenu.addNewShareListener(handleShare);
-
-    return () => {
-      listener.remove(handleShare);
-    };
-  }, []);
 
   if (!started) return (
     <Container classes="h-full bg-gray-600 flex justify-center">
