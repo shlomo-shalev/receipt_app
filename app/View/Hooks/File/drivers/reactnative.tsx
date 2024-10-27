@@ -23,21 +23,26 @@ export async function convertPdfPagesToPhotos(file: file)
     const results = await PdfThumbnail.generateAllPages(filePath);
 
     for (const index in results) {
+
       if (Object.prototype.hasOwnProperty.call(results, index)) {
-        const newFile = results[index];
-        
+        const newFile = results[index];        
+
         const url = decodeURIComponent(newFile.uri);
 
-        const base64String = await RNFS.readFile(url, 'base64');
-        const stats = await RNFS.stat(url);
-        const dataURL = `data:${file.type};base64,${base64String}`;      
+        const imageType = (url.match(/\.[^0-9]+$/) || [''])[0].replace(/\.+/, '');
 
         const id = uuid();
-
+        const type = `image/${imageType}`;
+        
+        const base64String = await RNFS.readFile(url, 'base64');
+        const stats = await RNFS.stat(url);
+        const dataURL = `data:${type};base64,${base64String}`;      
+        
+        
         files.push({
           id,
-          name: `${id}.pdf`,
-          type: file.type,
+          name: `${id}.${imageType}`,
+          type,
           dataUrl: dataURL,
           url,
           lastModified: new Date(stats.mtime).getTime(),

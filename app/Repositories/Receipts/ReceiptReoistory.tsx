@@ -41,7 +41,7 @@ class receiptReoistory {
             }
             
             const transactionId = await rowSave('transactions', {
-                company_name: companyName, price,
+                company_name: companyName, price, 
                 doc_created_at: now,
                 receipts_ids: [receiptId],
                 created_at: now,

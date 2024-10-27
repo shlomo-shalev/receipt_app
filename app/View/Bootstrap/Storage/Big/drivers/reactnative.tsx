@@ -85,15 +85,29 @@ export async function getData({
     return new Promise((res, rej) => {
         const localSkip = (page - 1) * size;
         const localSize = size * 1;
+        let whereQuery = [];
+        let data = [];
+
+        for (const key in filter) {
+            if (Object.prototype.hasOwnProperty.call(filter, key)) {
+                const value = filter[key];
+                
+                whereQuery.push(`${key} = ?`);
+                data.push(value);
+            }
+        }
+
+        const WHERE = whereQuery.length > 0 ? `WHERE ${whereQuery.join(' , ')}` : '';
 
         DB.executeSql(
             `
                 SELECT * 
                 FROM ${table} 
+                ${WHERE}
                 ORDER BY id ${order}
                 LIMIT ${localSkip}, ${localSize}
             `,
-            [],
+            data,
             (tx) => {
                 const len = tx.rows.length;
                 let data = [];
@@ -200,7 +214,28 @@ export async function find({
     table, id
 }) : Promise<any> 
 {
-    
+    return new Promise((res, rej) => {
+        DB.executeSql(
+            `
+                SELECT * 
+                FROM ${table} 
+                WHERE id = ?
+                LIMIT 1
+            `,
+            [id],
+            (tx) => {
+                let item = [];
+
+                for (let i = 0; i < 1; i++) {
+                    item = tx.rows.item(i);
+                }
+
+                res(item);
+            },
+            err => rej(err),
+            
+        );
+    });
 }
 
 export default {

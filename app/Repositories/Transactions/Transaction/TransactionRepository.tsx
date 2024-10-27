@@ -25,13 +25,15 @@ class TransactionRepository {
         });
         
         if (transactionData?.id) {
+            const receiptsIds = JSON.parse(transactionData.receipts_ids);
+
             const receiptsImages = await getData({
                 table: 'receipts_images', 
                 size: 5, // TODO - Replace to 20 after build filter for react native driver
                 filter: {
-                    receipt_id: transactionData.receipts_ids[0], // TODO - Transaction page dependence
+                    receipt_id: receiptsIds[0], // TODO - Transaction page dependence
                 },
-            });
+            });            
             
             for (const receiptImage of receiptsImages as receiptsImage[]) {
                 receiptImage.file = await getFile(receiptImage.url);                

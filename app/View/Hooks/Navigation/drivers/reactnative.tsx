@@ -82,7 +82,7 @@ const moveNow = (navigate) => {
         
     
         navigate.dispatch(
-            StackActions.replace(path, {data: data || {}, pathData, index: 0})
+            StackActions.push(path, {data: data || {}, pathData, index: 1})
         );
     };
 };
@@ -160,7 +160,7 @@ export const listen = () => {
             delete funcsToListen[id];
             funcsIdsToListen = funcsIdsToListen.filter(uuid => uuid !== id);
         }
-    }, []);    
+    }, []);
         
     const data = {
         start: state.start,

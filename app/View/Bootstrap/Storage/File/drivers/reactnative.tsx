@@ -64,15 +64,17 @@ export async function get(url: string) : Promise<file>
 
     let fileData = null;
         
-    if (file) {
-        const type = (file.match(/^data:.+;/)[0] || '').replace('data:', '').replace(';', '');
+    if (file) {        
+        const type = ((file.match(/^data:.+;/) || '')[0] || '')
+            .replace('data:', '')
+            .replace(';', '');
 
         fileData = {
             id: uuid(),
             name: (url.match(/\/[^\/]+$/)[0] || '').replace('/', ''),
             type,
             dataUrl: file,
-            url: uri,
+            url: file,
             lastModified: new Date(date).getTime(),
             lastModifiedDate: new Date(date),
         }

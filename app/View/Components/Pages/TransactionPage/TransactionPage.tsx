@@ -36,52 +36,55 @@ function useOcrData({ transactionId, transaction }: {transactionId: number, tran
 
                 for (const index in transaction.receiptsImages) {
                     if (Object.prototype.hasOwnProperty.call(transaction.receiptsImages, index)) {
-                        const receiptsImage = transaction.receiptsImages[index];
+                        try {
+                            const receiptsImage = transaction.receiptsImages[index];
                         
-                        const image = await prepareFile({ 
-                            url: receiptsImage.file.url,
-                        });
-                 
-                        const { data } = await Network.post({
-                            url: 'http://localhost:3034/image/extraction/text',
-                            data: {
-                                image,
-                            },
-                        });
+                            const image = await prepareFile({ 
+                                url: receiptsImage.file.url,
+                            });
+                    
+                            const { data } = await Network.post({
+                                url: 'http://localhost:3034/image/extraction/text',
+                                data: {
+                                    image,
+                                },
+                            });
 
-                        const now = new Date();
-                        const id = uuid();                        
+                            const now = new Date();
+                            const id = uuid();                        
 
-                        newReceiptsImages[index] = {
-                            ...data.fields, 
-                            file: {
-                                id,
-                                name: id,
-                                type: data.image.type,
-                                dataUrl: data.image.dataURL,
-                                url: createLocalurl(dataURItoBlob(data.image.dataURL)),
-                                lastModified: now.getTime(),
-                                lastModifiedDate: now,
-                            },
-                        };
+                            newReceiptsImages[index] = {
+                                ...data.fields, 
+                                file: {
+                                    id,
+                                    name: id,
+                                    type: data.image.type,
+                                    dataUrl: data.image.dataURL,
+                                    url: createLocalurl(dataURItoBlob(data.image.dataURL)),
+                                    lastModified: now.getTime(),
+                                    lastModifiedDate: now,
+                                },
+                            };
 
-                        const popupContent = `
-                            <!DOCTYPE html>
-                            <html>
-                            <head>
-                            <title>View File</title>
-                            </head>
-                            <body>
-                            <img src="${newReceiptsImages[index].file.url}" class="" style="width: 100%; height: 100%;">
-                            </body>
-                            </html>
-                        `;
+                            const popupContent = `
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                <title>View File</title>
+                                </head>
+                                <body>
+                                <img src="${newReceiptsImages[index].file.url}" class="" style="width: 100%; height: 100%;">
+                                </body>
+                                </html>
+                            `;
 
-                        const popupFeatures = `width=800,height=1000000,scrollbars=yes,resizable=yes`;
-                        const popup = window.open('', transaction.receiptsImages[index].id, popupFeatures);
-                        popup.document.open();
-                        popup.document.write(popupContent);
-                        popup.document.close();
+                            const popupFeatures = `width=800,height=1000000,scrollbars=yes,resizable=yes`;
+                            const popup = window.open('', transaction.receiptsImages[index].id, popupFeatures);
+                            popup.document.open();
+                            popup.document.write(popupContent);
+                            popup.document.close();
+                        }
+                        catch (ex) {}
                     }
                 }
 
@@ -106,7 +109,6 @@ function TransactionPage() {
         transactionId: transaction.id,
         transaction,
     });
-    
 
     useEffect(() => {
         (async () => {
@@ -122,11 +124,11 @@ function TransactionPage() {
         })()
     }, [transactionId]);
 
-    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);    
+    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);
 
     const price = ocrData[0]?.price || transaction.price || 0;
     const companyName = ocrData[0]?.companyName || transaction.company_name || '';
-
+    
     return (
         <Container
             classes="p-3 h-full bg-gray-600 z-10"
