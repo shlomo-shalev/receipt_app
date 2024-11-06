@@ -25,19 +25,23 @@ export default function ImageInput({children, classes = '', style = {}, onUpload
         if (Object.prototype.hasOwnProperty.call(originalFiles.assets, key)) {
           const file = originalFiles.assets[key];
 
-          
-          const base64String = await RNFS.readFile(file.uri, 'base64');
-          const stats = await RNFS.stat(file.uri);
-          const dataURL = `data:${file.type};base64,${base64String}`;          
-
           files[key] = {
             id: uuid(),
             name: file.fileName,
             type: file.type,
-            dataUrl: dataURL,
+            base64: async function () : Promise<string> {
+              return await RNFS.readFile(file.uri, 'base64');
+            },
             url: file.uri,
-            lastModified: new Date(stats.mtime).getTime(),
-            lastModifiedDate: new Date(stats.mtime),
+            dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+              const stats = await RNFS.stat(file.uri);
+              const date = stats.mtime;
+          
+              return {
+                lastModified: new Date(date).getTime(),
+                lastModifiedDate: new Date(date),
+              };
+            },
           }
         }
       }

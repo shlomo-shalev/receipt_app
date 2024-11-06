@@ -5,14 +5,17 @@ import React, { useEffect, useRef, useState } from 'react';
 // Base components
 import Iframe from 'app/View/Components/Bases/Components/Iframe/reactnative';
 
-const dataUrlToUri = async (dataUrl) => {
+const dataUrlToAllData = async (dataUrl) => {
   const id = uuid();
   const filePath = `${RNFS.TemporaryDirectoryPath}/${id}.png`;
   const base64Data = dataUrl.replace(/^data:image\/(png|jpeg);base64,/gi, "");
 
   await RNFS.writeFile(filePath, base64Data, 'base64');  
 
-  return filePath;
+  return {
+    uri: filePath,
+    base64: base64Data,
+  };
 };
 
 
@@ -64,19 +67,26 @@ export default function LinkToImages({ src, onConverted, onError, onTryAgainRef 
               const dataUrl = originalPhotos[index];
               
               const id = uuid();
-              const uri = await dataUrlToUri(dataUrl);
-
-              const stats = await RNFS.stat(uri);
+              const { uri, base64 } = await dataUrlToAllData(dataUrl);
 
               photos.push({
                 id,
                 name: `${id}.png`,
                 type,
-                dataUrl,
+                base64: async function () : Promise<string> {
+                  return base64;
+                },
                 url: uri,
                 height: 500,
-                lastModified: new Date(stats.mtime).getTime(),
-                lastModifiedDate: new Date(stats.mtime),
+                dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+                  const stats = await RNFS.stat(uri);
+                  const date = stats.mtime;
+              
+                  return {
+                    lastModified: new Date(date).getTime(),
+                    lastModifiedDate: new Date(date),
+                  };
+                },
               });
             }
           }

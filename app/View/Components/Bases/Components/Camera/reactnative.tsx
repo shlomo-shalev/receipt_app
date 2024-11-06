@@ -30,21 +30,25 @@ const Camera = ({
     const picture = await camera.current.takePhoto({
       format: 'jpeg',
     });    
-
     const type = 'image/jpeg';
-
-    const base64String = await RNFS.readFile(picture.path, 'base64');
-    const stats = await RNFS.stat(picture.path);
-    const dataURL = `data:${type};base64,${base64String}`;    
 
     const file = {
       id: uuid(),
       name: new Date().toString(),
       type,
-      dataUrl: dataURL,
+      base64: async function () : Promise<string> {
+        return await RNFS.readFile(picture.path, 'base64');
+      },
       url: picture.path,
-      lastModified: new Date(stats.mtime).getTime(),
-      lastModifiedDate: new Date(stats.mtime),
+      dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+        const stats = await RNFS.stat(picture.path);
+        const date = stats.mtime;
+    
+        return {
+            lastModified: new Date(date).getTime(),
+            lastModifiedDate: new Date(date),
+        };
+      },
     }
     
     return file;

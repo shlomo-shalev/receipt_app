@@ -9,13 +9,13 @@ import { openAppSettings } from "app/View/Hooks/Files/drivers/__DOM_DRIVER__";
 
 // Base components
 import Text from "app/View/Components/Bases/Components/Text/__DOM_DRIVER__";
-import Image from "app/View/Components/Bases/Components/Image/__DOM_DRIVER__";
 import Title from "app/View/Components/Bases/Components/Title/__DOM_DRIVER__";
 import Skeleton from "app/View/Components/Bases/Components/Skeleton/__DOM_DRIVER__";
 import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIVER__";
 
 // Complete Components - Material design
 // -- app
+import Image from "app/View/Components/Complete/MaterialDesign/Image/Image";
 import CommonButton from "app/View/Components/Complete/MaterialDesign/CommonButton/CommonButton";
 // -- icons
 import WarningIcon from "app/View/Components/Complete/MaterialDesign/Icons/Warning";
@@ -84,7 +84,7 @@ function LastDeviceFilesList({ classes = '', listClasses = '', onChoose }) {
                             onClick={() => onChoose(file)}
                         >
                             <Image 
-                                src={file.url}
+                                file={file}
                                 width={90}
                                 height="100%"
                             />

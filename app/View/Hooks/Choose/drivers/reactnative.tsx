@@ -20,17 +20,24 @@ export async function pickfile() : Promise<file>
 
     if (file) {
       const type = file.type;
-      const fileInfo = await RNFS.stat(file.uri);
-      const dataUrl = await RNFS.read(file.uri);
 
       fileData = {
         id: uuid(),
         name: file.name,
         type,
-        dataUrl,
+        base64: async function () : Promise<string> {
+          return await RNFS.read(file.uri);
+        },
         url: file.uri,
-        lastModified: new Date(fileInfo.mtime).getTime(),
-        lastModifiedDate: new Date(fileInfo.mtime),
+        dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+          const stats = await RNFS.stat(file.uri);
+          const date = stats.mtime;
+      
+          return {
+              lastModified: new Date(date).getTime(),
+              lastModifiedDate: new Date(date),
+          };
+        },
       };
 
     }

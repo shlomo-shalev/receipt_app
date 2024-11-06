@@ -4,7 +4,7 @@ import ReceiptsListsRepository from "app/Repositories/Receipts/Data/ReceiptsList
 import TransactionsListsRepository from "app/Repositories/Transactions/Data/TransactionsListsRepository";
 import ReceiptsImagesListsRepository from "app/Repositories/Receipts/Images/Data/ReceiptsImagesListsRepository";
 
-export const backupKey = 'rdfSr$#te34t34T#$ct4te4w4yepdgepfit46345346#$%#$%@#rf34d534tF#EWF$#Tag4wepappp';
+export const backupKey = 'rdfSr$#te34t34T#$534tF#EWF$#Tag4wepappp';
 
 class ExportDataService {
     async execute () : Promise<string>
@@ -12,7 +12,20 @@ class ExportDataService {
         const receipts = await ReceiptsListsRepository.getAll({});
         const receiptsImages = await ReceiptsImagesListsRepository.getAll({});
         const transactions = await TransactionsListsRepository.getAll({});
-        const files = await ReceiptsListsRepository.getAllFiles(receiptsImages);
+        const originalFiles = await ReceiptsListsRepository.getAllFiles(receiptsImages);
+
+        const files = [];
+
+        for (const index in originalFiles) {
+            if (Object.prototype.hasOwnProperty.call(originalFiles, index)) {
+                const value = originalFiles[index];
+                files.push({
+                    ...value,
+                    base64: await value.base64(),
+                    ...(await value.dates()),
+                });
+            }
+        }
 
         const data = {
             files, 

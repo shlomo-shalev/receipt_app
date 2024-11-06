@@ -60,19 +60,23 @@ export default function FileInput({
 
         await requestOpenFilePremissition();
 
-        const base64String = await RNFS.readFile(uri, 'base64');
-        
-        const stats = await RNFS.stat(uri);
-        const dataURL = `data:${res[0].type};base64,${base64String}`;
-
         const file = {
           id: uuid(),
           name: res[0].name,
           type: res[0].type,
-          dataUrl: dataURL,
+          base64: async function () : Promise<string> {
+            return await RNFS.readFile(uri, 'base64');
+          },
           url: uri,
-          lastModified: new Date(stats.mtime).getTime(),
-          lastModifiedDate: new Date(stats.mtime),
+          dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+            const stats = await RNFS.stat(uri);
+            const date = stats.mtime;
+        
+            return {
+                lastModified: new Date(date).getTime(),
+                lastModifiedDate: new Date(date),
+            };
+          },
         }
 
         onUpload([file]);

@@ -4,29 +4,30 @@ import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
 
 // Local interfaces
-import { file } from "app/View/Bootstrap/Storage/File";
+import { file, mainTypes } from "app/View/Bootstrap/Storage/File";
 
 export async function save(name: string, data: string, type: string, path: string = '') : Promise<string|false>
 {
 
-    const url = `${RNFS.DocumentDirectoryPath}${path}/${name}`;
-    const cleanUrl = `${path}/${name}`;
-    const onlyPath = `${RNFS.DocumentDirectoryPath}${path}`;
+    const url = `${RNFS.DocumentDirectoryPath}/${name}`;
+    const cleanUrl = `/${name}`;
+    const onlyPath = `${RNFS.DocumentDirectoryPath}`;
     var success = false;
-
+    
+    const base64Data = data.replace(/^data:image\/\w+;base64,/, '');
+    
     const folderExists = await RNFS.exists(onlyPath);
-    if (!folderExists) {
+    if (!folderExists && onlyPath !== RNFS.DocumentDirectoryPath) {
       await RNFS.mkdir(onlyPath);
     }
 
     try {
-        await RNFS.writeFile(url, data, 'utf8')
+        await RNFS.writeFile(url, base64Data, 'base64')
         success = true;
     }
     catch(ex){
         console.log('ex', ex);
-        
-    }
+    }    
 
     return success ? cleanUrl : false;
 }
@@ -50,34 +51,28 @@ export async function saveAs(
 
 export async function get(url: string) : Promise<file>
 {
-    let file = null, date = null;
     const uri = `${RNFS.DocumentDirectoryPath}${url}`;
+    const name = (url.match(/\/[^\/]+$/)[0] || '').replace('/', '');
+    const type = ((name.match(/[^.]+$/) || '')[0] || '');
+    const mimeType = mainTypes[type] || 'unknown';
+    
+    const fileData: file = {
+        id: uuid(),
+        name,
+        type: mimeType,
+        base64: async function () : Promise<string> {
+            return await RNFS.readFile(uri, 'base64');
+        },
+        url: uri,
+        dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+            const fileStat = await RNFS.stat(uri);
+            const date = fileStat.mtime;
 
-    try {
-        file = await RNFS.read(uri);
-        const fileStat = await RNFS.stat(uri);
-        date = fileStat.mtime;
-    }
-    catch(ex){
-        console.error(`${ex}`);
-    }
-
-    let fileData = null;
-        
-    if (file) {        
-        const type = ((file.match(/^data:.+;/) || '')[0] || '')
-            .replace('data:', '')
-            .replace(';', '');
-
-        fileData = {
-            id: uuid(),
-            name: (url.match(/\/[^\/]+$/)[0] || '').replace('/', ''),
-            type,
-            dataUrl: file,
-            url: file,
-            lastModified: new Date(date).getTime(),
-            lastModifiedDate: new Date(date),
-        }
+            return {
+                lastModified: new Date(date).getTime(),
+                lastModifiedDate: new Date(date),
+            };
+        },
     }
 
     return fileData;

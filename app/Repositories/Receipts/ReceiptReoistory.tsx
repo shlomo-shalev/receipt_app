@@ -28,9 +28,11 @@ class receiptReoistory {
                 
                 const id = uuid();
 
+                const base64 = await photo.base64();
+
                 const url = await fileSave(
                     `${id}.${type}`, 
-                    photo.dataUrl, 
+                    base64, 
                     photo.type,
                     '/receipts',
                 );

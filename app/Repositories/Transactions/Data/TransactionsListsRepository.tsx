@@ -2,9 +2,8 @@
 import { Transaction } from "app/Repositories/Transactions/Transaction/TransactionRepository";
 
 // Api
+import { file, get as fileGet } from "app/View/Bootstrap/Storage/File";
 import { getData, getAll } from "app/View/Bootstrap/Storage/Big/drivers/__DOM_DRIVER__";
-import { file } from "app/View/Bootstrap/Storage/File";
-import { get as fileGet } from "app/View/Bootstrap/Storage/File/drivers/__DOM_DRIVER__";
 
 class TransactionsListsRepository {    
     static async list({}) : Promise<Array<Transaction>>
@@ -14,7 +13,7 @@ class TransactionsListsRepository {
             data = await getData({
                 table: 'transactions', 
                 page: 1,
-                size: 2, 
+                size: 7, 
                 order: 'desc',
             });
 
@@ -30,10 +29,8 @@ class TransactionsListsRepository {
                     },
                 });
                 const receiptImage = receiptImageResult[0];
-                
-                const file: file = await fileGet(receiptImage.url);
 
-                receiptImage.file = file;
+                receiptImage.file = await fileGet(receiptImage.url);
                 
                 data[index].receiptImages = [receiptImage];
             }

@@ -44,18 +44,23 @@ async function getList() {
         const type = `image/${image.node.image.extension}`;
         const file = {url, type: image.node.image.extension};
         
-        const base64String = await getDataUrl(file);
-        const stats = await getStats(file);
-        const dataUrl = `data:${type};base64,${base64String}`;
-
         const data = {
           id: uuid(),
-          url,
-          type,
           name: image.node.image.filename,
-          dataUrl,
-          lastModified: new Date(stats.mtime).getTime(),
-          lastModifiedDate: new Date(stats.mtime),
+          type,
+          base64: async function () : Promise<string> {
+            return await getDataUrl(file);
+          },
+          url,
+          dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+            const stats = await getStats(file);
+            const date = stats.mtime;
+
+            return {
+              lastModified: new Date(date).getTime(),
+              lastModifiedDate: new Date(date),
+            };
+          },
         };
 
         files.push(data);
@@ -177,24 +182,23 @@ async function AndroidRequestPermission() {
       return false;
 }
 
-async function getDataUrl (url) {
-  const data = await getDataToRNFS(url);
+async function getDataUrl ({ type, url }) {
+  const data = await getDataToRNFS({ type, url });
   const base64 = await RNFS.readFile(data, 'base64');
   return base64;
 }
 
-async function getDataToRNFS (file) {
-  let data = file.url;
-  const url = file.url;
+async function getDataToRNFS ({ type, url }) {
+  let data = url;
 
   if (url.startsWith('ph://')) {
     const imagePATH = url.substring(5,41);
     
     let photoPATH = `assets-library://asset/asset.JPG?id=`;
-    photoPATH = `${photoPATH}${imagePATH}&ext=${file.type.toUpperCase()}`;
+    photoPATH = `${photoPATH}${imagePATH}&ext=${type.toUpperCase()}`;
     
     let dest = `${RNFS.TemporaryDirectoryPath}`;
-    dest = `${dest}${Math.random().toString(36).substring(7)}.${file.type}`;
+    dest = `${dest}${Math.random().toString(36).substring(7)}.${type}`;
 
     data = await RNFS.copyAssetsFileIOS(photoPATH, dest, 500, 500, 1.0, 1.0, 'contain');
   }
@@ -202,8 +206,8 @@ async function getDataToRNFS (file) {
   return data;
 }
 
-async function getStats(url) {
-  const data = await getDataToRNFS(url);
+async function getStats({ type, url }) {
+  const data = await getDataToRNFS({ type, url });
   const stats = await RNFS.stat(data);
   return stats;
 }

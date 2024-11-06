@@ -27,26 +27,29 @@ export async function convertPdfPagesToPhotos(file: file)
       if (Object.prototype.hasOwnProperty.call(results, index)) {
         const newFile = results[index];        
 
+        const id = uuid();
         const url = decodeURIComponent(newFile.uri);
 
         const imageType = (url.match(/\.[^0-9]+$/) || [''])[0].replace(/\.+/, '');
-
-        const id = uuid();
-        const type = `image/${imageType}`;
-        
-        const base64String = await RNFS.readFile(url, 'base64');
-        const stats = await RNFS.stat(url);
-        const dataURL = `data:${type};base64,${base64String}`;      
-        
+        const type = `image/${imageType}`;        
         
         files.push({
           id,
           name: `${id}.${imageType}`,
           type,
-          dataUrl: dataURL,
+          base64: async function () : Promise<string> {
+            return await RNFS.readFile(url, 'base64');
+          },
           url,
-          lastModified: new Date(stats.mtime).getTime(),
-          lastModifiedDate: new Date(stats.mtime),
+          dates: async function () : Promise<{lastModified: number, lastModifiedDate: Date}> {
+            const stats = await RNFS.stat(url);
+            const date = stats.mtime;
+        
+            return {
+                lastModified: new Date(date).getTime(),
+                lastModifiedDate: new Date(date),
+            };
+          },
         });
       }
     }

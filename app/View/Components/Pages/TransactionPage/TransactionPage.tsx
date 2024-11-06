@@ -183,7 +183,7 @@ function TransactionPage() {
                         files={photos}
                         heightInObject
                         classes={{
-                            imageRoot: 'mx-2',
+                            imageRoot: 'mx-2 border overflow-hidden',
                             image: '',
                         }}
                         width={200}
