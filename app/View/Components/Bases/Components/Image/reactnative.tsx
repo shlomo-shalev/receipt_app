@@ -6,6 +6,8 @@ function Image({
   width = 50, height = null, ...props
 }, ref) {
 
+  
+
   return (
     <ReactNativeImage
       ref={ref}
@@ -15,6 +17,7 @@ function Image({
         height,
       }}
       className={classes}
+      // resizeMode="contain"
       source={{
         uri: src,
       }}
