@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 // Drivers code
 import { scrollToBottom } from "app/View/Hooks/Scroll/drivers/__DOM_DRIVER__";
 
-function useScrollToBottom(waitTime = 200, animated = false)
+function useScrollToBottom(animated = false)
 {   
     const ref = useRef(null);
 
     useEffect(() => {
         if (ref.current) {
-            scrollToBottom(ref, {waitTime, animated});
+            scrollToBottom(ref, animated);
         }
     }, []);
 

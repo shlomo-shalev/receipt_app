@@ -11,8 +11,8 @@ import Scroll from "app/View/Hooks/Scroll/Scroll";
 // -- app
 import Image from "app/View/Components/Complete/MaterialDesign/Image/Image";
 
-function FilesList({ files, heightInObject = null, width = null, 
-    classes = { image: '', imageRoot: '' }, glonalHeight = null, 
+function FilesList({ files, height = '100%', width = 'auto', 
+    classes = { image: '', imageRoot: '' },
     handleFileFouseRef = null, onClick = null
 }) {
     const filesRef = useRef({});
@@ -27,39 +27,21 @@ function FilesList({ files, heightInObject = null, width = null,
         }
     });
 
-    return (
-        <>
-            {[...files].map((file, i) => {
-                const id = file.id, 
-                      url = file.url;
-
-                width = width || "100%";
-
-                let height = heightInObject !== null ? file.height : null;
-                height = height || glonalHeight || '100%';
-
-                return (
-                    <Container
-                        key={id}
-                        onClick={onClick ? () => onClick(file) : null}
-                        width={width}
-                        height={height}
-                        classes={`shrink-0 ${classes.imageRoot || ''}`}
-                    >
-                        <Image 
-                            file={file}
-                            ImageRef={ref => filesRef.current[id] = ref}
-                            width={width}
-                            // TODO - Fix that because there is images 
-                            //        that its height is not the image container height!!
-                            height={height} 
-                            classes={(classes.image || '') as string}
-                        />
-                    </Container>
-                );
-            })}
-        </>
-    );
+    return [...files].map((file, i) => (
+        <Container
+            key={file.id}
+            onClick={onClick ? () => onClick(file) : null}
+            classes={`shrink-0 ${classes.imageRoot || ''}`}
+        >
+            <Image 
+                file={file}
+                ImageRef={ref => filesRef.current[file.id] = ref}
+                width={width}
+                height={height}
+                classes={(classes.image || '') as string}
+            />
+        </Container>
+    ));
 }
 
 export default FilesList;

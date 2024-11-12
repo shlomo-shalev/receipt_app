@@ -22,80 +22,6 @@ import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 import TransactionRepository, { Transaction } from "app/Repositories/Transactions/Transaction/TransactionRepository";
 import FilesList from "../../Complete/App/Lists/FilesList/FilesList";
 
-// Api
-import Network, { prepareFile } from "app/View/Hooks/Network";
-import { createLocalurl, dataURItoBlob } from "app/Models/Blob/Blob";
-
-function useOcrData({ transactionId, transaction }: {transactionId: number, transaction: Transaction}) {
-    const [ocrData, setOcrData] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            if (transactionId > 0) {
-                const newReceiptsImages = [];
-
-                for (const index in transaction.receiptsImages) {
-                    if (Object.prototype.hasOwnProperty.call(transaction.receiptsImages, index)) {
-                        try {
-                            const receiptsImage = transaction.receiptsImages[index];
-                        
-                            const image = await prepareFile({ 
-                                url: receiptsImage.file.url,
-                            });
-                    
-                            const { data } = await Network.post({
-                                url: 'http://localhost:3034/image/extraction/text',
-                                data: {
-                                    image,
-                                },
-                            });
-
-                            const now = new Date();
-                            const id = uuid();                        
-
-                            newReceiptsImages[index] = {
-                                ...data.fields, 
-                                file: {
-                                    id,
-                                    name: id,
-                                    type: data.image.type,
-                                    dataUrl: data.image.dataURL,
-                                    url: createLocalurl(dataURItoBlob(data.image.dataURL)),
-                                    lastModified: now.getTime(),
-                                    lastModifiedDate: now,
-                                },
-                            };
-
-                            const popupContent = `
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                <title>View File</title>
-                                </head>
-                                <body>
-                                <img src="${newReceiptsImages[index].file.url}" class="" style="width: 100%; height: 100%;">
-                                </body>
-                                </html>
-                            `;
-
-                            const popupFeatures = `width=800,height=1000000,scrollbars=yes,resizable=yes`;
-                            const popup = window.open('', transaction.receiptsImages[index].id, popupFeatures);
-                            popup.document.open();
-                            popup.document.write(popupContent);
-                            popup.document.close();
-                        }
-                        catch (ex) {}
-                    }
-                }
-
-                setOcrData(newReceiptsImages);
-            }
-        })()
-    }, [transactionId]);
-
-    return ocrData;
-}
-
 function TransactionPage() {    
     const route = useRoute();
     const { start, ...routeData } = useListenRoutePath();
@@ -104,11 +30,6 @@ function TransactionPage() {
     const [transaction, setTransaction] = useState({} as Transaction | null);
 
     const transactionId: number = parseInt(pathData.id || '0');
-
-    const ocrData = useOcrData({
-        transactionId: transaction.id,
-        transaction,
-    });
 
     useEffect(() => {
         (async () => {
@@ -124,10 +45,10 @@ function TransactionPage() {
         })()
     }, [transactionId]);
 
-    const photos = (transaction.receiptsImages || []).map((item, i) => ocrData[i]?.file || item.file);
+    const photos = (transaction.receiptsImages || []).map((item, i) => item.file);
 
-    const price = ocrData[0]?.price || transaction.price || 0;
-    const companyName = ocrData[0]?.companyName || transaction.company_name || '';
+    const price = transaction.price || 0;
+    const companyName = transaction.company_name || '';
     
     return (
         <Container
@@ -181,12 +102,10 @@ function TransactionPage() {
                 <Container classes="h-80 overflow-y-hidden flex flex-row pb-2">
                     <FilesList 
                         files={photos}
-                        heightInObject
                         classes={{
-                            imageRoot: 'mx-2 border overflow-hidden',
-                            image: '',
+                            imageRoot: 'mx-2 overflow-hidden',
+                            image: 'border',
                         }}
-                        width={200}
                     />
                 </Container>
             </Container>

@@ -4,7 +4,7 @@ export function scrollToBottom(ref, animated)
     ref.current.scrollToEnd({
       animated,
     });
-  }, 0);
+  }, 50);
 }
 
 export function scrollToTop(ref, animated) 

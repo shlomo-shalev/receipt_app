@@ -26,7 +26,6 @@ function FilesStep({ steper: { dataRef }, classes = '', onChoose }) {
                 >
                     <Image 
                         file={file}
-                        width={90}
                         height="100%"
                     />
                 </Container>

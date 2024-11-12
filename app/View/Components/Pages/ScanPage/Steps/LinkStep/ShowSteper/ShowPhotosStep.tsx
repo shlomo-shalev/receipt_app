@@ -13,7 +13,8 @@ function ShowPhotosStep({ photos }) {
         <Container classes="mt-5">
             <FilesList 
                 files={photos}
-                heightInObject
+                width="100%"
+                height="auto"
             />
         </Container>
     );

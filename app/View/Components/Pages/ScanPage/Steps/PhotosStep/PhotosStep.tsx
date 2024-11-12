@@ -16,9 +16,6 @@ import Container from "app/View/Components/Bases/Components/Container/__DOM_DRIV
 // Hooks
 import useScrollToBottom from "app/View/Hooks/Scroll/useScrollToBottom";
 
-// Apis
-import Scroll from "app/View/Hooks/Scroll/Scroll";
-
 // Bootstrap components
 import Fixed from "app/View/Bootstrap/Fixed/__DOM_DRIVER__";
 
@@ -27,8 +24,6 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
     const [state, setState] = useState({
         takePictureButtonDisabled: true,
     });
-
-    const [toBottomCount, setToBottomCount] = useState(0);
 
     const { takePictureButtonDisabled } = state;
 
@@ -40,13 +35,7 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
     const takePictureRef = useRef(null);
     const handleFileFouseRef = useRef(null);
 
-    const scrollRef = useScrollToBottom(0);
-
-    useEffect(() => {
-        if (toBottomCount > 0) {
-            Scroll.toBottom(scrollRef);
-        }
-    }, [toBottomCount]);  
+    const scrollRef = useScrollToBottom();
     
     return (
         <Container
@@ -59,8 +48,8 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                 >
                     <FilesList 
                         files={photos}
-                        heightInObject
-                        glonalHeight={containerHeight - 100}
+                        height={'auto'}
+                        width={'100%'}
                         handleFileFouseRef={handleFileFouseRef}
                     />
                     <Container 
@@ -91,13 +80,12 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                             <FilesList 
                                 files={photos}
                                 classes={{
-                                    imageRoot: 'mx-2',
+                                    imageRoot: 'border mx-2',
                                     image: '',
                                 }}
                                 onClick={file => {
                                     handleFileFouseRef.current(file.id, scrollRef);
                                 }}
-                                width={50}
                             />
                         </Container>
                     </Container>
@@ -128,7 +116,6 @@ function PhotosStep({ steper: { onMove, dataRef } }) {
                             height: containerHeight - 100,
                         },                       
                     ]));
-                    setToBottomCount(count => count + 1);
                 }}
             />
         </Container>

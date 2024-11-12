@@ -24,7 +24,7 @@ function Image(
     };
 
     return (
-        <Container classes="h-full">
+        <Container>
             <Steper default="load">
                 <Step 
                     step="load"

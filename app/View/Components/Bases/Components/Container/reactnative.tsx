@@ -10,7 +10,7 @@ import Title from 'app/View/Components/Bases/Components/Title/__DOM_DRIVER__';
 import Scroll from 'app/View/Bootstrap/reactnative/Scroll/Scroll';
 
 const Container = (
-    {children = undefined, classes = '', style = {}, onClick = null, ...props}, 
+    {children = undefined, classes = '', style = {}, onSizes = data => {}, onClick = null, ...props}, 
     ref
   ) => {
     const isString = typeof children === 'string';
@@ -44,6 +44,14 @@ const Container = (
     let jsx = (
         <View 
           {...props}
+          onLayout={event => {
+            const { width: calculateWidth, height: calculateHeight } = event.nativeEvent.layout;
+
+            const width = calculateWidth;
+            const height = calculateHeight;
+            
+            onSizes({ width, height });
+          }}
           style={{...style}} 
           // key={id}
           ref={!isNeedScroll ? ref : null}

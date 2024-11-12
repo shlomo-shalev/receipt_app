@@ -30,11 +30,12 @@ function LoadStep({ steper: { onMove } }) {
             {[...(new Array(6))].map((v, i) => (
                 <Container 
                     key={i}
+                    classes="my-2"
                 >
                     <Skeleton 
-                            width={50}
-                            height={50}
-                        />
+                        width={'100%'}
+                        height={50}
+                    />
                 </Container>
             ))}
         </Container>

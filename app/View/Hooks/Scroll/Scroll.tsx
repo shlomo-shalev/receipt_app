@@ -7,7 +7,7 @@ export function toTop(ref, animated = false)
 }
 
 export function toBottom(ref, animated = false)
-{   
+{
     scrollToBottom(ref, animated);
 }
 
