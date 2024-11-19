@@ -3,6 +3,7 @@ import ListPage from 'app/View/Components/Pages/ListPage/ListPage';
 import ScanPage from 'app/View/Components/Pages/ScanPage/ScanPage';
 import SettingsPage from 'app/View/Components/Pages/SettingsPage/SettingsPage';
 import TransactionPage from 'app/View/Components/Pages/TransactionPage/TransactionPage';
+import { useEffect } from 'react';
 
 // Core
 import Route from 'route/Core/Route';
@@ -13,8 +14,8 @@ Route.get('/', ScanPage).name('home');
 Route.get('/settings', SettingsPage).name('settings');
 Route.get('/list', ListPage).name('list');
 
-Route.get('/transaction/:id', TransactionPage).name('dynamic-transaction');
-
+Route.get('/transaction/:id', TransactionPage as (props) => JSX.Element)
+    .name('transaction');
 
 // Route.namefix('product').group(function (Route) {
 //     Route.get('/{id}', HomePageComponent).name('get.one');

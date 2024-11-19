@@ -79,8 +79,7 @@ const moveNow = (navigate) => {
                 path = 'Home';
             }
         }
-        
-    
+
         navigate.dispatch(
             StackActions.push(path, {data: data || {}, pathData, index: 1})
         );
